@@ -12,7 +12,21 @@
     });
   }
   root.setAttribute('data-theme', stored() === 'light' ? 'light' : 'dark');
+  /* Mobile menu: one handler for every page (button #menuBtn toggles #mobileMenu). */
+  function wireMenu() {
+    var b = document.getElementById('menuBtn'), m = document.getElementById('mobileMenu');
+    if (!b || !m) return;
+    function close() { m.classList.add('hidden'); b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-label', 'Menü öffnen'); }
+    b.addEventListener('click', function () {
+      var open = m.classList.toggle('hidden') === false;
+      b.setAttribute('aria-expanded', String(open));
+      b.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    });
+    [].forEach.call(m.querySelectorAll('a'), function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
   document.addEventListener('DOMContentLoaded', function () {
+    wireMenu();
     labels();
     [].forEach.call(document.querySelectorAll('[data-theme-toggle]'), function (b) {
       b.addEventListener('click', function () {
