@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MorphBuddy — Homomorphic AI</title>
+<meta name="description" content="Concept mockup of MorphBuddy: a pocket device (ESP32 board, touchscreen, 3D-printed case) that encrypts and decrypts data for homomorphic AI.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog/blog.css">
+<style>
+  .board{background:linear-gradient(145deg,#1e293b,#0f172a);border-radius:22px;padding:18px 18px 22px;box-shadow:0 30px 80px -20px rgba(6,182,212,.25),inset 0 0 0 2px rgba(255,255,255,.06)}
+  .bezel{background:#0a0a0a;border-radius:10px;padding:10px;box-shadow:inset 0 0 0 2px #262626}
+  .lcd{background:#090D16;border-radius:4px;aspect-ratio:4/3;overflow:hidden;display:flex;flex-direction:column;font-family:'JetBrains Mono',monospace;color:#e2e8f0}
+  .lcd-bar{display:flex;justify-content:space-between;font-size:10px;padding:5px 8px;background:#0f172a;border-bottom:1px solid #1E293B;color:#94a3b8}
+  .lcd-body{flex:1;padding:10px;display:flex;flex-direction:column;gap:8px;font-size:12px;min-height:0}
+  .tbtn{background:linear-gradient(90deg,#06B6D4,#6366F1);color:#fff;border:0;border-radius:6px;padding:9px;font:600 12px 'JetBrains Mono',monospace;cursor:pointer}
+  .tbtn:hover{filter:brightness(1.15)}
+  .tbtn.ghost{background:#0f172a;border:1px solid #1E293B;color:#cbd5e1}
+  .hex{word-break:break-all;color:#06B6D4;font-size:11px;line-height:1.35}
+  .stepbtn{text-align:left;width:100%}
+  .stepbtn[aria-current="true"]{border-color:#06B6D4;background:rgba(6,182,212,.1)}
+  .mini{width:14px;height:14px;border-radius:50%;background:#334155;box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+  @keyframes pulse{50%{opacity:.3}} .blink{animation:pulse 1s infinite}
+  @media (prefers-reduced-motion:reduce){.blink{animation:none}}
+</style>
+</head>
+<body class="antialiased">
+<header class="border-b border-line"><nav class="max-w-5xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Main">
+  <a href="./" class="font-mono font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></a>
+  <div class="flex gap-6 text-slate-400"><a class="hover:text-cy" href="blog/">Research Log</a><a class="hover:text-cy" href="./">← Back to site</a></div></nav></header>
+
+<main class="relative">
+  <div class="absolute inset-x-0 top-0 h-96 grid-bg" aria-hidden="true"></div>
+  <div class="relative max-w-5xl mx-auto px-5 pt-16 pb-24">
+    <p class="font-mono text-cy text-sm">CONCEPT · HARDWARE MOCKUP · 3D</p>
+    <h1 class="mt-3 text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Meet <span class="text-cy">MorphBuddy</span></h1>
+    <p class="mt-5 max-w-2xl text-lg text-slate-400">A pocket-sized client for Homomorphic AI. Built from an ESP32 board with a touchscreen and a 3D-printed case, it holds your keys, encrypts data before it leaves your hands, and decrypts the answer. The cloud does the thinking, blind.</p>
+
+    <!-- 3D MOCKUP -->
+    <section class="mt-14" aria-labelledby="h3d">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 id="h3d" class="text-2xl font-bold text-white">3D mockup</h2>
+          <p class="mt-1 text-slate-400 text-sm">Drag to rotate, scroll to zoom. Pull the slider to explode the device into its layers.</p>
+        </div>
+        <p class="font-mono text-xs text-slate-500">Concept render · dimensions approximate</p>
+      </div>
+
+      <div class="mt-5 grid lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2">
+          <div id="viewer" class="glass relative w-full h-[420px] sm:h-[520px] overflow-hidden touch-none" role="img" aria-label="Interactive 3D model of the MorphBuddy device: case, circuit board with chip, and touchscreen"></div>
+          <div class="mt-4 glass p-4 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm">
+            <label class="flex items-center gap-3 text-slate-300">Explode
+              <input id="explode" type="range" min="0" max="100" value="0" class="w-40 accent-cyan-500" aria-label="Explode view">
+            </label>
+            <label class="flex items-center gap-2 text-slate-300"><input id="xray" type="checkbox" class="accent-cyan-500"> X-ray case</label>
+            <label class="flex items-center gap-2 text-slate-300"><input id="spin" type="checkbox" class="accent-cyan-500" checked> Auto-rotate</label>
+            <div class="flex items-center gap-2 text-slate-300">Case
+              <button class="sw w-6 h-6 rounded-full border-2 border-white/80" data-c="#334155" style="background:#334155" aria-label="Slate"></button>
+              <button class="sw w-6 h-6 rounded-full border-2 border-transparent" data-c="#06B6D4" style="background:#06B6D4" aria-label="Cyan"></button>
+              <button class="sw w-6 h-6 rounded-full border-2 border-transparent" data-c="#6366F1" style="background:#6366F1" aria-label="Indigo"></button>
+              <button class="sw w-6 h-6 rounded-full border-2 border-transparent" data-c="#e2e8f0" style="background:#e2e8f0" aria-label="White"></button>
+              <button class="sw w-6 h-6 rounded-full border-2 border-transparent" data-c="#111827" style="background:#111827" aria-label="Black"></button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="space-y-5">
+          <article class="glass p-5">
+            <h3 class="font-semibold text-white">Parts</h3>
+            <ol class="mt-3 text-sm text-slate-300 space-y-2 list-decimal ml-4">
+              <li><b>Top bezel</b>: 3D-printed, frames the screen</li>
+              <li><b>2.8" touch display</b>: 320×240, resistive touch</li>
+              <li><b>Circuit board</b>: ESP32 board with USB-C, buttons, microSD</li>
+              <li><b>ESP32 chip</b>: on the back of the board: Wi-Fi, Bluetooth, 240 MHz dual core</li>
+              <li><b>Bottom shell</b>: 3D-printed, standoffs hold the board, keyring loop</li>
+            </ol>
+          </article>
+          <article class="glass p-5">
+            <h3 class="font-semibold text-white">Printing the case</h3>
+            <ul class="mt-3 text-sm text-slate-300 space-y-2 list-disc ml-4">
+              <li>Material: PLA or PETG, 0.2 mm layers, no supports needed</li>
+              <li>Print the bezel face-down and the shell floor-down</li>
+              <li>Assembly: 4× M2 screws or snap-fit tabs</li>
+              <li>Leave ~0.3 mm tolerance around the board</li>
+            </ul>
+            <p class="mt-3 text-xs text-slate-500">The model is a visual concept. Real case dimensions need to be taken from your exact board before printing.</p>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <!-- DEMO -->
+    <div class="mt-14 grid lg:grid-cols-2 gap-10 items-start">
+      <div class="flex flex-col items-center">
+        <div class="board w-full max-w-[400px]" id="device">
+          <div class="flex justify-between items-center mb-3 px-1">
+            <span class="font-mono text-[10px] text-slate-400 font-bold tracking-wider">ESP32-2432S028R</span>
+            <span class="flex gap-2 items-center"><span class="mini" title="BOOT"></span><span class="mini" title="RST"></span><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 blink" title="power LED"></span></span>
+          </div>
+          <div class="bezel"><div class="lcd" id="lcd" aria-live="polite"></div></div>
+          <div class="flex justify-between items-end mt-3 px-1">
+            <span class="font-mono text-[10px] text-slate-400">microSD · USB-C · CH340</span>
+            <span class="font-mono text-[10px] text-slate-400 font-bold">2.8" 320×240 touch</span>
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-500 font-mono text-center max-w-[400px]">Tap the screen buttons. This is a <b>simulation</b>: values and ciphertext are illustrative, no real encryption runs here.</p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-bold text-white">How you'd use it</h2>
+        <p class="mt-2 text-slate-400">Example: check a health reading against a cloud risk model without the cloud ever seeing the number.</p>
+        <ol id="steps" class="mt-6 space-y-3"></ol>
+      </div>
+    </div>
+
+    <!-- ARCHITECTURE -->
+    <section class="mt-24">
+      <h2 class="text-2xl font-bold text-white">Division of labour</h2>
+      <div class="mt-6 grid md:grid-cols-3 gap-5">
+        <article class="glass p-6"><p class="font-mono text-cy text-xs">ON THE DEVICE</p><h3 class="mt-2 font-semibold text-white">Keys &amp; crypto I/O</h3><ul class="mt-3 text-sm text-slate-400 space-y-1.5 list-disc ml-4"><li>Generate and store the secret key</li><li>Encrypt small inputs (sensor value, short vector)</li><li>Decrypt the returned result</li><li>Show status on the touchscreen</li></ul></article>
+        <article class="glass p-6"><p class="font-mono text-cy text-xs">OVER Wi-Fi</p><h3 class="mt-2 font-semibold text-white">Ciphertext only</h3><ul class="mt-3 text-sm text-slate-400 space-y-1.5 list-disc ml-4"><li>Device uploads encrypted input + public/evaluation keys</li><li>Secret key never leaves the board</li><li>Result comes back encrypted</li></ul></article>
+        <article class="glass p-6"><p class="font-mono text-ind text-xs">IN THE CLOUD</p><h3 class="mt-2 font-semibold text-white">Blind inference</h3><ul class="mt-3 text-sm text-slate-400 space-y-1.5 list-disc ml-4"><li>Runs the model on ciphertext</li><li>Heavy lifting: GPUs or servers</li><li>Learns nothing about input or output</li></ul></article>
+      </div>
+    </section>
+
+    <!-- HARDWARE -->
+    <section class="mt-20 grid md:grid-cols-2 gap-6">
+      <article class="glass p-6">
+        <h2 class="text-xl font-bold text-white">Hardware (reference board)</h2>
+        <table class="mt-4 w-full text-sm"><tbody class="divide-y divide-line text-slate-300">
+          <tr><td class="py-2 text-slate-500">MCU</td><td>ESP32-WROOM-32, dual-core 240 MHz</td></tr>
+          <tr><td class="py-2 text-slate-500">Memory</td><td>~520 KB SRAM, 4 MB flash</td></tr>
+          <tr><td class="py-2 text-slate-500">Display</td><td>2.8" ILI9341, 320×240, resistive touch</td></tr>
+          <tr><td class="py-2 text-slate-500">Connectivity</td><td>Wi-Fi + Bluetooth</td></tr>
+          <tr><td class="py-2 text-slate-500">Extras</td><td>microSD slot, RGB LED, speaker output</td></tr>
+        </tbody></table>
+        <p class="mt-3 text-xs text-slate-500">Exact specs vary between board revisions.</p>
+      </article>
+      <article class="glass p-6 border-amber-500/30">
+        <h2 class="text-xl font-bold text-white">Reality check</h2>
+        <ul class="mt-4 text-sm text-slate-300 space-y-3">
+          <li><b class="text-amber-300">Memory is the wall.</b> FHE ciphertexts and keys are large, and ~520 KB RAM is tight. Parameters must stay small.</li>
+          <li><b class="text-amber-300">No evaluation on-device.</b> Running a model on ciphertext is not realistic here; that's the cloud's job.</li>
+          <li><b class="text-amber-300">Feasibility unverified.</b> Whether encryption/decryption with FHE-grade parameters runs acceptably on the ESP32 is something I still need to prototype. Embedded FHE is an active research area.</li>
+          <li><b class="text-amber-300">Fallback:</b> the board can act as a secure key holder and display while a phone or PC does the heavy encryption.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="mt-20">
+      <h2 class="text-2xl font-bold text-white">Build roadmap</h2>
+      <ol class="mt-6 grid md:grid-cols-4 gap-4 text-sm">
+        <li class="glass p-5"><p class="font-mono text-cy text-xs">PHASE 1</p><p class="mt-1 font-semibold text-white">UI prototype</p><p class="mt-1 text-slate-400">Touch screens and flow on the board, with dummy data.</p></li>
+        <li class="glass p-5"><p class="font-mono text-cy text-xs">PHASE 2</p><p class="mt-1 font-semibold text-white">Crypto feasibility</p><p class="mt-1 text-slate-400">Measure encrypt/decrypt time and RAM with small parameters.</p></li>
+        <li class="glass p-5"><p class="font-mono text-cy text-xs">PHASE 3</p><p class="mt-1 font-semibold text-white">Cloud link</p><p class="mt-1 text-slate-400">Send ciphertext over Wi-Fi to an FHE inference server.</p></li>
+        <li class="glass p-5"><p class="font-mono text-cy text-xs">PHASE 4</p><p class="mt-1 font-semibold text-white">Key safety</p><p class="mt-1 text-slate-400">Secure storage, backup and recovery of the secret key.</p></li>
+      </ol>
+      <p class="mt-6 text-sm text-slate-500">Progress notes will appear in the <a class="text-cy underline" href="blog/">Research Log</a>.</p>
+    </section>
+  </div>
+</main>
+<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI · Concept mockup, not a finished product.</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+var lcd=document.getElementById('lcd'), stepsEl=document.getElementById('steps');
+var state=0, cipher1='', cipher2='', timer=null;
+var STEPS=[
+ ['Wake & unlock','Tap the screen. The device shows your key status; the secret key lives only on the board.'],
+ ['Enter or sense data','Type a value or read it from a connected sensor. Nothing has left the device yet.'],
+ ['Encrypt locally','Tap Encrypt. The value turns into ciphertext on the device using your key.'],
+ ['Send & compute blind','The ciphertext goes over Wi-Fi. The cloud model computes on it without decrypting.'],
+ ['Decrypt the result','The encrypted answer comes back. Only your device can unlock it.']
+];
+function hex(n){var s='',c='0123456789abcdef';for(var i=0;i<n;i++)s+=c[Math.floor(Math.random()*16)];return s}
+function bar(t){return '<div class="lcd-bar"><span>'+t+'</span><span>▮▮▮ Wi-Fi</span></div>'}
+function btn(label,go,ghost){return '<button class="tbtn'+(ghost?' ghost':'')+'" onclick="go('+go+')">'+label+'</button>'}
+function scramble(el,final,done){
+  clearInterval(timer);var n=0;
+  timer=setInterval(function(){n++;el.textContent=hex(final.length);if(n>10){clearInterval(timer);el.textContent=final;if(done)done()}},70);
+}
+function render(){
+  var h='';
+  if(state===0) h=bar('MORPHBUDDY')+'<div class="lcd-body"><div class="text-cyan-400 text-sm">🔑 Key loaded</div><div class="text-slate-400">Secret key: on device<br>Scheme: CKKS (demo)<br>Server: not connected</div><div class="mt-auto">'+btn('START ▶',1)+'</div></div>';
+  if(state===1) h=bar('NEW INPUT')+'<div class="lcd-body"><div class="text-slate-400">Glucose HbA1c (%)</div><div class="text-3xl text-white font-bold">7.4</div><div class="text-slate-500 text-[11px]">plaintext · local only</div><div class="mt-auto grid grid-cols-2 gap-2">'+btn('◀ Back',0,1)+btn('ENCRYPT',2)+'</div></div>';
+  if(state===2) h=bar('ENCRYPTING')+'<div class="lcd-body"><div class="text-slate-400">ciphertext:</div><div class="hex" id="ct">'+hex(96)+'</div><div id="ok" class="text-emerald-400 text-[11px] opacity-0">✓ encrypted on device</div><div class="mt-auto grid grid-cols-2 gap-2">'+btn('◀ Back',1,1)+btn('SEND ▶',3)+'</div></div>';
+  if(state===3) h=bar('CLOUD')+'<div class="lcd-body"><div class="text-slate-400">Uploading ciphertext…</div><div class="hex">'+cipher1.slice(0,48)+'…</div><div class="text-indigo-400 blink">⟳ model computing on encrypted data</div><div class="text-[11px] text-slate-500">server sees: random-looking bytes</div><div class="mt-auto grid grid-cols-2 gap-2">'+btn('◀ Cancel',2,1)+btn('RESULT ▶',4)+'</div></div>';
+  if(state===4) h=bar('RESULT')+'<div class="lcd-body"><div class="text-slate-400">encrypted result received:</div><div class="hex" id="ct">'+hex(96)+'</div><div class="text-[11px] text-slate-500">unreadable without your key</div><div class="mt-auto grid grid-cols-2 gap-2">'+btn('◀ Back',3,1)+btn('DECRYPT 🔓',5)+'</div></div>';
+  if(state===5) h=bar('DECRYPTED')+'<div class="lcd-body"><div class="text-slate-400">Elevated risk score (simulated)</div><div class="text-3xl text-emerald-400 font-bold">0.82</div><div class="text-[11px] text-slate-500">decrypted locally with your private key</div><div class="mt-auto grid grid-cols-2 gap-2">'+btn('NEW QUERY',0,1)+btn('DONE ✓',0)+'</div></div>';
+  lcd.innerHTML=h;
+  var ct=document.getElementById('ct');
+  if(state===2){cipher1=hex(96);scramble(ct,cipher1,function(){var o=document.getElementById('ok');if(o)o.style.opacity=1})}
+  if(state===4){cipher2=hex(96);scramble(ct,cipher2)}
+  renderSteps();
+}
+function stepIndex(){return [0,1,2,3,3,4][state]}
+function renderSteps(){
+  var cur=stepIndex();
+  stepsEl.innerHTML=STEPS.map(function(s,i){
+    var target=[0,1,2,3,5][i];
+    return '<li><button class="glass stepbtn p-4" '+(i===cur?'aria-current="true"':'')+' onclick="go('+target+')"><span class="font-mono text-xs text-cyan-400">STEP '+(i+1)+'</span><span class="block font-semibold text-white">'+s[0]+'</span><span class="block text-sm text-slate-400 mt-1">'+s[1]+'</span></button></li>';
+  }).join('');
+}
+function go(n){state=n;render()}
+render();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+var wrap=document.getElementById('viewer');
+if(!wrap) return;
+function fallback(){wrap.innerHTML='<p class="p-8 text-slate-400 text-sm">3D preview needs WebGL, which is unavailable in this browser.</p>'}
+if(!window.THREE||!THREE.OrbitControls){fallback();return}
+var renderer;
+try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:true})}catch(e){fallback();return}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.outputEncoding=THREE.sRGBEncoding;
+wrap.appendChild(renderer.domElement);
+renderer.domElement.style.display='block';
+
+var scene=new THREE.Scene();
+var cam=new THREE.PerspectiveCamera(32,1,1,1000);
+cam.position.set(80,85,140);
+scene.add(new THREE.HemisphereLight(0xffffff,0x1e293b,0.5));
+var sun=new THREE.DirectionalLight(0xffffff,0.75);sun.position.set(70,140,90);scene.add(sun);
+var rim=new THREE.PointLight(0x06B6D4,0.5,400);rim.position.set(-90,40,-70);scene.add(rim);
+var rim2=new THREE.PointLight(0x6366F1,0.4,400);rim2.position.set(90,30,-60);scene.add(rim2);
+
+var controls=new THREE.OrbitControls(cam,renderer.domElement);
+controls.enableDamping=true;controls.target.set(0,8,0);controls.minDistance=90;controls.maxDistance=320;
+controls.autoRotateSpeed=1.2;
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var spinEl=document.getElementById('spin');
+if(reduce)spinEl.checked=false;
+controls.autoRotate=spinEl.checked;
+
+/* ---------- helpers ---------- */
+function rr(s,w,h,r,ox,oy){ox=ox||0;oy=oy||0;var x=ox-w/2,y=oy-h/2;
+  s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);
+  s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);
+  s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s}
+/* extrudes up (+Y); shape-y maps to -Z */
+function slab(w,h,r,d,holes){var s=rr(new THREE.Shape(),w,h,r);
+  (holes||[]).forEach(function(k){s.holes.push(rr(new THREE.Path(),k[0],k[1],k[2],k[3]||0,k[4]||0))});
+  var g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:false,curveSegments:8});g.rotateX(-Math.PI/2);return g}
+function box(w,h,d,mat){return new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat)}
+function at(m,x,y,z){m.position.set(x,y,z);return m}
+
+/* ---------- materials ---------- */
+var caseMat=new THREE.MeshStandardMaterial({color:0x334155,roughness:0.62,metalness:0.05});
+var pcbMat=new THREE.MeshStandardMaterial({color:0x0e2a47,roughness:0.5,metalness:0.2});
+var goldMat=new THREE.MeshStandardMaterial({color:0xd4a72c,roughness:0.35,metalness:0.9});
+var silver=new THREE.MeshStandardMaterial({color:0xc3cad4,roughness:0.3,metalness:0.85});
+var black=new THREE.MeshStandardMaterial({color:0x0b0b0e,roughness:0.5,metalness:0.2});
+var smd=new THREE.MeshStandardMaterial({color:0x1b1b1f,roughness:0.6,metalness:0.3});
+
+/* ---------- screen texture ---------- */
+function screenTex(){var c=document.createElement('canvas');c.width=240;c.height=320;var g=c.getContext('2d');
+  g.fillStyle='#090D16';g.fillRect(0,0,240,320);
+  g.fillStyle='#0f172a';g.fillRect(0,0,240,24);
+  g.fillStyle='#94a3b8';g.font='12px monospace';g.fillText('MORPHBUDDY',8,16);g.fillText('Wi-Fi',196,16);
+  var gr=g.createLinearGradient(0,0,240,0);gr.addColorStop(0,'#06B6D4');gr.addColorStop(1,'#6366F1');
+  g.strokeStyle=gr;g.lineWidth=7;g.lineCap='round';
+  g.beginPath();g.arc(120,92,26,Math.PI,0);g.stroke();
+  g.fillStyle=gr;g.fillRect(86,92,68,52);
+  g.fillStyle='#090D16';g.beginPath();g.arc(120,114,7,0,6.3);g.fill();g.fillRect(117,114,6,16);
+  g.fillStyle='#e2e8f0';g.font='bold 17px monospace';g.textAlign='center';g.fillText('Key loaded',120,178);
+  g.fillStyle='#64748b';g.font='11px monospace';g.fillText('secret key: on device',120,198);
+  g.fillStyle='#06B6D4';g.font='10px monospace';g.fillText('9f3a c71e 8b02 d4a6 41bd 7a09',120,226);
+  var b=g.createLinearGradient(30,0,210,0);b.addColorStop(0,'#06B6D4');b.addColorStop(1,'#6366F1');
+  g.fillStyle=b;g.fillRect(30,260,180,38);
+  g.fillStyle='#fff';g.font='bold 15px monospace';g.fillText('START  ▶',120,284);
+  var t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return t}
+
+/* ---------- parts ---------- */
+var parts={};
+function part(n){var g=new THREE.Group();parts[n]={g:g,off:0};scene.add(g);return g}
+
+/* bottom shell */
+var gShell=part('shell');
+gShell.add(new THREE.Mesh(slab(58,94,6,2),caseMat));
+gShell.add(new THREE.Mesh(slab(58,94,6,10,[[52,88,3]]),caseMat));
+[[-20,-36],[20,-36],[-20,36],[20,36]].forEach(function(p){
+  var c=new THREE.Mesh(new THREE.CylinderGeometry(2.2,2.2,4,20),caseMat);at(c,p[0],4,p[1]);gShell.add(c)});
+var loop=new THREE.Mesh(new THREE.TorusGeometry(4.2,1.3,12,32),caseMat);loop.rotation.x=Math.PI/2;at(loop,0,4,-51);gShell.add(loop);
+gShell.add(at(box(12,5.2,0.5,black),0,9.0,47.05));
+
+/* pcb + front components */
+var gPcb=part('pcb');
+gPcb.add(at(new THREE.Mesh(slab(50,86,2,1.6),pcbMat),0,6,0));
+gPcb.add(at(box(9,3.3,7.5,silver),0,9.25,39.2));                 /* USB-C */
+gPcb.add(at(box(8,0.5,3,black),0,7.85,39.2));
+gPcb.add(at(box(11,1.6,11,silver),-15,8.4,34));                  /* microSD */
+[[-12,40],[12,40]].forEach(function(p){gPcb.add(at(box(4,1.6,3,black),p[0],8.4,p[1]))});  /* BOOT/RST */
+var seed=7;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
+for(var i=0;i<26;i++){gPcb.add(at(box(1.2+rnd()*1.6,0.5,0.8+rnd()*1.2,smd),(rnd()-.5)*40,7.85,24+rnd()*10))}
+for(var j=0;j<8;j++){gPcb.add(at(box(1.4,0.18,3,goldMat),-14+j*4,7.7,-42))} /* header pads */
+
+/* esp32 chip (back of pcb) */
+var gChip=part('chip');
+(function(){var c=document.createElement('canvas');c.width=128;c.height=160;var g=c.getContext('2d');
+  g.fillStyle='#c3cad4';g.fillRect(0,0,128,160);g.fillStyle='#1e293b';g.fillRect(0,100,128,60);
+  g.fillStyle='#0f172a';g.font='bold 20px monospace';g.textAlign='center';g.fillText('ESP32',64,40);g.font='11px monospace';g.fillText('WROOM-32',64,60);
+  g.fillStyle='#475569';g.beginPath();g.arc(20,20,5,0,6.3);g.fill();
+  var t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;
+  var m=[silver,silver,silver,new THREE.MeshStandardMaterial({map:t,roughness:.35,metalness:.6}),silver,silver];
+  var chip=new THREE.Mesh(new THREE.BoxGeometry(18,3,25.5),m);at(chip,0,4.4,-24);gChip.add(chip);
+  for(var i=0;i<8;i++){gChip.add(at(box(.8,.3,1.6,goldMat),-9.4,5.6,-34+i*3));gChip.add(at(box(.8,.3,1.6,goldMat),9.4,5.6,-34+i*3))}
+})();
+for(var k=0;k<14;k++){gChip.add(at(box(1.3,0.5,0.9,smd),(rnd()-.5)*38,5.55,-4+rnd()*30))}
+
+/* display */
+var gScr=part('screen');
+gScr.add(at(box(50,3.5,70,black),0,9.35,-6));
+var plane=new THREE.Mesh(new THREE.PlaneGeometry(43,57),new THREE.MeshBasicMaterial({map:screenTex()}));
+plane.rotation.x=-Math.PI/2;at(plane,0,11.12,-6);gScr.add(plane);
+
+/* top bezel */
+var gBez=part('bezel');
+gBez.add(at(new THREE.Mesh(slab(58,94,6,1.5,[[52,88,3]]),caseMat),0,10,0));
+gBez.add(at(new THREE.Mesh(slab(58,94,6,2.5,[[45,59,2.5,0,6]]),caseMat),0,11.5,0));
+
+/* explode */
+var offsets={shell:-26,chip:-9,pcb:6,screen:22,bezel:46};
+function setExplode(e){for(var k in parts)parts[k].g.position.y=offsets[k]*e;cam.zoom=1-0.3*e;cam.updateProjectionMatrix();controls.target.y=8+8*e}
+setExplode(document.getElementById("explode").value/100);
+var exEl=document.getElementById('explode');
+exEl.addEventListener('input',function(){setExplode(exEl.value/100)});
+
+/* x-ray */
+var xr=document.getElementById('xray');
+xr.addEventListener('change',function(){caseMat.transparent=xr.checked;caseMat.opacity=xr.checked?0.18:1;caseMat.depthWrite=!xr.checked;caseMat.needsUpdate=true});
+spinEl.addEventListener('change',function(){controls.autoRotate=spinEl.checked});
+
+/* case colour */
+var sws=[].slice.call(document.querySelectorAll('.sw'));
+sws.forEach(function(b){b.addEventListener('click',function(){
+  caseMat.color.set(b.getAttribute('data-c'));
+  sws.forEach(function(o){o.style.borderColor='transparent'});b.style.borderColor='rgba(255,255,255,.85)'})});
+
+/* sizing + loop */
+function resize(){var w=wrap.clientWidth,h=wrap.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);
+  renderer.domElement.style.width=w+'px';renderer.domElement.style.height=h+'px';cam.aspect=w/h;cam.updateProjectionMatrix()}
+if(window.ResizeObserver)new ResizeObserver(resize).observe(wrap);else window.addEventListener('resize',resize);
+resize();
+var visible=true;
+if(window.IntersectionObserver)new IntersectionObserver(function(e){visible=e[0].isIntersecting}).observe(wrap);
+renderer.domElement.addEventListener('pointerdown',function(){spinEl.checked=false;controls.autoRotate=false});
+(function loop(){requestAnimationFrame(loop);if(!visible)return;controls.update();renderer.render(scene,cam)})();
+})();
+</script>
+</body>
+</html>
