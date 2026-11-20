@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="de" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A reading map for FHE — Research Log</title>
-<meta name="description" content="The order in which I read the core Fully Homomorphic Encryption papers, from Gentry 2009 to CKKS and TFHE.">
+<title>Eine Lesekarte für FHE — Forschungslog</title>
+<meta name="description" content="In welcher Reihenfolge ich die Kernarbeiten zu voll homomorpher Verschlüsselung lese, von Gentry 2009 bis CKKS und TFHE.">
 <script src="../theme.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
@@ -13,47 +13,48 @@
 <link rel="stylesheet" href="../theme.css">
 </head>
 <body class="antialiased">
-<header class="border-b border-line"><nav class="max-w-3xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Main">
+<header class="border-b border-line"><nav class="max-w-3xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Hauptnavigation">
   <a href="../" class="font-mono font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></a>
-  <div class="flex items-center gap-5"><a href="./" class="text-slate-400 hover:text-cy">← Research Log</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Switch to light mode"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div></nav></header>
+  <div class="flex items-center gap-5"><a href="./" class="text-slate-400 hover:text-cy">← Forschungslog</a>
+  <button type="button" class="theme-btn" data-theme-toggle aria-label="Zum hellen Modus wechseln"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div></nav></header>
 
 <main class="max-w-3xl mx-auto px-5 pt-14 pb-24">
-  <p class="font-mono text-xs text-slate-500">2026-11-20 · 6 min read · #literature</p>
-  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">A reading map: from Gentry (2009) to CKKS and TFHE</h1>
+  <p class="font-mono text-xs text-slate-500">20.11.2026 · 6 Min. Lesezeit · #literatur</p>
+  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Eine Lesekarte: von Gentry (2009) zu CKKS und TFHE</h1>
 
   <article class="prose-post mt-6">
-    <p>When I started on Homomorphic AI, the hardest part wasn't the math. It was not knowing which papers to read in which order. FHE literature is a family tree, and reading it out of order feels like walking into the middle of an argument. This is the order I settled on.</p>
+    <p>Als ich mit Homomorphic AI anfing, war nicht die Mathematik das Schwierigste, sondern nicht zu wissen, welche Arbeiten ich in welcher Reihenfolge lesen soll. Die FHE-Literatur ist ein Stammbaum, und wer sie durcheinander liest, kommt sich vor, als platze er mitten in eine Debatte. So sieht die Reihenfolge aus, bei der ich gelandet bin.</p>
 
-    <h2>1. Start with the idea, not the construction</h2>
-    <p>Craig Gentry's 2009 thesis and STOC paper, <em>Fully Homomorphic Encryption Using Ideal Lattices</em>, is the first plausible construction of an encryption scheme that supports both addition and multiplication on ciphertexts. I don't try to follow every proof. I read it to understand two ideas that everything afterwards builds on:</p>
+    <h2>1. Mit der Idee anfangen, nicht mit der Konstruktion</h2>
+    <p>Craig Gentrys Dissertation und STOC-Arbeit von 2009, <em>Fully Homomorphic Encryption Using Ideal Lattices</em>, ist die erste plausible Konstruktion eines Verschlüsselungsverfahrens, das auf Chiffretexten sowohl Addition als auch Multiplikation unterstützt. Ich versuche nicht, jeden Beweis nachzuvollziehen. Ich lese sie, um zwei Ideen zu verstehen, auf denen alles Spätere aufbaut:</p>
     <ul>
-      <li><strong>Noise growth.</strong> Every ciphertext carries a small amount of noise. Operations make it grow, and multiplication makes it grow fast. Decryption fails if it gets too large.</li>
-      <li><strong>Bootstrapping.</strong> Homomorphically evaluating the decryption circuit to "refresh" a ciphertext and reset its noise.</li>
+      <li><strong>Rauschwachstum.</strong> Jeder Chiffretext trägt ein kleines Rauschen. Operationen lassen es wachsen, Multiplikation besonders schnell. Wird es zu groß, scheitert die Entschlüsselung.</li>
+      <li><strong>Bootstrapping.</strong> Die Entschlüsselung homomorph auswerten, um einen Chiffretext zu „erfrischen“ und sein Rauschen zurückzusetzen.</li>
     </ul>
 
-    <h2>2. The second generation: BGV and BFV</h2>
-    <p>The 2012 papers by Brakerski–Gentry–Vaikuntanathan (BGV) and Brakerski / Fan–Vercauteren (BFV) rebuilt FHE on the Ring-LWE problem. They are far more practical and give <em>exact</em> arithmetic on integers. This is where I started to understand parameters: polynomial degree, ciphertext modulus and plaintext modulus, and how they trade security against depth and speed.</p>
+    <h2>2. Die zweite Generation: BGV und BFV</h2>
+    <p>Die Arbeiten von 2012 von Brakerski, Gentry und Vaikuntanathan (BGV) sowie Brakerski bzw. Fan und Vercauteren (BFV) bauten FHE auf dem Ring-LWE-Problem neu auf. Sie sind deutlich praktikabler und liefern <em>exakte</em> Arithmetik auf Ganzzahlen. Hier habe ich begonnen, Parameter zu verstehen: Polynomgrad, Chiffretext- und Klartextmodulus und wie sie Sicherheit gegen Tiefe und Geschwindigkeit abwägen.</p>
 
-    <h2>3. CKKS: why it matters for machine learning</h2>
-    <p>Cheon, Kim, Kim and Song (2017) introduced a scheme for <em>approximate</em> arithmetic on real or complex numbers. For AI this is the natural fit. Neural networks are floating-point and already tolerate small errors, so a bit of controlled imprecision is acceptable. I treat CKKS as the default candidate for encrypted inference on linear-heavy models.</p>
+    <h2>3. CKKS: warum es für Machine Learning zählt</h2>
+    <p>Cheon, Kim, Kim und Song (2017) führten ein Verfahren für <em>näherungsweise</em> Arithmetik auf reellen oder komplexen Zahlen ein. Für KI passt das natürlich: Neuronale Netze rechnen mit Gleitkommazahlen und tolerieren kleine Fehler, ein kontrollierter Genauigkeitsverlust ist also vertretbar. CKKS ist für mich der Standardkandidat für verschlüsselte Inferenz bei linear dominierten Modellen.</p>
 
-    <h2>4. TFHE: fast bootstrapping and non-linearity</h2>
-    <p>Chillotti, Gama, Georgieva and Izabachène (2016) showed bootstrapping that is fast enough to be applied after every gate. Later work on programmable bootstrapping lets you evaluate a lookup table, which is a clean way to handle non-linear functions like ReLU. This is the foundation of tools such as Zama's Concrete ML.</p>
+    <h2>4. TFHE: schnelles Bootstrapping und Nichtlinearität</h2>
+    <p>Chillotti, Gama, Georgieva und Izabachène (2016) zeigten ein Bootstrapping, das schnell genug ist, um nach jedem Gatter angewendet zu werden. Spätere Arbeiten zum programmierbaren Bootstrapping erlauben es, eine Lookup-Tabelle auszuwerten, ein sauberer Weg für nichtlineare Funktionen wie ReLU. Darauf bauen Werkzeuge wie Concrete ML auf.</p>
 
-    <h2>5. The bridge to ML</h2>
-    <p>Finally, I read the applied papers. <em>CryptoNets</em> (Gilad-Bachrach et al., 2016) was an early demonstration of running a neural network on encrypted data, using a polynomial activation in place of ReLU. Reading it after the theory makes its design choices obvious. You can see the model being shaped around what the encryption allows.</p>
+    <h2>5. Die Brücke zu ML</h2>
+    <p>Zuletzt lese ich die angewandten Arbeiten. <em>CryptoNets</em> (Gilad-Bachrach u. a., 2016) war eine frühe Demonstration eines neuronalen Netzes auf verschlüsselten Daten, mit einer polynomiellen Aktivierung statt ReLU. Nach der Theorie gelesen, werden die Entwurfsentscheidungen offensichtlich: Man sieht, wie das Modell um das herumgebaut wird, was die Verschlüsselung erlaubt.</p>
 
-    <h2>How I read each paper</h2>
+    <h2>Wie ich jede Arbeit lese</h2>
     <ol>
-      <li>Abstract and conclusion first, to learn what it claims.</li>
-      <li>The parameter and performance tables, since that is where "practical" gets tested.</li>
-      <li>Only then the construction, and the proofs only if I need them.</li>
-      <li>One sentence in my notes: <em>what problem did this solve that the previous paper couldn't?</em></li>
+      <li>Zuerst Abstract und Fazit, um zu sehen, was behauptet wird.</li>
+      <li>Dann die Parameter- und Leistungstabellen, denn dort wird „praktikabel“ geprüft.</li>
+      <li>Erst danach die Konstruktion, die Beweise nur bei Bedarf.</li>
+      <li>Ein Satz in meinen Notizen: <em>Welches Problem löst diese Arbeit, das die vorige nicht lösen konnte?</em></li>
     </ol>
 
-    <blockquote>Takeaway: the field is a sequence of removing bottlenecks, namely noise, bootstrapping cost and non-linearity. Each paper is the answer to the previous paper's biggest limitation.</blockquote>
+    <blockquote>Fazit: Das Feld ist eine Folge beseitigter Engpässe: Rauschen, Bootstrapping-Kosten, Nichtlinearität. Jede Arbeit beantwortet die größte Einschränkung der vorherigen.</blockquote>
 
-    <p>Next: <a href="post-lab-setup.html">my lab setup for testing encrypted inference myself</a>.</p>
+    <p>Weiter: <a href="post-lab-setup.html">mein Labor-Setup für verschlüsselte Inferenz</a>.</p>
   </article>
 </main>
 <footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI</footer>
