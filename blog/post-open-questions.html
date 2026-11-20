@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Five open questions in FHE for AI — Research Log</title>
+<meta name="description" content="Where Homomorphic AI is still unresolved: performance, non-linearity, trust model, key management and comparison with confidential computing.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog.css">
+</head>
+<body class="antialiased">
+<header class="border-b border-line"><nav class="max-w-3xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Main">
+  <a href="../" class="font-mono font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></a>
+  <a href="./" class="text-slate-400 hover:text-cy">← Research Log</a></nav></header>
+
+<main class="max-w-3xl mx-auto px-5 pt-14 pb-24">
+  <p class="font-mono text-xs text-slate-500">2026-11-20 · 4 min read · #open-questions</p>
+  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Five open questions I'm tracking</h1>
+
+  <article class="prose-post mt-6">
+    <p>Marketing around FHE tends to skip the uncomfortable parts. Here are the questions I think decide whether Homomorphic AI becomes mainstream, and how I plan to look into each.</p>
+
+    <h2>1. How far can the performance gap close?</h2>
+    <p>Encrypted inference is far slower than plaintext inference. The open question is whether algorithmic progress and hardware (GPUs, FPGAs, dedicated accelerators) bring that into a range where it is acceptable for real products, and for which model sizes. <em>How I'll look:</em> benchmark the same small models across libraries and hardware, as described in <a href="post-lab-setup.html">my lab setup</a>.</p>
+
+    <h2>2. What happens to non-linear layers?</h2>
+    <p>Addition and multiplication are cheap by comparison. ReLU, softmax and attention are not. Polynomial approximations lose accuracy, and bootstrapping-based lookups cost time. <em>How I'll look:</em> measure the accuracy loss when swapping activations, layer by layer.</p>
+
+    <h2>3. Can LLMs ever be practical?</h2>
+    <p>Transformers combine huge matrix multiplications with softmax and layer norm, which is close to a worst case for FHE. Research on encrypted transformer inference exists, but I treat any "private LLM" claim cautiously until I see the model size, latency and hardware stated. <em>How I'll look:</em> read the recent encrypted-transformer papers with a focus on exactly those three numbers.</p>
+
+    <h2>4. Who manages the keys?</h2>
+    <p>FHE shifts the problem from "trust the server" to "protect the secret key and the client". Key generation, rotation, and what happens on a compromised device are less glamorous, and just as important. Evaluation keys can also be large. <em>How I'll look:</em> map out the full key lifecycle for a realistic deployment.</p>
+
+    <h2>5. FHE or confidential computing?</h2>
+    <p>Trusted execution environments (TEEs) run at near-native speed but make you trust the hardware vendor and its attestation. FHE relies on mathematics alone but costs far more compute. For many real systems the answer is probably a hybrid. <em>How I'll look:</em> write the threat model for three example workloads and see which approach each one really needs.</p>
+
+    <blockquote>If you work on any of this and I've got something wrong, I'd like to hear it. Wrong beliefs are the cheapest thing to fix early.</blockquote>
+  </article>
+</main>
+<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
