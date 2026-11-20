@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My lab setup for encrypted inference — Research Log</title>
+<meta name="description" content="The open-source tools and the measurement plan I use to test FHE-based machine learning inference.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog.css">
+</head>
+<body class="antialiased">
+<header class="border-b border-line"><nav class="max-w-3xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Main">
+  <a href="../" class="font-mono font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></a>
+  <a href="./" class="text-slate-400 hover:text-cy">← Research Log</a></nav></header>
+
+<main class="max-w-3xl mx-auto px-5 pt-14 pb-24">
+  <p class="font-mono text-xs text-slate-500">2026-11-20 · 5 min read · #methodology</p>
+  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">My lab setup: testing encrypted inference myself</h1>
+
+  <article class="prose-post mt-6">
+    <p>Reading about FHE only gets you so far. Every paper says "practical", and the word means something different each time. So my rule is simple: <strong>no claim about performance goes into my notes unless I measured it on my own hardware.</strong></p>
+
+    <h2>The tools</h2>
+    <ul>
+      <li><strong>Concrete ML</strong> (Zama): the fastest way to go from a scikit-learn or PyTorch model to an FHE-compatible one. It quantizes the model and compiles it to a TFHE circuit.</li>
+      <li><strong>OpenFHE</strong> and <strong>Microsoft SEAL</strong>: lower-level libraries where I can pick the scheme (BFV, BGV, CKKS) and set parameters by hand. This is where I learn what the knobs actually do.</li>
+    </ul>
+
+    <h2>A first experiment, in code</h2>
+    <p>The smallest meaningful test is a plain classifier. In Concrete ML the flow looks like this:</p>
+<pre><code>from concrete.ml.sklearn import LogisticRegression
+
+model = LogisticRegression(n_bits=8)
+model.fit(X_train, y_train)
+model.compile(X_train)                      # build the FHE circuit
+
+y_clear = model.predict(X_test)             # plaintext baseline
+y_fhe   = model.predict(X_test, fhe="execute")  # encrypted inference</code></pre>
+    <p>The point is the comparison between the last two lines: do the predictions agree, and what does the second one cost?</p>
+
+    <h2>What I measure</h2>
+    <ol>
+      <li><strong>Accuracy gap:</strong> plaintext vs. encrypted predictions, after quantization.</li>
+      <li><strong>Latency:</strong> time per inference, split into encryption, evaluation and decryption.</li>
+      <li><strong>Ciphertext expansion:</strong> size of the encrypted input compared with the raw input.</li>
+      <li><strong>Memory:</strong> peak RAM during evaluation, since it often limits model size before time does.</li>
+      <li><strong>Parameter sensitivity:</strong> how results change when I vary bit-width and security level.</li>
+    </ol>
+
+    <h2>How I keep it honest</h2>
+    <ul>
+      <li>Every run records hardware, library version and parameters next to the result.</li>
+      <li>I always report the plaintext baseline alongside the encrypted number.</li>
+      <li>I publish negative results too. A model that is too slow to be useful is a finding.</li>
+    </ul>
+
+    <blockquote>I'll publish measured numbers in this log once I have a reproducible benchmark. Until then, anything on this site about speed is a general statement from the literature, not my own result.</blockquote>
+
+    <p>Next: <a href="post-open-questions.html">the open questions I'm tracking</a>.</p>
+  </article>
+</main>
+<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
