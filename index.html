@@ -37,7 +37,7 @@ tailwind.config = { theme: { extend: {
 
 <!-- NAV -->
 <header class="fixed top-0 inset-x-0 z-50 border-b border-line bg-bg/80 backdrop-blur">
-  <nav class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-6" aria-label="Hauptnavigation">
+  <nav class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-4" aria-label="Hauptnavigation">
     <a href="#top" class="flex items-center gap-2 font-mono text-sm font-medium text-white whitespace-nowrap shrink-0">
       <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="7" y="14" width="18" height="13" rx="3" stroke="#06B6D4" stroke-width="2"/>
@@ -46,13 +46,14 @@ tailwind.config = { theme: { extend: {
       </svg>
       <span>homomorphic-ai<span class="text-cy">.com</span></span>
     </a>
-    <ul class="hidden xl:flex items-center gap-6 text-sm text-slate-300 whitespace-nowrap">
+    <ul class="hidden xl:flex items-center gap-5 text-sm text-slate-300 whitespace-nowrap">
       <li><a class="hover:text-cy transition" href="#what-is-it">Konzept</a></li>
       <li><a class="hover:text-cy transition" href="#how-it-works">So funktioniert's</a></li>
       <li><a class="hover:text-cy transition" href="#use-cases">Anwendungen</a></li>
       <li><a class="hover:text-cy transition" href="#reality">Technik</a></li>
       <li><a class="hover:text-cy transition" href="knowledge.html">Wissen</a></li>
       <li><a class="hover:text-cy transition" href="labor.html">Labor</a></li>
+      <li><a class="hover:text-cy transition" href="pruefstand.html">Prüfstand</a></li>
       <li><a class="hover:text-cy transition" href="morphbuddy.html">MorphBuddy</a></li>
       <li><a class="hover:text-cy transition" href="blog/">Forschungslog</a></li>
     </ul>
@@ -70,6 +71,7 @@ tailwind.config = { theme: { extend: {
       <li><a class="block py-2 hover:text-cy" href="#reality">Technik &amp; Realität</a></li>
       <li><a class="block py-2 hover:text-cy" href="knowledge.html">Wissen</a></li>
       <li><a class="block py-2 hover:text-cy" href="labor.html">Labor</a></li>
+      <li><a class="block py-2 hover:text-cy" href="pruefstand.html">Prüfstand</a></li>
       <li><a class="block py-2 hover:text-cy" href="morphbuddy.html">MorphBuddy</a></li>
       <li><a class="block py-2 hover:text-cy" href="blog/">Forschungslog</a></li>
       <li><a class="block py-2 hover:text-cy" href="#updates">Updates erhalten</a></li>
@@ -278,6 +280,7 @@ Enc(a) ⊗ Enc(b) = Enc(a × b)</pre>
       <a href="knowledge.html#explorer" class="px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-cy to-ind hover:opacity-90 transition">Kosten-Explorer öffnen</a>
       <a href="knowledge.html" class="px-6 py-3 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition">Zur Wissensbasis</a>
       <a href="labor.html" class="px-6 py-3 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition">Selbst ausprobieren: Homomorphic Lab (mit Video)</a>
+      <a href="pruefstand.html" class="px-6 py-3 rounded-lg font-semibold text-slate-200 border border-cy/40 hover:border-cy hover:text-white transition">Neu: KI-Datenschutz-Prüfstand</a>
     </div>
     <p class="mt-5 text-xs text-slate-500">Messung aus einer veröffentlichten Studie von 2020: kleiner Datensatz, Hardware von damals. Sie zeigt Machbarkeit, nicht die Kosten heutiger Großmodelle.</p>
   </div>
