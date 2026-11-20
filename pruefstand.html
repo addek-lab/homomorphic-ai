@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="de" class="scroll-smooth" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI-Datenschutz-Prüfstand — Homomorphic AI</title>
+<meta name="description" content="Offenes Testwerkzeug: Wie gut schützen Datenschutzfilter deutsche Finanz- und Gesundheitsdaten, bevor sie in eine KI gehen? Mit Live-Demo im Browser und synthetischen Testdaten.">
+<script src="theme.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog/blog.css">
+<link rel="stylesheet" href="theme.css">
+<style>
+  section[id]{scroll-margin-top:1.5rem}
+  .pane{font:13.5px/1.65 'JetBrains Mono',monospace;white-space:pre-wrap;word-break:break-word;background:rgba(0,0,0,.3);border:1px solid #1E293B;border-radius:12px;padding:14px;min-height:240px}
+  html[data-theme="light"] .pane{background:#f1f5f9;border-color:#e2e8f0}
+  .g{background:rgba(52,211,153,.28);border-radius:4px;padding:0 1px}
+  .r{background:rgba(251,113,133,.38);border-radius:4px;padding:0 1px;text-decoration:underline wavy #fb7185;text-underline-offset:3px}
+  .ph{background:rgba(6,182,212,.2);color:#22d3ee;border-radius:4px;padding:0 3px}
+  html[data-theme="light"] .ph{color:#0e7490}
+  textarea.pane{width:100%;resize:vertical;color:inherit;outline:none}
+  textarea.pane:focus{border-color:#06B6D4}
+  .meter{height:10px;border-radius:99px;background:#1E293B;overflow:hidden}
+  html[data-theme="light"] .meter{background:#e2e8f0}
+  .meter>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#06B6D4,#6366F1)}
+</style>
+</head>
+<body class="antialiased">
+<header class="border-b border-line">
+  <nav class="max-w-5xl mx-auto px-5 h-16 flex items-center justify-between gap-4 text-sm" aria-label="Hauptnavigation">
+    <a href="./" class="font-mono font-medium text-white whitespace-nowrap shrink-0">homomorphic-ai<span class="text-cy">.com</span></a>
+    <ul class="hidden sm:flex items-center gap-6 text-slate-400 whitespace-nowrap ml-auto">
+      <li><a class="hover:text-cy" href="./">Start</a></li>
+      <li><a class="hover:text-cy" href="knowledge.html">Wissen</a></li>
+      <li><a class="hover:text-cy" href="labor.html">Labor</a></li>
+      <li><a class="text-white" href="pruefstand.html" aria-current="page">Pr&uuml;fstand</a></li>
+      <li><a class="hover:text-cy" href="morphbuddy.html">MorphBuddy</a></li>
+      <li><a class="hover:text-cy" href="blog/">Forschungslog</a></li>
+    </ul>
+    <div class="flex items-center gap-3 shrink-0 ml-auto sm:ml-0">
+      <button type="button" class="theme-btn" data-theme-toggle aria-label="Zum hellen Modus wechseln"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button type="button" id="menuBtn" class="theme-btn sm:hidden" aria-label="Men&uuml; &ouml;ffnen" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </nav>
+  <div id="mobileMenu" class="hidden sm:hidden border-t border-line">
+    <ul class="max-w-5xl mx-auto px-5 py-3 grid gap-1 text-slate-300">
+      <li><a class="block py-2 hover:text-cy" href="./">Start</a></li>
+      <li><a class="block py-2 hover:text-cy" href="knowledge.html">Wissen</a></li>
+      <li><a class="block py-2 hover:text-cy" href="labor.html">Labor</a></li>
+      <li><a class="block py-2 text-white" href="pruefstand.html" aria-current="page">Pr&uuml;fstand</a></li>
+      <li><a class="block py-2 hover:text-cy" href="morphbuddy.html">MorphBuddy</a></li>
+      <li><a class="block py-2 hover:text-cy" href="blog/">Forschungslog</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="relative">
+  <div class="absolute inset-x-0 top-0 h-96 grid-bg" aria-hidden="true"></div>
+  <div class="relative max-w-5xl mx-auto px-5 pt-16 pb-24">
+
+    <p class="font-mono text-cy text-sm">OFFENES TESTWERKZEUG · v0.1.0</p>
+    <h1 class="mt-3 text-4xl sm:text-5xl font-extrabold text-white tracking-tight">KI-Datenschutz-<span class="grad">Prüfstand</span></h1>
+    <p class="mt-5 max-w-3xl text-lg text-slate-400">Immer mehr Menschen geben Arztbriefe, Kontoauszüge und Kreditanträge in KI-Chats ein. Datenschutzfilter sollen das absichern. <b class="text-slate-300">Aber wie gut sind sie bei deutschen Finanz- und Gesundheitsdaten?</b> Der Prüfstand misst es: mit synthetischen Dokumenten, exakten Lösungen und reproduzierbaren Zahlen.</p>
+
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a href="#demo" class="px-7 py-3.5 rounded-lg font-semibold text-white bg-gradient-to-r from-cy to-ind hover:opacity-90 transition shadow-lg shadow-cy/20">Live ausprobieren</a>
+      <a href="https://github.com/addek-lab/pii-pruefstand" class="px-7 py-3.5 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition">Code auf GitHub</a>
+      <a href="downloads/pii-pruefstand.zip" download class="px-7 py-3.5 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition">ZIP herunterladen</a>
+    </div>
+
+    <!-- ERGEBNIS -->
+    <section id="ergebnis" class="mt-16">
+      <h2 class="text-2xl font-bold text-white">Das Ergebnis auf einen Blick</h2>
+      <p class="mt-2 max-w-3xl text-slate-400" id="meta-line"></p>
+      <div class="mt-6 grid md:grid-cols-3 gap-5" id="cards"></div>
+      <div class="mt-5 glass p-5 border-amber-500/30">
+        <p class="text-sm text-slate-300"><b class="text-amber-300">Zu Presidio, bitte fair lesen:</b> Microsoft Presidio ist ein Baukasten, der für eigene Anpassungen gedacht ist. Getestet wurde Version 2.2 in der Standardkonfiguration mit dem deutschen spaCy-Modell <i>de_core_news_md</i>, dazu der nachträglich aktivierte Kreditkarten-Erkenner (in der Grundeinstellung für Deutsch nicht aktiv). Für Steuer-ID, Versichertennummer, Adressen und Gesundheitsdaten bringt Presidio keine deutschen Erkenner mit. Die vielen Falschalarme entstehen, weil das Sprachmodell Termine, Anreden und Großgeschriebenes als Personen, Orte oder Daten meldet; jede Erkennung ohne sensible Angabe zählt hier als Falschalarm. <b>Das ist kein Urteil über das Produkt</b>, sondern der Ausgangspunkt, den man ohne eigene Anpassung bekommt. Die Namenserkennung ist dabei besser als die meiner Referenz-Regeln. Presidio läuft nur in der Python-Auswertung, das Live-Demo unten nutzt die beiden Regelwerke.</p>
+      </div>
+      <div class="mt-5 glass p-6">
+        <h3 class="font-semibold text-white">Geschützt nach Art der Angabe</h3>
+        <div class="mt-4 overflow-x-auto"><table class="w-full text-sm min-w-[560px]" id="label-table"></table></div>
+        <p class="mt-3 text-xs text-slate-500">„Geschützt“ heißt: mindestens 80 % der Zeichen der Angabe werden von der Erkennung überdeckt. ⚠ = als kritisch eingestuft (Finanz- und Gesundheitsdaten).</p>
+      </div>
+    </section>
+
+    <!-- DEMO -->
+    <section id="demo" class="mt-16">
+      <p class="font-mono text-cy text-sm">LIVE-DEMO</p>
+      <h2 class="mt-1 text-2xl font-bold text-white">Was bleibt sichtbar?</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">Wähle ein Beispiel oder füge einen eigenen Text ein. <b class="text-emerald-400">Grün</b> wird ersetzt, <b class="text-rose-400">rot unterstrichen</b> bleibt sichtbar (die rote Markierung gibt es nur bei den Beispielen, weil nur dort die richtige Lösung bekannt ist).</p>
+      <div class="mt-5 flex flex-wrap gap-2" id="sample-btns"></div>
+      <label for="input" class="sr-only">Text</label>
+      <textarea id="input" class="pane mt-4" spellcheck="false" aria-label="Text zum Prüfen"></textarea>
+      <p class="mt-2 text-xs text-slate-500">Dein Text wird nur in deinem Browser verarbeitet und nirgends hochgeladen. Alle Beispiele sind erfunden.</p>
+
+      <div class="mt-6 grid md:grid-cols-2 gap-5">
+        <article class="glass p-5"><p class="font-mono text-xs text-slate-400">EINFACHER REGEX-FILTER</p><div id="out-naiv" class="pane mt-3" aria-live="polite"></div><p id="sum-naiv" class="mt-3 text-sm text-slate-300"></p></article>
+        <article class="glass p-5 border-cy/30"><p class="font-mono text-xs text-cy">REFERENZ-REGELN (PRÜFSUMME + KONTEXT)</p><div id="out-referenz" class="pane mt-3" aria-live="polite"></div><p id="sum-referenz" class="mt-3 text-sm text-slate-300"></p></article>
+      </div>
+
+      <article class="mt-5 glass p-5">
+        <p class="font-mono text-xs text-cy">SO SIEHT DIE KI DEINEN TEXT (REFERENZ-REGELN)</p>
+        <div id="masked" class="pane mt-3" style="min-height:120px"></div>
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <button type="button" id="reply-btn" class="seg">KI-Antwort simulieren und zurücksetzen</button>
+          <span class="text-xs text-slate-500">Zeigt, wie Platzhalter nach der Antwort wieder durch die Originale ersetzt werden.</span>
+        </div>
+        <div id="reply" class="pane mt-3 hidden" style="min-height:0"></div>
+      </article>
+    </section>
+
+    <!-- DURCHGERUTSCHT -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-white">Was selbst gute Regeln übersehen</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">Beispiele aus dem Test der Referenz-Regeln. Sie zeigen die typischen Lücken: Namen, die nicht in einer Liste stehen, Diagnosen im Fließtext, Geburtsdaten ohne Stichwort davor.</p>
+      <div class="mt-5 glass p-5 overflow-x-auto"><table class="w-full text-sm min-w-[640px]" id="miss-table"></table></div>
+    </section>
+
+    <!-- COMPLIANCE -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-white">Warum das für Finanz- und Gesundheits-IT zählt</h2>
+      <div class="mt-5 grid md:grid-cols-3 gap-5">
+        <article class="glass p-5"><p class="font-mono text-xs text-cy">GESUNDHEIT</p><p class="mt-2 text-sm text-slate-300">Gesundheitsdaten gehören nach der DSGVO (Art. 9) zu den besonderen Kategorien. Wer sie an einen KI-Dienst schickt, braucht belastbare Maßnahmen. Ein Filter, der Diagnosen im Fließtext übersieht, ist keine.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-cy">FINANZEN</p><p class="mt-2 text-sm text-slate-300">IBAN, Steuer-ID und Kartendaten sind Kernbereiche der Finanz-Compliance. Kartendaten unterliegen zusätzlich dem Branchenstandard PCI DSS. Prüfsummen helfen, sie von bloßen Zahlenfolgen zu unterscheiden.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-cy">NACHWEIS</p><p class="mt-2 text-sm text-slate-300">„Wir filtern personenbezogene Daten“ ist eine Behauptung. Ein reproduzierbarer Test mit festen Zahlen ist ein Nachweis. Genau das fehlt in den meisten Datenschutz-Dokumentationen für KI-Einsatz.</p></article>
+      </div>
+      <p class="mt-4 text-xs text-slate-500">Diese Einordnung ist Orientierung und keine Rechtsberatung. Pseudonymisierte Daten bleiben nach der DSGVO oft personenbezogen. Ob ein Verfahren für einen konkreten Einsatz reicht, klären Datenschutzbeauftragte oder Juristen.</p>
+    </section>
+
+    <!-- METHODIK -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-white">Methodik und Grenzen</h2>
+      <div class="mt-5 glass p-6">
+        <ul class="text-sm text-slate-300 space-y-2 list-disc ml-4">
+          <li><b>Daten:</b> Ein Generator erzeugt deutsche Dokumente (Arztbrief, Überweisung, Kreditantrag, Support-Ticket, Kostenübernahme, Kontoauszug, Beschwerde) mit exakten Annotationen. Alles ist erfunden; IBAN, Kreditkarte, Steuer-ID und KVNR haben gültige Prüfziffern.</li>
+          <li><b>Störgrößen:</b> Termine, Auftrags- und Artikelnummern, Hotlines und Anreden wie „Herr Kundenberater“ sehen nach Personendaten aus, sind aber keine. So werden Falschalarme messbar.</li>
+          <li><b>Zuordenbar</b> heißt: Ein Name oder die Kombination aus Geburtsdatum und Wohnort bleibt sichtbar. Das ist eine einfache Heuristik und kein Re-Identifikationsmodell.</li>
+          <li><b>Die Referenz-Regeln stammen vom Autor</b> und kennen die Formate des Generators. Sie sind eher eine Obergrenze für regelbasierte Erkennung als ein Abbild der Praxis. Wortlisten für Namen, Medikamente und Diagnosen sind bewusst nur teilweise bekannt.</li>
+          <li><b>Synthetische Daten sind sauberer als echte.</b> Die Zahlen zeigen Muster und Größenordnungen, keine Gütesiegel. Die KVNR-Prüfziffer folgt meinem Verständnis der öffentlichen Beschreibung und ist nicht offiziell verifiziert.</li>
+          <li><b>Reproduzierbar:</b> Gleicher Seed, gleiche Dokumente, gleiche Zahlen. Die Browser-Version liefert auf 80 Testdokumenten dieselben Treffer wie die Python-Version.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- EIGENEN FILTER -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-white">Teste dein eigenes Werkzeug</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">Der Prüfstand läuft ohne Zusatzpakete (nur Python 3). Ein eigener Filter braucht eine Funktion, die zu einem Text die gefundenen Stellen liefert.</p>
+      <div class="mt-5 grid lg:grid-cols-2 gap-5">
+        <pre class="font-mono text-xs text-slate-300 bg-black/30 border border-line rounded-xl p-4 overflow-x-auto">python -m pruefstand run --html bericht.html
+python -m pruefstand run --plugin mein_filter.py:detect
+python -m pruefstand demo
+python -m unittest discover -s tests</pre>
+        <pre class="font-mono text-xs text-slate-300 bg-black/30 border border-line rounded-xl p-4 overflow-x-auto">import re
+
+def detect(text):
+    # (start, ende, typ) je gefundener Stelle
+    return [(m.start(), m.end(), "EMAIL")
+            for m in re.finditer(r"[\w.+-]+@[\w.-]+", text)]</pre>
+      </div>
+      <p class="mt-3 text-sm text-slate-500">Ein Beispiel-Adapter für Microsoft Presidio liegt im Paket. MIT-Lizenz. Quellcode, Tests und der vollständige Bericht: <a class="text-cy underline" href="https://github.com/addek-lab/pii-pruefstand">github.com/addek-lab/pii-pruefstand</a>.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI · Alle Daten synthetisch · Keine Rechtsberatung.</footer>
+
+<script src="js/pruefstand-detect.js"></script>
+<script src="js/pruefstand-results.js"></script>
+<script src="js/pruefstand-samples.js"></script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+var R = window.PRUEFSTAND_RESULTS, S = window.PRUEFSTAND_SAMPLES, P = window.Pruefstand;
+var DOMAIN_LABELS = ['Finanzdaten', 'Gesundheitsdaten', 'Identität'];
+var CRIT = { IBAN: 1, KREDITKARTE: 1, STEUER_ID: 1, KVNR: 1, ICD10: 1, DIAGNOSE: 1, MEDIKAMENT: 1 };
+function de(n, d) { return Number(n).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+function cls(v) { return v >= 90 ? 'text-emerald-400' : v >= 60 ? 'text-amber-300' : 'text-rose-400'; }
+function el(tag, attrs, text) { var e = document.createElement(tag); if (attrs) for (var k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; }
+
+/* ---------- Ergebnisse ---------- */
+(function renderResults() {
+  var m = R.meta;
+  document.getElementById('meta-line').textContent = m.docs + ' synthetische Dokumente, ' + m.gold_total + ' sensible Angaben, Seed ' + m.seed + ', Stand ' + m.date + '.';
+  var cards = document.getElementById('cards');
+  R.detectors.forEach(function (d) {
+    var r = d.result, c = el('div', { 'class': 'glass p-6' });
+    c.appendChild(el('p', { 'class': 'font-mono text-xs text-cy' }, d.name.toUpperCase()));
+    c.appendChild(el('p', { 'class': 'mt-2 text-5xl font-extrabold ' + cls(r.protected_pct) }, de(r.protected_pct, 1) + ' %'));
+    c.appendChild(el('p', { 'class': 'text-sm text-slate-400' }, 'der sensiblen Angaben geschützt'));
+    var ul = el('ul', { 'class': 'mt-4 text-sm text-slate-300 space-y-1.5' });
+    [['Kritische Angaben durchgerutscht', r.critical_leaked + ' von ' + r.critical_total],
+     ['Dokumente weiter einer Person zuordenbar', de(r.reidentifiable_pct, 1) + ' %'],
+     ['Falschalarme je 100 Dokumente', de(r.false_alarms_per_100_docs, 1)]].forEach(function (row) {
+      var li = el('li', { 'class': 'flex justify-between gap-3' });
+      li.appendChild(el('span', { 'class': 'text-slate-400' }, row[0])); li.appendChild(el('b', { 'class': 'whitespace-nowrap' }, row[1])); ul.appendChild(li);
+    });
+    c.appendChild(ul);
+    var dom = el('div', { 'class': 'mt-4 space-y-2' });
+    DOMAIN_LABELS.forEach(function (k) {
+      var v = r.domains[k].protected_pct, row = el('div');
+      var top = el('div', { 'class': 'flex justify-between text-xs text-slate-400' }); top.appendChild(el('span', null, k)); top.appendChild(el('span', null, de(v, 1) + ' %'));
+      var meter = el('div', { 'class': 'meter mt-1' }); var bar = el('i'); bar.style.width = v + '%'; meter.appendChild(bar);
+      row.appendChild(top); row.appendChild(meter); dom.appendChild(row);
+    });
+    c.appendChild(dom); cards.appendChild(c);
+  });
+
+  var tbl = document.getElementById('label-table'), thead = el('tr');
+  thead.appendChild(el('th', { 'class': 'text-left py-2 pr-3 text-slate-400 font-semibold' }, 'Angabe'));
+  R.detectors.forEach(function (d) { thead.appendChild(el('th', { 'class': 'text-left py-2 pr-3 text-slate-400 font-semibold' }, d.name)); });
+  thead.appendChild(el('th', { 'class': 'text-left py-2 text-slate-400 font-semibold' }, 'Anzahl')); tbl.appendChild(thead);
+  Object.keys(R.detectors[0].result.per_label).forEach(function (lab) {
+    var tr = el('tr', { 'class': 'border-t border-line' });
+    tr.appendChild(el('td', { 'class': 'py-2 pr-3' }, P.LABEL_DE[lab] + (CRIT[lab] ? ' ⚠' : '')));
+    R.detectors.forEach(function (d) {
+      var v = d.result.per_label[lab].protected_pct;
+      tr.appendChild(el('td', { 'class': 'py-2 pr-3 font-mono ' + cls(v) }, v == null ? '–' : de(v, 1) + ' %'));
+    });
+    tr.appendChild(el('td', { 'class': 'py-2 font-mono text-slate-400' }, R.detectors[0].result.per_label[lab].n)); tbl.appendChild(tr);
+  });
+
+  var mt = document.getElementById('miss-table'), mh = el('tr');
+  ['Art', 'Nicht erkannt', 'Umgebung'].forEach(function (h) { mh.appendChild(el('th', { 'class': 'text-left py-2 pr-3 text-slate-400 font-semibold' }, h)); }); mt.appendChild(mh);
+  var ref = R.detectors.filter(function (d) { return d.id === 'referenz'; })[0] || R.detectors[R.detectors.length - 1];
+  Object.keys(ref.result.misses).forEach(function (lab) {
+    var m0 = ref.result.misses[lab][0], tr = el('tr', { 'class': 'border-t border-line' });
+    tr.appendChild(el('td', { 'class': 'py-2 pr-3' }, P.LABEL_DE[lab]));
+    tr.appendChild(el('td', { 'class': 'py-2 pr-3 font-mono text-rose-400' }, m0.text));
+    tr.appendChild(el('td', { 'class': 'py-2 text-slate-400' }, '…' + m0.context + '…')); mt.appendChild(tr);
+  });
+})();
+
+/* ---------- Demo ---------- */
+var input = document.getElementById('input'), current = null;
+
+function renderHighlight(target, text, dets, gold) {
+  target.textContent = '';
+  var n = text.length, det = new Array(n), gl = new Array(n), i;
+  for (i = 0; i < n; i++) { det[i] = false; gl[i] = false; }
+  dets.forEach(function (d) { for (var k = d.start; k < d.end; k++) det[k] = true; });
+  (gold || []).forEach(function (g) { for (var k = g[0]; k < g[1]; k++) gl[k] = true; });
+  var start = 0, state = function (k) { return det[k] ? 'g' : (gl[k] ? 'r' : ''); };
+  for (i = 1; i <= n; i++) {
+    if (i === n || state(i) !== state(start)) {
+      var seg = text.slice(start, i), s = state(start);
+      if (s) target.appendChild(el('span', { 'class': s }, seg)); else target.appendChild(document.createTextNode(seg));
+      start = i;
+    }
+  }
+}
+
+function renderMasked(target, masked) {
+  target.textContent = '';
+  masked.split(/(\[[A-Z0-9_]+_\d+\])/).forEach(function (part) {
+    if (/^\[[A-Z0-9_]+_\d+\]$/.test(part)) target.appendChild(el('span', { 'class': 'ph' }, part));
+    else target.appendChild(document.createTextNode(part));
+  });
+}
+
+function summary(text, dets, gold) {
+  if (!gold) return dets.length + ' Stellen erkannt und ersetzt.';
+  var ok = 0; gold.forEach(function (g) { if (P.coverage({ start: g[0], end: g[1] }, dets) >= 0.8) ok++; });
+  var leak = gold.length - ok;
+  return ok + ' von ' + gold.length + ' sensiblen Angaben geschützt' + (leak ? ', ' + leak + ' bleiben sichtbar.' : '. Nichts bleibt sichtbar.');
+}
+
+function update() {
+  var text = input.value, gold = (current && text === current.text) ? current.spans : null;
+  ['naiv', 'referenz'].forEach(function (name) {
+    var dets = P.detect(name, text);
+    renderHighlight(document.getElementById('out-' + name), text, dets, gold);
+    document.getElementById('sum-' + name).textContent = summary(text, dets, gold);
+  });
+  var m = P.mask(text, P.detect('referenz', text));
+  renderMasked(document.getElementById('masked'), m.text);
+  window.__mapping = m.mapping;
+  document.getElementById('reply').classList.add('hidden');
+}
+
+var btns = document.getElementById('sample-btns');
+S.forEach(function (s, idx) {
+  var b = el('button', { type: 'button', 'class': 'seg', 'aria-pressed': 'false' }, s.title);
+  b.addEventListener('click', function () {
+    current = s; input.value = s.text;
+    [].forEach.call(btns.children, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    update();
+  });
+  btns.appendChild(b);
+});
+var free = el('button', { type: 'button', 'class': 'seg', 'aria-pressed': 'false' }, 'Eigener Text');
+free.addEventListener('click', function () {
+  current = null; input.value = ''; input.focus();
+  [].forEach.call(btns.children, function (x) { x.setAttribute('aria-pressed', x === free ? 'true' : 'false'); });
+  update();
+});
+btns.appendChild(free);
+input.addEventListener('input', function () { [].forEach.call(btns.children, function (x) { x.setAttribute('aria-pressed', 'false'); }); update(); });
+
+document.getElementById('reply-btn').addEventListener('click', function () {
+  var map = window.__mapping || {}, keys = Object.keys(map), box = document.getElementById('reply');
+  box.classList.remove('hidden'); box.textContent = '';
+  var pref = ['PERSON', 'EMAIL', 'TELEFON', 'IBAN', 'KVNR', 'STEUER_ID'];
+  var picks = [];
+  pref.forEach(function (p) { keys.forEach(function (k) { if (k.indexOf('[' + p + '_') === 0 && picks.length < 2 && picks.indexOf(k) < 0) picks.push(k); }); });
+  var reply = picks.length
+    ? 'Danke für Ihre Nachricht. Ich habe die Angaben zu ' + picks[0] + ' geprüft' + (picks[1] ? ' und melde mich unter ' + picks[1] : '') + '.'
+    : 'Es wurden keine sensiblen Angaben erkannt, die ersetzt werden mussten.';
+  box.appendChild(el('div', { 'class': 'text-xs text-slate-500 mb-2' }, 'Antwort der KI (simuliert), sie kennt nur die Platzhalter:'));
+  var a = el('div'); renderMasked(a, reply); box.appendChild(a);
+  box.appendChild(el('div', { 'class': 'text-xs text-slate-500 mt-4 mb-2' }, 'Nach dem Zurücksetzen auf deinem Gerät:'));
+  box.appendChild(el('div', { 'class': 'text-emerald-400' }, P.restore(reply, map)));
+});
+
+if (S.length) btns.children[0].click();
+</script>
+</body>
+</html>
