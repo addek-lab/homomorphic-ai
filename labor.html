@@ -53,6 +53,31 @@
     </div>
     <p class="mt-3 text-xs text-slate-500">Python-Quellcode, MIT-Lizenz. Läuft in Docker oder unter Linux/WSL2 (siehe Voraussetzungen).</p>
 
+    <section class="mt-14" aria-labelledby="vid">
+      <p class="font-mono text-cy text-sm">VIDEO · 2 MINUTEN</p>
+      <h2 id="vid" class="mt-1 text-2xl font-bold text-white">So funktioniert's, Schritt für Schritt</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">Vom Problem über die Idee bis zum ersten Experiment, mit Sprache und Untertiteln. Du brauchst keine Vorkenntnisse.</p>
+      <div class="mt-5 glass p-2 sm:p-3 max-w-4xl">
+        <video class="w-full rounded-xl bg-black" controls preload="metadata" playsinline poster="media/homomorphic-lab-poster.jpg">
+          <source src="media/homomorphic-lab-anleitung.mp4" type="video/mp4">
+          Dein Browser kann das Video nicht abspielen. <a class="text-cy underline" href="media/homomorphic-lab-anleitung.mp4">Video herunterladen</a>
+        </video>
+      </div>
+      <details class="mt-4 max-w-4xl glass p-5">
+        <summary class="cursor-pointer font-semibold text-white">Textfassung des Videos</summary>
+        <div class="mt-4 space-y-3 text-sm text-slate-400">
+          <p><b class="text-slate-300">1 · Das Problem.</b> Stell dir vor, du nutzt eine KI-App, die dein Gesundheitsrisiko schätzt. Du tippst deine Werte ein, und sie landen auf dem Server des Anbieters. Dort kann jeder sie lesen, der Zugriff hat.</p>
+          <p><b class="text-slate-300">2 · Die Idee.</b> Mit homomorpher Verschlüsselung geht es anders. Dein Gerät verschlüsselt die Werte, bevor sie es verlassen. Der Server sieht nur Zufallszeichen, rechnet aber trotzdem damit. Das Ergebnis kommt verschlüsselt zurück, und nur du kannst es öffnen.</p>
+          <p><b class="text-slate-300">3 · Starten.</b> Genau das kannst du mit dem Homomorphic Lab selbst ausprobieren. Lade die ZIP-Datei von der Webseite, entpacke sie und starte sie mit Docker. Zwei Befehle genügen.</p>
+          <p><b class="text-slate-300">4 · Experiment 3.</b> Experiment 3 zeigt eine verschlüsselte Diagnose. Ein ganz normales KI-Modell bewertet Messwerte, die der Server nie im Klartext sieht. Das Ergebnis stimmt mit der normalen Berechnung überein.</p>
+          <p><b class="text-slate-300">5 · Dein Modell.</b> Du kannst auch dein eigenes Modell nutzen. Speichere es als joblib-Datei, lege deine Daten als CSV daneben und starte Experiment 5.</p>
+          <p><b class="text-slate-300">6 · Und ChatGPT &amp; Co.?</b> Ehrlich gesagt: Solche Chatbots können verschlüsselte Eingaben heute noch nicht verarbeiten. Dafür sind sie zu groß. Möglich sind kleine Modelle wie im Lab. Ein KI-Assistent kann dir aber beim Lernen helfen: Er erklärt dir die Ausgaben oder passt den Code an. Gib dort nur nie echte, private Daten ein.</p>
+          <p><b class="text-slate-300">7 · Ausprobieren.</b> Alles ist kostenlos auf der Webseite, auf der Seite „Labor“. Es ist Lehrsoftware und nicht für echte, sensible Daten gedacht.</p>
+        </div>
+      </details>
+      <p class="mt-3 text-xs text-slate-500">Die Sprache im Video ist eine Computerstimme. Die Terminal-Ausgaben stammen aus echten Testläufen (teils gekürzt dargestellt). Die Docker-Befehle zeigen den vorgesehenen Ablauf, den ich selbst noch nicht ausführen konnte (siehe Teststand unten).</p>
+    </section>
+
     <section class="mt-16">
       <h2 class="text-2xl font-bold text-white">Fünf Experimente</h2>
       <div class="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -106,6 +131,27 @@ python run.py</pre>
       <p class="mt-4 text-sm text-slate-500">Mehr Hintergrund zu Rauschen, Bootstrapping und Kosten in der <a class="text-cy underline" href="knowledge.html">Wissensbasis</a>.</p>
     </section>
 
+    <section class="mt-16" id="ki">
+      <p class="font-mono text-cy text-sm">UND KI-ASSISTENTEN?</p>
+      <h2 class="mt-1 text-2xl font-bold text-white">ChatGPT &amp; Co. und das Lab</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">Ehrlich vorweg: Das Lab verbindet sich <b class="text-slate-300">nicht</b> mit Chatbots, und Chatbots können heute <b class="text-slate-300">keine verschlüsselten Eingaben</b> verarbeiten. Sprachmodelle sind dafür viel zu groß und zu langsam. Das ist noch Forschung. Was geht, ist Folgendes:</p>
+      <div class="mt-6 grid md:grid-cols-3 gap-5">
+        <article class="glass p-5 border-amber-500/30"><p class="font-mono text-xs text-amber-300">GEHT NOCH NICHT</p><h3 class="mt-1 font-semibold text-white">Verschlüsselter Chat</h3><p class="mt-2 text-sm text-slate-400">Ein Chatbot, der auf deinem verschlüsselten Prompt rechnet, ohne ihn zu lesen. Das ist eine offene Forschungsfrage.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-emerald-400">GEHT</p><h3 class="mt-1 font-semibold text-white">Kleine Modelle</h3><p class="mt-2 text-sm text-slate-400">Risikowerte, Klassifikation und ähnliche Aufgaben mit kleinen Modellen, so wie in den Experimenten. Das Lab zeigt genau das.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-cy">GEHT</p><h3 class="mt-1 font-semibold text-white">KI als Lernhilfe</h3><p class="mt-2 text-sm text-slate-400">Ein KI-Assistent erklärt dir Ausgaben, schreibt Code für dein eigenes Modell und beantwortet Fragen zum Lab.</p></article>
+      </div>
+
+      <h3 class="mt-10 text-lg font-semibold text-white">Fertige Fragen für deinen KI-Assistenten</h3>
+      <p class="mt-1 text-sm text-slate-400">Kopiere sie in den Assistenten deiner Wahl. Die Beispiel-Ausgaben des Labs enthalten keine privaten Daten (öffentlicher Datensatz).</p>
+      <div class="mt-4 grid md:grid-cols-2 gap-4" id="prompts">
+        <div class="glass p-4"><p class="text-sm text-slate-300" data-prompt>Erkläre mir in einfachen Worten, was diese Ausgabe des Homomorphic Lab bedeutet: [Ausgabe hier einfügen]</p><button type="button" class="seg mt-3" data-copy>Kopieren</button></div>
+        <div class="glass p-4"><p class="text-sm text-slate-300" data-prompt>Ich habe ein scikit-learn-Modell (LogisticRegression). Schreibe mir Python-Code, der es mit joblib als „modell.joblib“ speichert, und eine CSV-Datei mit meinen Merkmalen, damit ich beide im Homomorphic Lab (Experiment 5) verschlüsselt auswerten kann.</p><button type="button" class="seg mt-3" data-copy>Kopieren</button></div>
+        <div class="glass p-4"><p class="text-sm text-slate-300" data-prompt>Welche scikit-learn-Modelle haben die Attribute coef_ und intercept_ und funktionieren deshalb mit dem Homomorphic Lab? Gib mir eine kurze Liste mit je einem Satz Erklärung.</p><button type="button" class="seg mt-3" data-copy>Kopieren</button></div>
+        <div class="glass p-4"><p class="text-sm text-slate-300" data-prompt>Warum weichen die Wahrscheinlichkeiten mit der Option --sigmoid im Homomorphic Lab leicht von der normalen Berechnung ab, und warum wird das Polynom außerhalb seines Wertebereichs so ungenau?</p><button type="button" class="seg mt-3" data-copy>Kopieren</button></div>
+      </div>
+      <div class="mt-5 glass p-5 border-amber-500/30"><p class="text-sm text-slate-300"><b class="text-amber-300">Wichtig:</b> Füge in Chat-Assistenten nie echte, private Daten ein (Gesundheits-, Finanz- oder Ausweisdaten). Das Lab schützt nur das, was du <i>im Lab</i> verschlüsselst, nicht das, was du in einen Chat tippst.</p></div>
+    </section>
+
     <section class="mt-16">
       <h2 class="text-2xl font-bold text-white">Grenzen</h2>
       <div class="mt-6 glass p-6 border-amber-500/30">
@@ -122,6 +168,16 @@ python run.py</pre>
 </main>
 
 <footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI · Software unter MIT-Lizenz, OpenFHE unter BSD-2-Clause.</footer>
-<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+/* "Kopieren"-Knöpfe für die Beispiel-Fragen */
+[].forEach.call(document.querySelectorAll('[data-copy]'),function(b){
+  b.addEventListener('click',function(){
+    var t=b.parentNode.querySelector('[data-prompt]').textContent.trim();
+    function done(ok){var o=b.textContent;b.textContent=ok?'Kopiert ✓':'Bitte manuell markieren';setTimeout(function(){b.textContent='Kopieren'},1800)}
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done(true)},function(){done(false)})}else{done(false)} }catch(e){done(false)}
+  });
+});
+</script>
 </body>
 </html>
