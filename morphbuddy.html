@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <!-- /og -->
 <script src="theme.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="vendor/tailwindcss-3.4.16.js"></script>
 <script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
 <link rel="stylesheet" href="blog/blog.css">
 <link rel="stylesheet" href="theme.css">
@@ -249,8 +249,8 @@ function renderSteps(){
 function go(n){state=n;render()}
 render();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="vendor/three-r128.min.js"></script>
+<script src="vendor/OrbitControls-r128.js"></script>
 <script>
 (function(){
 var wrap=document.getElementById('viewer');
