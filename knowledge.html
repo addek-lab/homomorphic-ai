@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth" data-theme="dark">
+<html lang="de" class="scroll-smooth" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Knowledge Base — Homomorphic AI</title>
-<meta name="description" content="What four whitepapers on homomorphic encryption and privacy-preserving AI actually say: key concepts, measured benchmarks, source reliability and claims to treat with caution.">
+<title>Wissensbasis — Homomorphic AI</title>
+<meta name="description" content="Kernwissen zu homomorpher Verschlüsselung und datenschutzfreundlicher KI: Konzepte, gemessene Kosten, Schichtenmodell des Datenschutzes und ein realistischer Einführungspfad.">
 <script src="theme.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
@@ -14,14 +14,14 @@
 <style>section[id]{scroll-margin-top:1.5rem}</style>
 </head>
 <body class="antialiased">
-<header class="border-b border-line"><nav class="max-w-5xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Main">
+<header class="border-b border-line"><nav class="max-w-5xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Hauptnavigation">
   <a href="./" class="font-mono font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></a>
   <div class="flex items-center gap-5 text-slate-400">
-    <a class="hidden sm:inline text-white" href="knowledge.html" aria-current="page">Knowledge</a>
+    <a class="hidden sm:inline text-white" href="knowledge.html" aria-current="page">Wissen</a>
     <a class="hidden sm:inline hover:text-cy" href="morphbuddy.html">MorphBuddy</a>
-    <a class="hidden sm:inline hover:text-cy" href="blog/">Research Log</a>
-    <a class="hover:text-cy" href="./">← Site</a>
-    <button type="button" class="theme-btn" data-theme-toggle aria-label="Switch to light mode"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    <a class="hidden sm:inline hover:text-cy" href="blog/">Forschungslog</a>
+    <a class="hover:text-cy" href="./">← Zur Startseite</a>
+    <button type="button" class="theme-btn" data-theme-toggle aria-label="Zum hellen Modus wechseln"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
   </div>
 </nav></header>
 
@@ -29,237 +29,205 @@
   <div class="absolute inset-x-0 top-0 h-96 grid-bg" aria-hidden="true"></div>
   <div class="relative max-w-5xl mx-auto px-5 pt-16 pb-24">
 
-    <p class="font-mono text-cy text-sm">KNOWLEDGE BASE</p>
-    <h1 class="mt-3 text-4xl sm:text-5xl font-extrabold text-white tracking-tight">What the <span class="grad">whitepapers</span> actually say</h1>
-    <p class="mt-5 max-w-3xl text-lg text-slate-400">I worked through four whitepapers on homomorphic encryption and privacy-preserving AI. This page distils them: the concepts that matter, the one set of real measurements, and which claims I'd double-check before repeating.</p>
+    <p class="font-mono text-cy text-sm">WISSENSBASIS</p>
+    <h1 class="mt-3 text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Was die Forschung <span class="grad">wirklich zeigt</span></h1>
+    <p class="mt-5 max-w-3xl text-lg text-slate-400">Das Wesentliche zu homomorpher Verschlüsselung (FHE) und datenschutzfreundlicher KI, aus Fachliteratur und Branchenpapieren verdichtet: die Konzepte, die zählen, die einzigen echten Messwerte und die Frage, welchen Zahlen man trauen kann.</p>
 
-    <nav class="mt-8 flex flex-wrap gap-2 text-sm font-mono" aria-label="On this page">
-      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#sources">Sources</a>
-      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#concepts">Core concepts</a>
-      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#explorer">Cost explorer</a>
-      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#layered">Layered privacy</a>
-      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#claims">Claims check</a>
-      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#playbook">Adoption path</a>
-      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#glossary">Glossary</a>
+    <nav class="mt-8 flex flex-wrap gap-2 text-sm font-mono" aria-label="Auf dieser Seite">
+      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#konzepte">Kernkonzepte</a>
+      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#explorer">Kosten-Explorer</a>
+      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#schichten">Schichtenmodell</a>
+      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#pruefen">Zahlen prüfen</a>
+      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#pfad">Einführungspfad</a>
+      <a class="glass px-3 py-1.5 text-slate-300 hover:text-cy" href="#glossar">Glossar</a>
     </nav>
 
-    <!-- SOURCES -->
-    <section id="sources" class="mt-16">
-      <h2 class="text-2xl font-bold text-white">The four sources, and how much weight each carries</h2>
-      <p class="mt-2 text-slate-400">The ratings are my own assessment, based on whether a paper shows its method and numbers.</p>
+    <!-- KONZEPTE -->
+    <section id="konzepte" class="mt-16">
+      <p class="font-mono text-cy text-sm">KERNKONZEPTE</p>
+      <h2 class="mt-1 text-2xl font-bold text-white">In der Reihenfolge, in der sie Sinn ergeben</h2>
       <div class="mt-6 grid md:grid-cols-2 gap-5">
         <article class="glass p-6">
-          <div class="flex items-center justify-between gap-3"><span class="font-mono text-xs text-cy">RESEARCH PAPER</span><span class="font-mono text-xs px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400">Evidence: strong</span></div>
-          <h3 class="mt-3 font-semibold text-white">Programmable Bootstrapping Enables Efficient Homomorphic Inference of Deep Neural Networks</h3>
-          <p class="mt-1 text-sm text-slate-500">I. Chillotti, M. Joye, P. Paillier · Zama · v0.2.1, Oct 2020</p>
-          <p class="mt-3 text-sm text-slate-400">The only source with full methods, parameters and benchmarks. Shows 20-, 50- and 100-layer networks running on encrypted MNIST digits, without retraining the model.</p>
-          <p class="mt-2 text-sm text-slate-500"><b>Caveats:</b> written by the company that sells the library; 2020 hardware; one dataset (MNIST).</p>
+          <h3 class="font-semibold text-white">1. Das Dienstmodell</h3>
+          <p class="mt-2 text-sm text-slate-400">Typisch ist „Machine Learning as a Service“: Der Nutzer verschlüsselt seine Eingabe <code class="font-mono text-cy">x</code>, der Server wertet sein Modell <code class="font-mono text-cy">h</code> auf dem Chiffretext aus, der Nutzer entschlüsselt. Dass das stimmt, garantiert die homomorphe Eigenschaft:</p>
+          <pre class="mt-3 font-mono text-xs text-slate-300 bg-black/30 border border-line rounded-lg p-3 overflow-x-auto">h(Enc(x)) = Enc(h(x))
+Dec(h(Enc(x))) = h(x)</pre>
         </article>
         <article class="glass p-6">
-          <div class="flex items-center justify-between gap-3"><span class="font-mono text-xs text-ind">INDUSTRY SURVEY</span><span class="font-mono text-xs px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">Evidence: mixed</span></div>
-          <h3 class="mt-3 font-semibold text-white">Advanced Privacy-Preserving Techniques for Multimodal AI</h3>
-          <p class="mt-1 text-sm text-slate-500">Kruman Corporations, AI R&amp;D Division</p>
-          <p class="mt-3 text-sm text-slate-400">A broad comparison of FHE, federated learning, differential privacy and synthetic data, with an implementation roadmap. Useful for positioning HE inside a larger toolbox.</p>
-          <p class="mt-2 text-sm text-slate-500"><b>Caveats:</b> most references are blogs, FAQs and press pages rather than primary papers; market figures come from a market-research report.</p>
+          <h3 class="font-semibold text-white">2. Rauschen ist die eigentliche Grenze</h3>
+          <p class="mt-2 text-sm text-slate-400">Alle bekannten FHE-Verfahren erzeugen <em>verrauschte</em> Chiffretexte, und jede Operation erhöht das Rauschen. Über einer Schwelle ist das Ergebnis nicht mehr entschlüsselbar. Ein Verfahren mit festem Rauschbudget heißt <b>leveled</b>. Leveled-Verfahren schaffen nur flache Schaltkreise, bei neuronalen Netzen also nur eine mäßige Anzahl Schichten.</p>
         </article>
         <article class="glass p-6">
-          <div class="flex items-center justify-between gap-3"><span class="font-mono text-xs text-ind">SERVICES MARKETING</span><span class="font-mono text-xs px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">Evidence: weak</span></div>
-          <h3 class="mt-3 font-semibold text-white">Homomorphic Encryption in Cloud AI Pipelines</h3>
-          <p class="mt-1 text-sm text-slate-500">Tymon Global</p>
-          <p class="mt-3 text-sm text-slate-400">Good at the architecture pattern (encrypt at the edge, compute blind in the cloud, decrypt at the client) and at a phased adoption plan.</p>
-          <p class="mt-2 text-sm text-slate-500"><b>Caveats:</b> it's a sales document for the firm's consulting; no references; some numbers conflict with measured results (see <a class="text-cy underline" href="#claims">claims check</a>).</p>
+          <h3 class="font-semibold text-white">3. Bootstrapping erfrischt das Rauschen</h3>
+          <p class="mt-2 text-sm text-slate-400">Die Schlüsselidee (2009): den <em>Entschlüsselungs-Schaltkreis</em> verschlüsselt auswerten, um das Rauschen eines Chiffretexts zurückzusetzen. Dadurch wird aus einem Leveled- ein voll homomorphes Verfahren. Frühe Umsetzungen brauchten Minuten pro Bootstrapping, spätere Arbeiten (ab 2015) drückten es unter eine Sekunde, und diese Linie führte zu TFHE.</p>
         </article>
         <article class="glass p-6">
-          <div class="flex items-center justify-between gap-3"><span class="font-mono text-xs text-ind">OVERVIEW</span><span class="font-mono text-xs px-2 py-0.5 rounded bg-rose-500/15 text-rose-400">Evidence: none</span></div>
-          <h3 class="mt-3 font-semibold text-white">Homomorphic Encrypted AI Integration</h3>
-          <p class="mt-1 text-sm text-slate-500">Onegen.ai · 2024</p>
-          <p class="mt-3 text-sm text-slate-400">A plain-language introduction: HE types, RLWE, challenges, use cases in healthcare, finance and government. Good for orientation.</p>
-          <p class="mt-2 text-sm text-slate-500"><b>Caveats:</b> no benchmarks, no citations, and the LLM sections describe goals rather than results. I used it for vocabulary only.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- CONCEPTS -->
-    <section id="concepts" class="mt-20">
-      <p class="font-mono text-cy text-sm">FROM THE ZAMA PAPER</p>
-      <h2 class="mt-1 text-2xl font-bold text-white">Core concepts, in the order that makes them click</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-5">
-        <article class="glass p-6">
-          <h3 class="font-semibold text-white">1. The service model</h3>
-          <p class="mt-2 text-sm text-slate-400">The setting is machine-learning-as-a-service. The user encrypts input <code class="font-mono text-cy">x</code>, the server evaluates its model <code class="font-mono text-cy">h<sub>θ</sub></code> on the ciphertext, and the user decrypts. Correctness is the homomorphic property:</p>
-          <pre class="mt-3 font-mono text-xs text-slate-300 bg-black/30 border border-line rounded-lg p-3 overflow-x-auto">h(Encrypt(x)) = Encrypt(h(x))
-Decrypt(h(Encrypt(x))) = h(x)</pre>
+          <h3 class="font-semibold text-white">4. Programmierbares Bootstrapping (PBS)</h3>
+          <p class="mt-2 text-sm text-slate-400">Der Bootstrapping-Schritt kann <em>zugleich</em> eine beliebige Funktion auf den verschlüsselten Wert anwenden, hinterlegt als Lookup-Tabelle in einem „Testpolynom“, während er das Rauschen zurücksetzt. So werden nichtlineare Funktionen wie ReLU exakt statt nur angenähert, und die Tiefe eines Netzes ist keine harte Grenze mehr.</p>
         </article>
         <article class="glass p-6">
-          <h3 class="font-semibold text-white">2. Noise is the real constraint</h3>
-          <p class="mt-2 text-sm text-slate-400">Every known FHE scheme produces <em>noisy</em> ciphertexts, and each operation increases the noise. Past a threshold the result can no longer be decrypted. A scheme that supports a fixed noise budget is called <b>leveled</b>. Leveled schemes can only run shallow circuits, which for neural networks means a moderate number of layers.</p>
-        </article>
-        <article class="glass p-6">
-          <h3 class="font-semibold text-white">3. Bootstrapping refreshes the noise</h3>
-          <p class="mt-2 text-sm text-slate-400">Gentry's key idea (2009): homomorphically evaluate the <em>decryption circuit</em> to reset a ciphertext's noise. It turns a leveled scheme into a fully homomorphic one. Early bootstrapping took minutes; Ducas and Micciancio (2015) brought it to sub-second, and that line of work led to TFHE.</p>
-        </article>
-        <article class="glass p-6">
-          <h3 class="font-semibold text-white">4. Programmable bootstrapping (PBS)</h3>
-          <p class="mt-2 text-sm text-slate-400">The paper's core contribution. The bootstrapping step can <em>also</em> apply any function, stored as a lookup table in a "test polynomial", to the encrypted value while it resets the noise. This is how non-linear functions such as ReLU become exact rather than approximated, and why depth is no longer a hard limit.</p>
-        </article>
-        <article class="glass p-6">
-          <h3 class="font-semibold text-white">5. Which layers are cheap?</h3>
+          <h3 class="font-semibold text-white">5. Welche Schichten sind billig?</h3>
           <ul class="mt-2 text-sm text-slate-400 space-y-1.5 list-disc ml-4">
-            <li><b class="text-slate-300">Leveled (cheap):</b> dense, convolution, addition, flatten, average pooling. Weights are in the clear, so it's only multiplication by constants and additions.</li>
-            <li><b class="text-slate-300">Needs PBS (expensive):</b> ReLU and other activations, and max-pooling.</li>
-            <li>Max-pooling trick: <code class="font-mono text-cy">max(x,y) = y + ReLU(x−y)</code>, so a pool over k values costs <b>k−1</b> PBS.</li>
+            <li><b class="text-slate-300">Leveled (billig):</b> Dense-, Faltungs-, Additions-, Flatten- und Average-Pooling-Schichten. Die Gewichte liegen im Klartext vor, es sind also nur Multiplikationen mit Konstanten und Additionen.</li>
+            <li><b class="text-slate-300">Braucht PBS (teuer):</b> ReLU und andere Aktivierungen sowie Max-Pooling.</li>
+            <li>Max-Pooling-Trick: <code class="font-mono text-cy">max(x,y) = y + ReLU(x−y)</code>, ein Pooling über k Werte kostet also <b>k−1</b> PBS.</li>
           </ul>
         </article>
         <article class="glass p-6">
-          <h3 class="font-semibold text-white">6. No retraining</h3>
-          <p class="mt-2 text-sm text-slate-400">Earlier work (CryptoNets, 2016, replaced ReLU with squaring; iDASH winners used leveled schemes) reshaped the model to suit the encryption. This paper keeps the original model and topology, which matters when you can't access the training data or a regulator must re-approve a changed model.</p>
+          <h3 class="font-semibold text-white">6. Kein Neutraining nötig</h3>
+          <p class="mt-2 text-sm text-slate-400">Ältere Ansätze formten das Modell um (ReLU durch Quadrieren ersetzt, flache Netze), damit es zur Verschlüsselung passt. Mit PBS bleibt das Originalmodell samt Topologie erhalten. Das zählt, wenn Trainingsdaten nicht zugänglich sind oder eine Aufsicht ein geändertes Modell neu freigeben müsste.</p>
         </article>
       </div>
       <div class="mt-5 glass p-6">
-        <h3 class="font-semibold text-white">Security parameters used in the paper</h3>
+        <h3 class="font-semibold text-white">Typische Sicherheitsparameter</h3>
         <div class="mt-3 overflow-x-auto"><table class="w-full text-sm min-w-[520px]">
-          <thead class="text-slate-400 font-mono text-xs text-left"><tr><th class="py-2 pr-4">Set</th><th class="pr-4">Security</th><th class="pr-4">GLWE (k, N)</th><th class="pr-4">LWE n</th><th>Precision</th></tr></thead>
+          <thead class="text-slate-400 font-mono text-xs text-left"><tr><th class="py-2 pr-4">Satz</th><th class="pr-4">Sicherheit</th><th class="pr-4">GLWE (k, N)</th><th class="pr-4">LWE n</th><th>Präzision</th></tr></thead>
           <tbody class="text-slate-300 divide-y divide-line font-mono text-xs">
-            <tr><td class="py-2 pr-4">I</td><td class="pr-4">80-bit</td><td class="pr-4">1, 1024</td><td class="pr-4">542</td><td>8–12 bit</td></tr>
-            <tr><td class="py-2 pr-4">II</td><td class="pr-4">80-bit</td><td class="pr-4">1, 2048</td><td class="pr-4">592</td><td>8–12 bit</td></tr>
-            <tr><td class="py-2 pr-4">III</td><td class="pr-4">128-bit</td><td class="pr-4">1, 4096</td><td class="pr-4">938</td><td>8–12 bit</td></tr>
+            <tr><td class="py-2 pr-4">I</td><td class="pr-4">80 Bit</td><td class="pr-4">1, 1024</td><td class="pr-4">542</td><td>8–12 Bit</td></tr>
+            <tr><td class="py-2 pr-4">II</td><td class="pr-4">80 Bit</td><td class="pr-4">1, 2048</td><td class="pr-4">592</td><td>8–12 Bit</td></tr>
+            <tr><td class="py-2 pr-4">III</td><td class="pr-4">128 Bit</td><td class="pr-4">1, 4096</td><td class="pr-4">938</td><td>8–12 Bit</td></tr>
           </tbody></table></div>
-        <p class="mt-3 text-sm text-slate-500">Security rests on the (G)LWE problem over the torus; the parameters were validated with the lwe-estimator. For a given security level, a larger N buys accuracy at the cost of speed.</p>
+        <p class="mt-3 text-sm text-slate-500">Die Sicherheit beruht auf dem (G)LWE-Problem über dem Torus. Bei gleicher Sicherheitsstufe kauft ein größeres N Genauigkeit auf Kosten der Geschwindigkeit.</p>
       </div>
     </section>
 
     <!-- EXPLORER -->
     <section id="explorer" class="mt-20">
-      <p class="font-mono text-cy text-sm">MEASURED, NOT MARKETED</p>
-      <h2 class="mt-1 text-2xl font-bold text-white">Encrypted inference cost explorer</h2>
-      <p class="mt-2 max-w-3xl text-slate-400">Real numbers from the Zama paper's Table 6.2: one inference on an MNIST digit, averaged over 1,000 runs, not amortized across a batch. Pick a setup and see what encryption costs.</p>
+      <p class="font-mono text-cy text-sm">GEMESSEN, NICHT BEHAUPTET</p>
+      <h2 class="mt-1 text-2xl font-bold text-white">Kosten-Explorer für verschlüsselte Inferenz</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">Echte Messwerte aus einer veröffentlichten Studie (2020): eine Inferenz auf einem MNIST-Ziffernbild, Mittel aus 1.000 Läufen, nicht über einen Stapel verteilt. Wählen Sie ein Setup und sehen Sie, was Verschlüsselung kostet.</p>
 
       <div class="mt-6 glass p-6">
         <div class="grid md:grid-cols-2 gap-6">
           <div>
-            <p class="font-mono text-xs text-slate-500" id="l-machine">MACHINE</p>
+            <p class="font-mono text-xs text-slate-500" id="l-machine">MASCHINE</p>
             <div class="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="l-machine" id="g-machine">
-              <button class="seg" data-v="aws" aria-pressed="true">AWS Xeon · 96 vCPU</button>
-              <button class="seg" data-v="pc" aria-pressed="false">Laptop i7 · 6 cores</button>
+              <button class="seg" data-v="aws" aria-pressed="true">Server · 96 vCPU</button>
+              <button class="seg" data-v="pc" aria-pressed="false">Laptop i7 · 6 Kerne</button>
             </div>
           </div>
           <div>
-            <p class="font-mono text-xs text-slate-500" id="l-sec">SECURITY / PARAMETER SET</p>
+            <p class="font-mono text-xs text-slate-500" id="l-sec">SICHERHEIT / PARAMETERSATZ</p>
             <div class="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="l-sec" id="g-sec">
-              <button class="seg" data-v="I" aria-pressed="true">80-bit · I</button>
-              <button class="seg" data-v="II" aria-pressed="false">80-bit · II</button>
-              <button class="seg" data-v="III" aria-pressed="false">128-bit · III</button>
+              <button class="seg" data-v="I" aria-pressed="true">80 Bit · I</button>
+              <button class="seg" data-v="II" aria-pressed="false">80 Bit · II</button>
+              <button class="seg" data-v="III" aria-pressed="false">128 Bit · III</button>
             </div>
           </div>
         </div>
 
         <div class="mt-7 grid gap-5" id="bars" aria-live="polite"></div>
-        <div class="mt-5 text-xs text-slate-500">Bars are scaled to the slowest result in the selected setup. "Slowdown" = encrypted time ÷ plaintext time on the same machine (ONNX Runtime).</div>
+        <div class="mt-5 text-xs text-slate-500">Die Balken sind auf das langsamste Ergebnis des gewählten Setups skaliert. „Verlangsamung“ = verschlüsselte Zeit ÷ Klartextzeit auf derselben Maschine.</div>
       </div>
 
       <div class="mt-5 grid md:grid-cols-3 gap-5">
-        <article class="glass p-5"><p class="font-mono text-xs text-cy">TAKEAWAY 1</p><p class="mt-2 text-sm text-slate-300">Depth is no longer the wall: a 100-layer network ran encrypted. But the plaintext baseline is <b>sub-millisecond</b>, so the slowdown is on the order of <b>10<sup>4</sup>–10<sup>6</sup>×</b>.</p></article>
-        <article class="glass p-5"><p class="font-mono text-xs text-cy">TAKEAWAY 2</p><p class="mt-2 text-sm text-slate-300">Hardware matters a lot: the 96-vCPU server is roughly <b>4–6× faster</b> than the laptop. The authors expected specialized hardware to give orders of magnitude more.</p></article>
-        <article class="glass p-5"><p class="font-mono text-xs text-cy">TAKEAWAY 3</p><p class="mt-2 text-sm text-slate-300">Accuracy is parameter-dependent. NN-20 stays within ~0.4 pt of plaintext, but NN-100 drops as low as <b>83.0%</b> (set III) versus 95.2% in the clear.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-cy">ERKENNTNIS 1</p><p class="mt-2 text-sm text-slate-300">Tiefe ist keine Wand mehr: ein 100-Schichten-Netz lief verschlüsselt. Die Klartext-Basis liegt aber <b>unter einer Millisekunde</b>, die Verlangsamung also bei etwa <b>10<sup>4</sup> bis 10<sup>6</sup>×</b>.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-cy">ERKENNTNIS 2</p><p class="mt-2 text-sm text-slate-300">Hardware zählt: Der 96-vCPU-Server ist rund <b>4- bis 6-mal schneller</b> als der Laptop. Spezialhardware soll weitere Größenordnungen bringen.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-cy">ERKENNTNIS 3</p><p class="mt-2 text-sm text-slate-300">Die Genauigkeit hängt von den Parametern ab. Das 20-Schichten-Netz bleibt nahe am Klartext (bis ca. 0,4 Punkte darunter), das 100-Schichten-Netz fällt bis auf <b>83,0 %</b> (Satz III) gegenüber 95,2 % im Klartext.</p></article>
       </div>
-      <p class="mt-4 text-sm text-slate-500"><b>Read with care:</b> this is a 2020 result on a small, easy dataset. It shows feasibility and the shape of the trade-offs. It does not predict the cost of a modern large model, and newer libraries and hardware are faster.</p>
+      <p class="mt-4 text-sm text-slate-500"><b>Mit Vorsicht lesen:</b> Das ist ein Ergebnis von 2020 auf einem kleinen, einfachen Datensatz. Es zeigt Machbarkeit und die Form der Zielkonflikte, aber nicht die Kosten eines modernen Großmodells. Neuere Bibliotheken und Hardware sind schneller.</p>
     </section>
 
-    <!-- LAYERED -->
-    <section id="layered" class="mt-20">
-      <p class="font-mono text-cy text-sm">FROM THE KRUMAN AND TYMON PAPERS</p>
-      <h2 class="mt-1 text-2xl font-bold text-white">HE is one layer, not the whole defence</h2>
-      <p class="mt-2 max-w-3xl text-slate-400">Both industry papers argue for combining techniques. Kruman's headline view: federated learning is the most deployment-ready, differential privacy its natural complement, and HE should be reserved for high-security cases such as fraud detection or medical diagnosis.</p>
+    <!-- SCHICHTEN -->
+    <section id="schichten" class="mt-20">
+      <p class="font-mono text-cy text-sm">SCHICHTENMODELL</p>
+      <h2 class="mt-1 text-2xl font-bold text-white">FHE ist eine Schicht, nicht die ganze Verteidigung</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">In der Praxis kombiniert man Verfahren. Eine verbreitete Einschätzung: Föderiertes Lernen ist am einsatzreifsten, Differential Privacy ergänzt es natürlich, und FHE bleibt für Fälle mit höchsten Sicherheitsanforderungen reserviert, etwa Betrugserkennung oder medizinische Diagnose.</p>
       <div class="mt-6 glass p-6 overflow-x-auto">
         <table class="w-full text-sm min-w-[720px] text-left">
-          <thead class="text-slate-400 font-mono text-xs"><tr><th class="py-2 pr-4">Technique</th><th class="pr-4">Protects</th><th class="pr-4">Main cost</th><th>Maturity (Kruman)</th></tr></thead>
+          <thead class="text-slate-400 font-mono text-xs"><tr><th class="py-2 pr-4">Verfahren</th><th class="pr-4">Schützt</th><th class="pr-4">Hauptkosten</th><th>Reifegrad</th></tr></thead>
           <tbody class="text-slate-300 divide-y divide-line">
-            <tr><td class="py-3 pr-4 font-medium text-cy">Homomorphic encryption</td><td class="pr-4">Data while it is computed on</td><td class="pr-4">Compute, memory, ciphertext size</td><td>Highest security, hard to deploy</td></tr>
-            <tr><td class="py-3 pr-4 font-medium">Federated learning</td><td class="pr-4">Raw data stays where it is</td><td class="pr-4">Communication, non-IID data</td><td>Most deployment-ready</td></tr>
-            <tr><td class="py-3 pr-4 font-medium">Differential privacy</td><td class="pr-4">Individuals in outputs / training</td><td class="pr-4">Accuracy lost to added noise</td><td>High, complements FL</td></tr>
-            <tr><td class="py-3 pr-4 font-medium">Secure multi-party computation</td><td class="pr-4">Inputs across parties</td><td class="pr-4">Network rounds, complexity</td><td>High security, efficiency issues</td></tr>
-            <tr><td class="py-3 pr-4 font-medium">Confidential computing (TEEs)</td><td class="pr-4">Data in hardware enclaves</td><td class="pr-4">Trust in the chip vendor</td><td>Fast; often quicker than HE (Tymon)</td></tr>
-            <tr><td class="py-3 pr-4 font-medium">Synthetic data</td><td class="pr-4">Training / test data exposure</td><td class="pr-4">Fidelity of the generated data</td><td>Complementary</td></tr>
+            <tr><td class="py-3 pr-4 font-medium text-cy">Homomorphe Verschlüsselung</td><td class="pr-4">Daten während der Berechnung</td><td class="pr-4">Rechenzeit, Speicher, Chiffretext-Größe</td><td>Höchste Sicherheit, schwer einzuführen</td></tr>
+            <tr><td class="py-3 pr-4 font-medium">Föderiertes Lernen</td><td class="pr-4">Rohdaten bleiben vor Ort</td><td class="pr-4">Kommunikation, uneinheitliche Daten</td><td>Am einsatzreifsten</td></tr>
+            <tr><td class="py-3 pr-4 font-medium">Differential Privacy</td><td class="pr-4">Einzelpersonen in Ausgaben und Training</td><td class="pr-4">Genauigkeitsverlust durch Rauschen</td><td>Hoch, ergänzt FL</td></tr>
+            <tr><td class="py-3 pr-4 font-medium">Sichere Mehrparteienberechnung</td><td class="pr-4">Eingaben mehrerer Parteien</td><td class="pr-4">Netzwerkrunden, Komplexität</td><td>Hohe Sicherheit, Effizienzprobleme</td></tr>
+            <tr><td class="py-3 pr-4 font-medium">Confidential Computing (TEEs)</td><td class="pr-4">Daten in Hardware-Enklaven</td><td class="pr-4">Vertrauen in den Chiphersteller</td><td>Schnell, oft flotter als FHE</td></tr>
+            <tr><td class="py-3 pr-4 font-medium">Synthetische Daten</td><td class="pr-4">Offenlegung von Trainings- und Testdaten</td><td class="pr-4">Qualität der erzeugten Daten</td><td>Ergänzend</td></tr>
           </tbody>
         </table>
       </div>
       <div class="mt-5 grid md:grid-cols-2 gap-5">
-        <article class="glass p-6"><h3 class="font-semibold text-white">Where HE joins the others</h3>
+        <article class="glass p-6"><h3 class="font-semibold text-white">Wo FHE die anderen ergänzt</h3>
           <ul class="mt-3 text-sm text-slate-400 space-y-1.5 list-disc ml-4">
-            <li>Secure aggregation in federated learning: encrypt model updates so the server never sees an individual one.</li>
-            <li>Hybrid pipelines: run only the most sensitive fields (e.g. national ID numbers) under HE; process the rest normally.</li>
-            <li>Selective in-use encryption: protect data in transit and at rest everywhere, in-use only where policy demands it.</li>
+            <li>Sichere Aggregation beim föderierten Lernen: Modell-Updates verschlüsseln, damit der Server kein einzelnes sieht.</li>
+            <li>Hybride Pipelines: nur die sensibelsten Felder (z. B. Ausweisnummern) unter FHE verarbeiten, den Rest normal.</li>
+            <li>Gezielte Verschlüsselung in Nutzung: überall gespeichert und übertragen verschlüsseln, in Nutzung nur dort, wo die Richtlinie es verlangt.</li>
           </ul></article>
-        <article class="glass p-6"><h3 class="font-semibold text-white">What HE does <em>not</em> stop</h3>
+        <article class="glass p-6"><h3 class="font-semibold text-white">Was FHE <em>nicht</em> verhindert</h3>
           <ul class="mt-3 text-sm text-slate-400 space-y-1.5 list-disc ml-4">
-            <li><b class="text-slate-300">Model inversion and membership inference:</b> attacks on a trained model's outputs or parameters.</li>
-            <li><b class="text-slate-300">Data reconstruction</b> from gradients in federated setups.</li>
-            <li><b class="text-slate-300">Data poisoning</b> by a malicious participant.</li>
-            <li>Kruman's defences for these are DP noise, secure aggregation and Byzantine-robust aggregation.</li>
+            <li><b class="text-slate-300">Model Inversion und Membership Inference:</b> Angriffe auf Ausgaben oder Parameter eines trainierten Modells.</li>
+            <li><b class="text-slate-300">Datenrekonstruktion</b> aus Gradienten in föderierten Setups.</li>
+            <li><b class="text-slate-300">Data Poisoning</b> durch einen böswilligen Teilnehmer.</li>
+            <li>Gegenmittel: Rauschen per Differential Privacy, sichere Aggregation und Byzantine-robuste Aggregation.</li>
           </ul></article>
       </div>
     </section>
 
-    <!-- CLAIMS -->
-    <section id="claims" class="mt-20">
-      <p class="font-mono text-cy text-sm">CRITICAL READING</p>
-      <h2 class="mt-1 text-2xl font-bold text-white">Claims I'd double-check before repeating</h2>
+    <!-- PRÜFEN -->
+    <section id="pruefen" class="mt-20">
+      <p class="font-mono text-cy text-sm">KRITISCH LESEN</p>
+      <h2 class="mt-1 text-2xl font-bold text-white">Aussagen, die ich vor dem Weitererzählen prüfen würde</h2>
+      <p class="mt-2 max-w-3xl text-slate-400">Rund um FHE kursieren viele Pauschalaussagen. Hier die häufigsten und meine Einordnung.</p>
       <div class="mt-6 glass p-6 overflow-x-auto">
         <table class="w-full text-sm min-w-[760px] text-left align-top">
-          <thead class="text-slate-400 font-mono text-xs"><tr><th class="py-2 pr-4 w-[34%]">Claim (source)</th><th>My assessment</th></tr></thead>
+          <thead class="text-slate-400 font-mono text-xs"><tr><th class="py-2 pr-4 w-[36%]">Aussage</th><th>Einordnung</th></tr></thead>
           <tbody class="text-slate-300 divide-y divide-line">
-            <tr><td class="py-3 pr-4">"Bootstrapping can cause latencies 1,000 to 1 million times higher, making encrypted ML take days instead of hours." (Tymon)</td><td class="py-3">Out of line with measured data: a 100-layer network ran in about 11–24 s on a server at 80-bit security (Zama, 2020). Generalizes worst-case, older numbers.</td></tr>
-            <tr><td class="py-3 pr-4">"A 256-bit addition takes ~200 ms in HE vs 100 ns in plaintext." (Tymon)</td><td class="py-3">No source or scheme given, so it can't be checked. Cost depends heavily on scheme, parameters and batching; treat as illustrative only.</td></tr>
-            <tr><td class="py-3 pr-4">"Bootstrapping times under 10 ms for boolean operations"; ciphertext expansion of 25,000× or more; keys of gigabytes. (Kruman, citing a NIST presentation)</td><td class="py-3">Plausible for optimized TFHE-style schemes and for large parameter sets respectively, but these figures describe different schemes. Don't combine them into one system profile.</td></tr>
-            <tr><td class="py-3 pr-4">"Speedups of 10×–100× in the coming years" and "5–10×". (Tymon)</td><td class="py-3">Two different forecasts in one paper, with no stated basis. Forecasts, not results.</td></tr>
-            <tr><td class="py-3 pr-4">Market size: privacy-preserving tech $3.1B (2024) → $12.1B (2030), 25.3% CAGR (Kruman); HE ~$0.2–0.4B (2023), 8–20% CAGR (Tymon).</td><td class="py-3">Different scopes (all privacy tech vs HE only), so they don't contradict each other. Both come from market-research reports, not measurements.</td></tr>
-            <tr><td class="py-3 pr-4">Named cloud products such as "SageMaker FHE" and Azure FHE offload. (Tymon)</td><td class="py-3">I couldn't verify these product claims from the paper. Check the provider's own documentation before relying on them.</td></tr>
-            <tr><td class="py-3 pr-4">"HE with no loss in model accuracy" (Tymon)</td><td class="py-3">Depends on the setup. For CKKS or quantized TFHE models there is a measurable gap, and Zama's NN-100 at 128-bit lost over 12 points.</td></tr>
+            <tr><td class="py-3 pr-4">„Verschlüsseltes ML dauert Tage statt Stunden.“</td><td class="py-3">Passt nicht zu gemessenen Werten: Ein 100-Schichten-Netz lief auf einem Server bei 80 Bit Sicherheit in etwa 11 bis 24 Sekunden. Die Aussage verallgemeinert ältere Worst-Case-Zahlen.</td></tr>
+            <tr><td class="py-3 pr-4">„Eine 256-Bit-Addition dauert unter HE ca. 200 ms, im Klartext 100 ns.“</td><td class="py-3">Ohne Angabe von Verfahren und Parametern nicht prüfbar. Die Kosten hängen stark von Schema, Parametern und Batching ab; nur als Illustration lesbar.</td></tr>
+            <tr><td class="py-3 pr-4">„Bootstrapping unter 10 ms“; „Chiffretext 25.000× größer“; „Schlüssel von Gigabytes“.</td><td class="py-3">Jede Zahl ist für sich plausibel, aber sie beschreiben verschiedene Verfahren und Parameter. Nicht zu einem Systemprofil zusammenrechnen.</td></tr>
+            <tr><td class="py-3 pr-4">„In den nächsten Jahren 10- bis 100-fach schneller.“</td><td class="py-3">Prognose ohne Grundlage. Realistisch sind Fortschritte durch Algorithmen und Hardware, aber der Faktor ist offen.</td></tr>
+            <tr><td class="py-3 pr-4">„Verschlüsselte Modelle verlieren keine Genauigkeit.“</td><td class="py-3">Hängt vom Setup ab. Bei quantisierten oder approximierten Modellen gibt es eine messbare Lücke; ein 100-Schichten-Netz verlor bei 128 Bit über 12 Punkte.</td></tr>
+            <tr><td class="py-3 pr-4">Marktprognosen mit zweistelligen Wachstumsraten.</td><td class="py-3">Je nach Abgrenzung („Privacy-Tech“ insgesamt oder nur HE) liegen Marktgrößen weit auseinander. Das sind Schätzungen, keine Messungen.</td></tr>
+            <tr><td class="py-3 pr-4">„Cloud-Anbieter X bietet fertiges FHE-as-a-Service.“</td><td class="py-3">Produktaussagen immer in der offiziellen Dokumentation des Anbieters verifizieren, bevor man darauf plant.</td></tr>
           </tbody>
         </table>
       </div>
+      <div class="mt-5 grid md:grid-cols-3 gap-5">
+        <article class="glass p-5"><p class="font-mono text-xs text-emerald-400">GEMESSEN</p><p class="mt-2 text-sm text-slate-300">Zahl mit Verfahren, Parametern, Hardware und Vergleichsbasis. Das ist belastbar.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-amber-300">ZITIERT</p><p class="mt-2 text-sm text-slate-300">Zahl aus zweiter Hand. Erst am Original prüfen, dann weitergeben.</p></article>
+        <article class="glass p-5"><p class="font-mono text-xs text-rose-400">BEHAUPTET</p><p class="mt-2 text-sm text-slate-300">Zahl ohne Herleitung. Als Meinung behandeln.</p></article>
+      </div>
     </section>
 
-    <!-- PLAYBOOK -->
-    <section id="playbook" class="mt-20">
-      <p class="font-mono text-cy text-sm">SYNTHESIS</p>
-      <h2 class="mt-1 text-2xl font-bold text-white">A realistic adoption path</h2>
-      <p class="mt-2 max-w-3xl text-slate-400">Combining Tymon's four steps with Kruman's phased roadmap and the Zama benchmarks.</p>
+    <!-- PFAD -->
+    <section id="pfad" class="mt-20">
+      <p class="font-mono text-cy text-sm">SYNTHESE</p>
+      <h2 class="mt-1 text-2xl font-bold text-white">Ein realistischer Einführungspfad</h2>
       <ol class="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-        <li class="glass p-5"><p class="font-mono text-xs text-cy">STEP 1</p><p class="mt-1 font-semibold text-white">Find the sensitive flow</p><p class="mt-1 text-slate-400">Map where data is decrypted today. Start where privacy risk is highest: PII, IP, regulated records.</p></li>
-        <li class="glass p-5"><p class="font-mono text-xs text-cy">STEP 2</p><p class="mt-1 font-semibold text-white">Pick a small model</p><p class="mt-1 text-slate-400">Logistic regression, small CNNs and tree models are the proven range. Quantize and test accuracy first.</p></li>
-        <li class="glass p-5"><p class="font-mono text-xs text-cy">STEP 3</p><p class="mt-1 font-semibold text-white">Prototype and measure</p><p class="mt-1 text-slate-400">Build a sandbox on your own data. Record latency, memory, ciphertext size and the accuracy gap.</p></li>
-        <li class="glass p-5"><p class="font-mono text-xs text-cy">STEP 4</p><p class="mt-1 font-semibold text-white">Layer and scale</p><p class="mt-1 text-slate-400">Combine with FL, DP or TEEs where it makes sense. Plan key management, monitoring and compute scaling.</p></li>
+        <li class="glass p-5"><p class="font-mono text-xs text-cy">SCHRITT 1</p><p class="mt-1 font-semibold text-white">Sensiblen Datenfluss finden</p><p class="mt-1 text-slate-400">Kartieren, wo Daten heute entschlüsselt werden. Dort anfangen, wo das Risiko am höchsten ist: personenbezogene Daten, geistiges Eigentum, regulierte Datensätze.</p></li>
+        <li class="glass p-5"><p class="font-mono text-xs text-cy">SCHRITT 2</p><p class="mt-1 font-semibold text-white">Kleines Modell wählen</p><p class="mt-1 text-slate-400">Logistische Regression, kleine CNNs und Baummodelle sind der erprobte Bereich. Zuerst quantisieren und die Genauigkeit testen.</p></li>
+        <li class="glass p-5"><p class="font-mono text-xs text-cy">SCHRITT 3</p><p class="mt-1 font-semibold text-white">Prototyp bauen und messen</p><p class="mt-1 text-slate-400">Sandbox mit eigenen Daten aufsetzen. Latenz, Speicher, Chiffretext-Größe und Genauigkeitslücke festhalten.</p></li>
+        <li class="glass p-5"><p class="font-mono text-xs text-cy">SCHRITT 4</p><p class="mt-1 font-semibold text-white">Schichten und skalieren</p><p class="mt-1 text-slate-400">Wo sinnvoll mit FL, Differential Privacy oder TEEs kombinieren. Schlüsselverwaltung, Monitoring und Rechenskalierung einplanen.</p></li>
       </ol>
-      <p class="mt-4 text-sm text-slate-500">Kruman suggests ~2–3 months for the "foundation" phase (encryption, DP and FL infrastructure). That is the paper's own estimate, not a measured figure.</p>
+      <p class="mt-4 text-sm text-slate-500">Für den Aufbau der Grundlagen (Verschlüsselung, Differential Privacy, FL-Infrastruktur) werden oft 2 bis 3 Monate angesetzt. Das ist eine Planungsgröße, kein Messwert.</p>
     </section>
 
-    <!-- GLOSSARY -->
-    <section id="glossary" class="mt-20">
-      <h2 class="text-2xl font-bold text-white">Glossary</h2>
+    <!-- GLOSSAR -->
+    <section id="glossar" class="mt-20">
+      <h2 class="text-2xl font-bold text-white">Glossar</h2>
       <dl class="mt-6 grid md:grid-cols-2 gap-x-10 gap-y-4 text-sm">
-        <div><dt class="font-semibold text-white">LWE / RLWE / GLWE</dt><dd class="text-slate-400">Learning With Errors and its ring / generalized variants. The hard problems that FHE security is based on; believed resistant to quantum attacks.</dd></div>
-        <div><dt class="font-semibold text-white">Leveled vs fully homomorphic</dt><dd class="text-slate-400">Leveled: a fixed noise budget limits circuit depth. Fully: bootstrapping lets the circuit run indefinitely.</dd></div>
-        <div><dt class="font-semibold text-white">Bootstrapping / PBS</dt><dd class="text-slate-400">Resetting ciphertext noise by homomorphically decrypting. Programmable bootstrapping also applies a function while doing so.</dd></div>
-        <div><dt class="font-semibold text-white">TFHE</dt><dd class="text-slate-400">Torus-based FHE with fast bootstrapping; works well for lookup-table style computation and ReLU.</dd></div>
-        <div><dt class="font-semibold text-white">CKKS</dt><dd class="text-slate-400">Approximate arithmetic on real numbers with SIMD packing; a common fit for linear-heavy ML.</dd></div>
-        <div><dt class="font-semibold text-white">BFV / BGV</dt><dd class="text-slate-400">Exact integer arithmetic schemes built on Ring-LWE.</dd></div>
-        <div><dt class="font-semibold text-white">Packing / batching</dt><dd class="text-slate-400">Placing many values in one ciphertext so one operation processes them all, which amortizes the cost.</dd></div>
-        <div><dt class="font-semibold text-white">Ciphertext expansion</dt><dd class="text-slate-400">How much larger encrypted data is than the original.</dd></div>
-        <div><dt class="font-semibold text-white">TEE</dt><dd class="text-slate-400">Trusted execution environment: hardware enclave (e.g. Intel SGX, AMD SEV) that decrypts data inside protected memory.</dd></div>
-        <div><dt class="font-semibold text-white">MPC · FL · DP</dt><dd class="text-slate-400">Secure multi-party computation · federated learning · differential privacy.</dd></div>
+        <div><dt class="font-semibold text-white">LWE / RLWE / GLWE</dt><dd class="text-slate-400">Learning With Errors und seine Ring- bzw. verallgemeinerten Varianten. Die schweren Probleme, auf denen die FHE-Sicherheit beruht; gelten als quantenresistent.</dd></div>
+        <div><dt class="font-semibold text-white">Leveled vs. voll homomorph</dt><dd class="text-slate-400">Leveled: ein festes Rauschbudget begrenzt die Schaltkreistiefe. Voll: Bootstrapping erlaubt beliebig lange Berechnungen.</dd></div>
+        <div><dt class="font-semibold text-white">Bootstrapping / PBS</dt><dd class="text-slate-400">Rauschen zurücksetzen, indem man die Entschlüsselung homomorph ausführt. Programmierbares Bootstrapping wendet dabei zusätzlich eine Funktion an.</dd></div>
+        <div><dt class="font-semibold text-white">TFHE</dt><dd class="text-slate-400">FHE über dem Torus mit schnellem Bootstrapping; gut für Lookup-Tabellen und ReLU.</dd></div>
+        <div><dt class="font-semibold text-white">CKKS</dt><dd class="text-slate-400">Näherungsarithmetik auf reellen Zahlen mit SIMD-Packing; häufig die Wahl für linear dominiertes ML.</dd></div>
+        <div><dt class="font-semibold text-white">BFV / BGV</dt><dd class="text-slate-400">Exakte Ganzzahlverfahren auf Basis von Ring-LWE.</dd></div>
+        <div><dt class="font-semibold text-white">Packing / Batching</dt><dd class="text-slate-400">Viele Werte in einem Chiffretext bündeln, sodass eine Operation alle bearbeitet. Das verteilt die Kosten.</dd></div>
+        <div><dt class="font-semibold text-white">Chiffretext-Expansion</dt><dd class="text-slate-400">Um wie viel größer verschlüsselte Daten gegenüber den Originaldaten sind.</dd></div>
+        <div><dt class="font-semibold text-white">TEE</dt><dd class="text-slate-400">Trusted Execution Environment: Hardware-Enklave (z. B. Intel SGX, AMD SEV), die Daten in geschütztem Speicher entschlüsselt verarbeitet.</dd></div>
+        <div><dt class="font-semibold text-white">MPC · FL · DP</dt><dd class="text-slate-400">Sichere Mehrparteienberechnung · Föderiertes Lernen · Differential Privacy.</dd></div>
       </dl>
     </section>
 
-    <p class="mt-20 text-xs text-slate-500">Sources: Chillotti, Joye, Paillier, <i>Programmable Bootstrapping Enables Efficient Homomorphic Inference of Deep Neural Networks</i> (Zama, v0.2.1, 2020) · Kruman Corporations, <i>Advanced Privacy-Preserving Techniques for Multimodal AI</i> · Tymon Global, <i>Homomorphic Encryption in Cloud AI Pipelines</i> · Onegen.ai, <i>Homomorphic Encrypted AI Integration</i> (2024). Summaries and assessments are my own; numbers are quoted from the papers as published.</p>
+    <p class="mt-20 text-xs text-slate-500">Die Inhalte sind eine eigene Zusammenfassung aus Fachliteratur und Branchenpapieren; Einordnungen sind meine Einschätzung. Messwerte stammen aus einer veröffentlichten Studie von 2020.</p>
   </div>
 </main>
 
-<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI · Educational content, not security advice.</footer>
+<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI · Bildungsinhalte, keine Sicherheitsberatung.</footer>
 
 <script>
 document.getElementById('yr').textContent=new Date().getFullYear();
-/* Data: Table 6.2 of Chillotti, Joye, Paillier (Zama). Times in seconds, accuracy in %. */
+/* Messwerte einer veröffentlichten Studie (2020). Zeiten in Sekunden, Genauigkeit in %. */
 var CLEAR={20:{pc:0.00017,aws:0.00019,acc:97.5},50:{pc:0.00020,aws:0.00030,acc:95.4},100:{pc:0.00033,aws:0.00046,acc:95.2}};
 var ENC={
   I:  {20:{pc:12.49,aws:2.85,acc:97.2},50:{pc:26.71,aws:5.90,acc:93.4},100:{pc:46.61,aws:11.18,acc:87.3}},
@@ -267,18 +235,19 @@ var ENC={
   III:{20:{pc:115.52,aws:21.17,acc:97.1},50:{pc:233.55,aws:43.91,acc:94.7},100:{pc:481.61,aws:81.47,acc:83.0}}
 };
 var st={machine:'aws',sec:'I'};
-function fmtT(s){return s<1?(s*1000).toFixed(2)+' ms':s.toFixed(2)+' s'}
-function fmtX(x){return x>=1e6?(x/1e6).toFixed(1)+'M×':x>=1e3?Math.round(x/1e3)+'k×':Math.round(x)+'×'}
+function de(n,d){return n.toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function fmtT(s){return s<1?de(s*1000,2)+' ms':de(s,2)+' s'}
+function fmtX(x){return x>=1e6?de(x/1e6,1)+' Mio.×':x>=1e3?de(Math.round(x/1e3),0)+' Tsd.×':de(Math.round(x),0)+'×'}
 function render(){
   var rows=[20,50,100].map(function(n){return {n:n,e:ENC[st.sec][n],c:CLEAR[n]}});
   var max=Math.max.apply(null,rows.map(function(r){return r.e[st.machine]}));
   document.getElementById('bars').innerHTML=rows.map(function(r){
     var t=r.e[st.machine],c=r.c[st.machine],gap=(r.c.acc-r.e.acc);
     return '<div><div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1"><span class="font-mono text-sm text-white">NN-'+r.n+'</span>'+
-      '<span class="font-mono text-sm text-cy">'+fmtT(t)+' encrypted</span></div>'+
-      '<div class="bar-track mt-2" role="img" aria-label="NN-'+r.n+': '+fmtT(t)+' encrypted"><div class="bar-fill" style="width:'+Math.max(2,t/max*100)+'%"></div></div>'+
-      '<div class="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-xs text-slate-400"><span>plaintext: '+fmtT(c)+'</span><span>slowdown: <b class="text-slate-300">'+fmtX(t/c)+'</b></span>'+
-      '<span>accuracy: <b class="text-slate-300">'+r.e.acc.toFixed(1)+'%</b> vs '+r.c.acc.toFixed(1)+'% clear'+(gap>0.05?' ('+(-gap).toFixed(1)+' pt)':'')+'</span></div></div>';
+      '<span class="font-mono text-sm text-cy">'+fmtT(t)+' verschlüsselt</span></div>'+
+      '<div class="bar-track mt-2" role="img" aria-label="NN-'+r.n+': '+fmtT(t)+' verschlüsselt"><div class="bar-fill" style="width:'+Math.max(2,t/max*100)+'%"></div></div>'+
+      '<div class="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-xs text-slate-400"><span>Klartext: '+fmtT(c)+'</span><span>Verlangsamung: <b class="text-slate-300">'+fmtX(t/c)+'</b></span>'+
+      '<span>Genauigkeit: <b class="text-slate-300">'+de(r.e.acc,1)+' %</b> vs. '+de(r.c.acc,1)+' % im Klartext'+(gap>0.05?' (−'+de(gap,1)+' Pkt.)':'')+'</span></div></div>';
   }).join('');
 }
 function wire(id,key){
