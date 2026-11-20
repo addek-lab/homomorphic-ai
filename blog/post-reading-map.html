@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A reading map for FHE — Research Log</title>
+<meta name="description" content="The order in which I read the core Fully Homomorphic Encryption papers, from Gentry 2009 to CKKS and TFHE.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog.css">
+</head>
+<body class="antialiased">
+<header class="border-b border-line"><nav class="max-w-3xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Main">
+  <a href="../" class="font-mono font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></a>
+  <a href="./" class="text-slate-400 hover:text-cy">← Research Log</a></nav></header>
+
+<main class="max-w-3xl mx-auto px-5 pt-14 pb-24">
+  <p class="font-mono text-xs text-slate-500">2026-11-20 · 6 min read · #literature</p>
+  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">A reading map: from Gentry (2009) to CKKS and TFHE</h1>
+
+  <article class="prose-post mt-6">
+    <p>When I started on Homomorphic AI, the hardest part wasn't the math. It was not knowing which papers to read in which order. FHE literature is a family tree, and reading it out of order feels like walking into the middle of an argument. This is the order I settled on.</p>
+
+    <h2>1. Start with the idea, not the construction</h2>
+    <p>Craig Gentry's 2009 thesis and STOC paper, <em>Fully Homomorphic Encryption Using Ideal Lattices</em>, is the first plausible construction of an encryption scheme that supports both addition and multiplication on ciphertexts. I don't try to follow every proof. I read it to understand two ideas that everything afterwards builds on:</p>
+    <ul>
+      <li><strong>Noise growth.</strong> Every ciphertext carries a small amount of noise. Operations make it grow, and multiplication makes it grow fast. Decryption fails if it gets too large.</li>
+      <li><strong>Bootstrapping.</strong> Homomorphically evaluating the decryption circuit to "refresh" a ciphertext and reset its noise.</li>
+    </ul>
+
+    <h2>2. The second generation: BGV and BFV</h2>
+    <p>The 2012 papers by Brakerski–Gentry–Vaikuntanathan (BGV) and Brakerski / Fan–Vercauteren (BFV) rebuilt FHE on the Ring-LWE problem. They are far more practical and give <em>exact</em> arithmetic on integers. This is where I started to understand parameters: polynomial degree, ciphertext modulus and plaintext modulus, and how they trade security against depth and speed.</p>
+
+    <h2>3. CKKS: why it matters for machine learning</h2>
+    <p>Cheon, Kim, Kim and Song (2017) introduced a scheme for <em>approximate</em> arithmetic on real or complex numbers. For AI this is the natural fit. Neural networks are floating-point and already tolerate small errors, so a bit of controlled imprecision is acceptable. I treat CKKS as the default candidate for encrypted inference on linear-heavy models.</p>
+
+    <h2>4. TFHE: fast bootstrapping and non-linearity</h2>
+    <p>Chillotti, Gama, Georgieva and Izabachène (2016) showed bootstrapping that is fast enough to be applied after every gate. Later work on programmable bootstrapping lets you evaluate a lookup table, which is a clean way to handle non-linear functions like ReLU. This is the foundation of tools such as Zama's Concrete ML.</p>
+
+    <h2>5. The bridge to ML</h2>
+    <p>Finally, I read the applied papers. <em>CryptoNets</em> (Gilad-Bachrach et al., 2016) was an early demonstration of running a neural network on encrypted data, using a polynomial activation in place of ReLU. Reading it after the theory makes its design choices obvious. You can see the model being shaped around what the encryption allows.</p>
+
+    <h2>How I read each paper</h2>
+    <ol>
+      <li>Abstract and conclusion first, to learn what it claims.</li>
+      <li>The parameter and performance tables, since that is where "practical" gets tested.</li>
+      <li>Only then the construction, and the proofs only if I need them.</li>
+      <li>One sentence in my notes: <em>what problem did this solve that the previous paper couldn't?</em></li>
+    </ol>
+
+    <blockquote>Takeaway: the field is a sequence of removing bottlenecks, namely noise, bootstrapping cost and non-linearity. Each paper is the answer to the previous paper's biggest limitation.</blockquote>
+
+    <p>Next: <a href="post-lab-setup.html">my lab setup for testing encrypted inference myself</a>.</p>
+  </article>
+</main>
+<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
