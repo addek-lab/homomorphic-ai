@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-theme="dark">
 <head>
+<script src="theme.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homomorphic AI — AI Intelligence. Zero Data Exposure.</title>
@@ -30,6 +31,7 @@ tailwind.config = { theme: { extend: {
   :focus-visible{outline:2px solid #06B6D4;outline-offset:2px}
   section[id]{scroll-margin-top:5rem}
 </style>
+<link rel="stylesheet" href="theme.css">
 </head>
 <body class="antialiased">
 
@@ -44,16 +46,33 @@ tailwind.config = { theme: { extend: {
       </svg>
       homomorphic-ai<span class="text-cy">.com</span>
     </a>
-    <ul class="hidden md:flex items-center gap-5 text-sm text-slate-300">
+    <ul class="hidden xl:flex items-center gap-5 text-sm text-slate-300">
       <li><a class="hover:text-cy transition" href="#what-is-it">What is it?</a></li>
       <li><a class="hover:text-cy transition" href="#how-it-works">How it Works</a></li>
       <li><a class="hover:text-cy transition" href="#use-cases">Use Cases</a></li>
       <li><a class="hover:text-cy transition" href="#reality">Tech Stack &amp; Reality</a></li>
+      <li><a class="hover:text-cy transition" href="knowledge.html">Knowledge</a></li>
       <li><a class="hover:text-cy transition" href="morphbuddy.html">MorphBuddy</a></li>
       <li><a class="hover:text-cy transition" href="blog/">Research Log</a></li>
     </ul>
-    <a href="#updates" class="text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition">Get Updates</a>
+    <div class="flex items-center gap-3">
+      <button type="button" class="theme-btn" data-theme-toggle aria-label="Switch to light mode"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a href="#updates" class="hidden sm:inline-block text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition">Get Updates</a>
+      <button type="button" id="menuBtn" class="theme-btn xl:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
   </nav>
+  <div id="mobileMenu" class="hidden xl:hidden border-t border-line bg-bg/80 backdrop-blur">
+    <ul class="max-w-6xl mx-auto px-5 py-3 grid gap-1 text-slate-300">
+      <li><a class="block py-2 hover:text-cy" href="#what-is-it">What is it?</a></li>
+      <li><a class="block py-2 hover:text-cy" href="#how-it-works">How it Works</a></li>
+      <li><a class="block py-2 hover:text-cy" href="#use-cases">Use Cases</a></li>
+      <li><a class="block py-2 hover:text-cy" href="#reality">Tech Stack &amp; Reality</a></li>
+      <li><a class="block py-2 hover:text-cy" href="knowledge.html">Knowledge</a></li>
+      <li><a class="block py-2 hover:text-cy" href="morphbuddy.html">MorphBuddy</a></li>
+      <li><a class="block py-2 hover:text-cy" href="blog/">Research Log</a></li>
+      <li><a class="block py-2 hover:text-cy" href="#updates">Get Updates</a></li>
+    </ul>
+  </div>
 </header>
 
 <main id="top">
@@ -124,7 +143,7 @@ Enc(a) ⊗ Enc(b) = Enc(a × b)</pre>
 
     <!-- Desktop flow diagram -->
     <svg class="hidden lg:block w-full mt-12" viewBox="0 0 1000 70" fill="none" aria-hidden="true">
-      <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#06B6D4"/><stop offset="1" stop-color="#6366F1"/></linearGradient></defs>
+      <defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0"><stop offset="0" stop-color="#06B6D4"/><stop offset="1" stop-color="#6366F1"/></linearGradient></defs>
       <rect x="0" y="0" width="1000" height="70" rx="12" fill="none"/>
       <path class="flow glow" d="M165 35 H335" stroke="url(#g)" stroke-width="2.5"/>
       <path class="flow glow" d="M500 35 H670" stroke="url(#g)" stroke-width="2.5"/>
@@ -182,10 +201,13 @@ Enc(a) ⊗ Enc(b) = Enc(a × b)</pre>
     <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <article class="glass p-6"><div class="text-2xl" aria-hidden="true">🏥</div><h3 class="mt-3 font-semibold text-white">Healthcare</h3><p class="mt-2 text-slate-400 text-sm">Run diagnostic models on patient records and genomic data across institutions without exposing PHI.</p></article>
       <article class="glass p-6"><div class="text-2xl" aria-hidden="true">🏦</div><h3 class="mt-3 font-semibold text-white">Finance &amp; Fraud</h3><p class="mt-2 text-slate-400 text-sm">Score credit risk and detect fraud on encrypted transactions, and collaborate across banks without sharing customer data.</p></article>
-      <article class="glass p-6"><div class="text-2xl" aria-hidden="true">💬</div><h3 class="mt-3 font-semibold text-white">Private LLM Prompts</h3><p class="mt-2 text-slate-400 text-sm">Query a hosted model with confidential prompts. The provider can't log or read them.</p></article>
+      <article class="glass p-6"><div class="text-2xl" aria-hidden="true">💬</div><h3 class="mt-3 font-semibold text-white">Private LLM Prompts</h3><p class="mt-2 text-slate-400 text-sm">The goal: query a hosted model with confidential prompts the provider can't read. Still early research; practical today mainly for small models.</p></article>
       <article class="glass p-6"><div class="text-2xl" aria-hidden="true">⚖️</div><h3 class="mt-3 font-semibold text-white">Regulated Data</h3><p class="mt-2 text-slate-400 text-sm">Process data under GDPR, HIPAA or data-residency rules with a cryptographic guarantee, not just a policy.</p></article>
       <article class="glass p-6"><div class="text-2xl" aria-hidden="true">🤝</div><h3 class="mt-3 font-semibold text-white">Multi-Party Analytics</h3><p class="mt-2 text-slate-400 text-sm">Joint models over competitors' or partners' datasets where nobody reveals their inputs.</p></article>
       <article class="glass p-6"><div class="text-2xl" aria-hidden="true">☁️</div><h3 class="mt-3 font-semibold text-white">Untrusted Cloud</h3><p class="mt-2 text-slate-400 text-sm">Use third-party GPUs and SaaS inference with no need to trust the operator or their admins.</p></article>
+      <article class="glass p-6"><div class="text-2xl" aria-hidden="true">🧬</div><h3 class="mt-3 font-semibold text-white">Genomics</h3><p class="mt-2 text-slate-400 text-sm">Joint analysis of genetic data across institutions for personalized medicine and drug discovery, without exposing individual genomes.</p></article>
+      <article class="glass p-6"><div class="text-2xl" aria-hidden="true">🗳️</div><h3 class="mt-3 font-semibold text-white">Elections &amp; Government</h3><p class="mt-2 text-slate-400 text-sm">Encrypted vote tallying and secure data collaboration between agencies for threat analysis.</p></article>
+      <article class="glass p-6"><div class="text-2xl" aria-hidden="true">📟</div><h3 class="mt-3 font-semibold text-white">IoT &amp; Edge Devices</h3><p class="mt-2 text-slate-400 text-sm">Wearables and smart meters that encrypt locally, so only ciphertext ever leaves the device. <a class="text-cy underline" href="morphbuddy.html">See the MorphBuddy concept.</a></p></article>
     </div>
   </div>
 </section>
@@ -238,6 +260,25 @@ Enc(a) ⊗ Enc(b) = Enc(a × b)</pre>
 </section>
 
 <!-- CTA / FOOTER NEWSLETTER -->
+<!-- FROM THE RESEARCH -->
+<section id="research" class="px-5 py-24 border-t border-line">
+  <div class="max-w-6xl mx-auto">
+    <p class="font-mono text-cy text-sm">05 / FROM THE RESEARCH</p>
+    <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-white">What the papers actually measured</h2>
+    <p class="mt-5 max-w-3xl text-slate-400 text-lg">I studied four whitepapers and kept the parts backed by evidence. The clearest data point is a research benchmark of deep neural networks running on encrypted MNIST digits.</p>
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+      <article class="glass p-7"><p class="font-mono text-3xl font-bold grad">100 layers</p><p class="mt-3 text-slate-400 text-sm">The deepest network evaluated on encrypted data, using programmable bootstrapping, with no change to the trained model.</p></article>
+      <article class="glass p-7"><p class="font-mono text-3xl font-bold grad">2.9 – 81 s</p><p class="mt-3 text-slate-400 text-sm">One encrypted inference on a 96-vCPU server, from the 20-layer net at 80-bit to the 100-layer net at 128-bit security. Plaintext takes under a millisecond.</p></article>
+      <article class="glass p-7"><p class="font-mono text-3xl font-bold grad">97.2 %</p><p class="mt-3 text-slate-400 text-sm">Accuracy of the 20-layer encrypted net, vs 97.5% in the clear. Deeper nets and stronger security settings lose more, down to 83.0%.</p></article>
+    </div>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a href="knowledge.html#explorer" class="px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-cy to-ind hover:opacity-90 transition">Open the cost explorer</a>
+      <a href="knowledge.html" class="px-6 py-3 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition">Read the Knowledge Base</a>
+    </div>
+    <p class="mt-5 text-xs text-slate-500">Source: Chillotti, Joye, Paillier (Zama), 2020. A small dataset on 2020 hardware: it shows feasibility, not the cost of today's large models.</p>
+  </div>
+</section>
+
 <section id="updates" class="px-5 py-24 border-t border-line">
   <div class="max-w-2xl mx-auto text-center">
     <h2 class="text-3xl sm:text-4xl font-bold text-white">Stay ahead of <span class="grad">confidential AI</span></h2>
@@ -260,6 +301,9 @@ Enc(a) ⊗ Enc(b) = Enc(a × b)</pre>
 </footer>
 
 <script>
+  (function(){var b=document.getElementById('menuBtn'),m=document.getElementById('mobileMenu');
+    b.addEventListener('click',function(){var o=m.classList.toggle('hidden')===false;b.setAttribute('aria-expanded',String(o))});
+    [].forEach.call(m.querySelectorAll('a'),function(a){a.addEventListener('click',function(){m.classList.add('hidden');b.setAttribute('aria-expanded','false')})})})();
   document.getElementById('yr').textContent = new Date().getFullYear();
   // Demo handler: no backend is connected yet. Wire this to your email provider's endpoint.
   document.getElementById('sub').addEventListener('submit', function(e){
