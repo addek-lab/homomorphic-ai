@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programmable bootstrapping, explained — Research Log</title>
+<meta name="description" content="Notes on the Zama paper: how programmable bootstrapping lets a neural network run on encrypted data without retraining, and what the benchmarks show.">
+<script src="../theme.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog.css">
+<link rel="stylesheet" href="../theme.css">
+</head>
+<body class="antialiased">
+<header class="border-b border-line"><nav class="max-w-3xl mx-auto px-5 h-16 flex items-center justify-between text-sm" aria-label="Main">
+  <a href="../" class="font-mono font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></a>
+  <div class="flex items-center gap-5"><a href="./" class="text-slate-400 hover:text-cy">← Research Log</a>
+  <button type="button" class="theme-btn" data-theme-toggle aria-label="Switch to light mode"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div></nav></header>
+
+<main class="max-w-3xl mx-auto px-5 pt-14 pb-24">
+  <p class="font-mono text-xs text-slate-500">2026-11-20 · 7 min read · #paper-notes #tfhe</p>
+  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Programmable bootstrapping, explained</h1>
+
+  <article class="prose-post mt-6">
+    <p>These are my notes on <em>Programmable Bootstrapping Enables Efficient Homomorphic Inference of Deep Neural Networks</em> by Chillotti, Joye and Paillier (Zama). It is the most concrete of the four whitepapers I read, because it shows what actually runs.</p>
+
+    <h2>The problem it attacks</h2>
+    <p>Earlier encrypted neural networks, like CryptoNets, worked around FHE's limits by changing the network: the ReLU activation was replaced with squaring, and depth was kept shallow because noise grows with every multiplication. That means <em>retraining a different model</em>, which is expensive and sometimes impossible, for example when you can't access the training data or a regulator must re-approve any model change.</p>
+
+    <h2>The idea in three steps</h2>
+    <ol>
+      <li><strong>Noise resets need bootstrapping.</strong> Decrypting a ciphertext "inside the encryption" produces a fresh, low-noise one. That's Gentry's trick.</li>
+      <li><strong>Bootstrapping is a rotation.</strong> In TFHE, the decryption turns into rotating a polynomial by an encrypted amount (a <em>blind rotation</em>). The polynomial is the "test polynomial".</li>
+      <li><strong>Put a function in the polynomial.</strong> If that polynomial holds a lookup table instead of the identity, the same rotation returns <code>f(x)</code> with fresh noise. One operation resets the noise <em>and</em> evaluates the function. That is the programmable part.</li>
+    </ol>
+    <pre><code>noisy Enc(x)  --blind rotate--&gt;  clean Enc(f(x))
+                (f stored as a lookup table)</code></pre>
+
+    <h2>What it means for a network</h2>
+    <p>Linear layers (dense, convolution, addition, average pooling) only multiply by clear weights and add, which are cheap leveled operations. Non-linear layers use PBS: ReLU is one lookup, and max-pooling over k values costs k−1 lookups using <code>max(x,y) = y + ReLU(x−y)</code>. Because every PBS leaves the noise at a fixed level, depth stops being a limit.</p>
+
+    <h2>What the benchmarks show</h2>
+    <p>The authors built 20-, 50- and 100-layer networks on MNIST and compared them with plaintext inference (ONNX Runtime). A few points I noted:</p>
+    <ul>
+      <li>At 80-bit security the 20-layer net took 2.85 s on a 96-vCPU server and 12.49 s on a laptop, at 97.2% accuracy vs 97.5% in the clear.</li>
+      <li>At 128-bit security (parameter set III) the 100-layer net took 81 s on the server, but accuracy fell to 83.0%.</li>
+      <li>The plaintext run takes well under a millisecond, so the slowdown is in the range of tens of thousands to over a million times.</li>
+    </ul>
+    <p>You can try the numbers yourself in the <a href="../knowledge.html#explorer">cost explorer</a>.</p>
+
+    <h2>What I'm still unsure about</h2>
+    <ul>
+      <li><strong>Why accuracy falls for the deepest network</strong> even at higher security settings. The paper discusses noise and "drift" from rescaling, but I'd want to reproduce it before drawing a conclusion.</li>
+      <li><strong>How this scales past MNIST.</strong> The paper is a feasibility result on a small dataset in 2020, and not a prediction for large models.</li>
+      <li><strong>Independence.</strong> The authors build the library they benchmark. That doesn't make the results wrong, but it makes independent replication more valuable.</li>
+    </ul>
+
+    <blockquote>Next step in my own lab: run a small quantized model through Concrete ML and compare my numbers with these. See <a href="post-lab-setup.html">my lab setup</a>.</blockquote>
+  </article>
+</main>
+<footer class="border-t border-line px-5 py-8 text-center text-sm text-slate-500">© <span id="yr"></span> Homomorphic AI</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
