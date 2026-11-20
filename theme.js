@@ -7,7 +7,7 @@
   function labels() {
     var l = isLight();
     [].forEach.call(document.querySelectorAll('[data-theme-toggle]'), function (b) {
-      b.setAttribute('aria-label', l ? 'Switch to dark mode' : 'Switch to light mode');
+      b.setAttribute('aria-label', l ? 'Zum dunklen Modus wechseln' : 'Zum hellen Modus wechseln');
       b.setAttribute('aria-pressed', String(l));
     });
   }
