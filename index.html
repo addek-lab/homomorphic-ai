@@ -4,20 +4,20 @@
 <script src="theme.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Homomorphic AI — KI-Intelligenz. Null Datenpreisgabe.</title>
-<meta name="description" content="Homomorphic AI lässt Machine-Learning-Modelle sensible Daten verarbeiten, während sie verschlüsselt bleiben, auch während der Berechnung. Möglich durch voll homomorphe Verschlüsselung (FHE).">
+<title>Homomorphic AI — Forschung zu maschinellem Lernen auf verschlüsselten Daten</title>
+<meta name="description" content="Unabhängiges Forschungsprojekt zu voll homomorpher Verschlüsselung (FHE) für KI: Grundlagen, eigene Experimente mit OpenFHE, ein Datenschutz-Prüfstand und offene Fragen.">
 <!-- og -->
 <link rel="canonical" href="https://addek-lab.github.io/homomorphic-ai/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Homomorphic AI">
 <meta property="og:locale" content="de_DE">
-<meta property="og:title" content="Homomorphic AI — KI-Intelligenz. Null Datenpreisgabe.">
-<meta property="og:description" content="Homomorphic AI lässt Machine-Learning-Modelle sensible Daten verarbeiten, während sie verschlüsselt bleiben, auch während der Berechnung. Möglich durch voll homomorphe Verschlüsselung (FHE).">
+<meta property="og:title" content="Homomorphic AI — Forschung zu maschinellem Lernen auf verschlüsselten Daten">
+<meta property="og:description" content="Unabhängiges Forschungsprojekt zu voll homomorpher Verschlüsselung (FHE) für KI: Grundlagen, eigene Experimente mit OpenFHE, ein Datenschutz-Prüfstand und offene Fragen.">
 <meta property="og:url" content="https://addek-lab.github.io/homomorphic-ai/">
 <meta property="og:image" content="https://addek-lab.github.io/homomorphic-ai/media/og-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
-<meta property="og:image:alt" content="Homomorphic AI — KI-Intelligenz. Null Datenpreisgabe.">
+<meta property="og:image:alt" content="Homomorphic AI — Forschung zu maschinellem Lernen auf verschlüsselten Daten">
 <meta name="twitter:card" content="summary_large_image">
 <!-- /og -->
 <link rel="stylesheet" href="fonts/fonts.css">
@@ -67,22 +67,35 @@ tailwind.config = { theme: { extend: {
 
 <main id="top">
 <!-- HERO -->
-<section class="relative pt-24 pb-28 px-5 overflow-hidden">
-  <div class="absolute inset-0 grid-bg" aria-hidden="true"></div>
-  <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-ind/20 blur-[120px]" aria-hidden="true"></div>
-  <div class="relative max-w-4xl mx-auto text-center">
-    <span class="inline-block font-mono text-[11px] sm:text-xs tracking-widest text-cy border border-cy/30 bg-cy/10 rounded-full px-4 py-1.5">VERTRAULICHE KI • ZERO-TRUST-BERECHNUNG</span>
-    <h1 class="mt-8 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05]">KI-Intelligenz.<br><span class="grad">Null Datenpreisgabe.</span></h1>
-    <p class="mt-7 text-lg sm:text-xl text-slate-400 italic max-w-2xl mx-auto">Homomorphic AI lässt Machine-Learning-Modelle sensible Daten verarbeiten und analysieren, während sie vollständig verschlüsselt bleiben: durchgängig, auch während der Berechnung.</p>
-    <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#how-it-works" class="px-7 py-3.5 rounded-lg font-semibold text-white bg-gradient-to-r from-cy to-ind hover:opacity-90 transition shadow-lg shadow-cy/20">Architektur erkunden</a>
-      <a href="#what-is-it" class="px-7 py-3.5 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition">Erklärung lesen</a>
+<section class="pt-20 sm:pt-24 pb-20 px-5">
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-[1.35fr_1fr] gap-12 lg:gap-16 items-start">
+    <div>
+      <p class="font-mono text-xs tracking-widest text-slate-500">UNABHÄNGIGES FORSCHUNGSPROJEKT · LAUFEND</p>
+      <h1 class="mt-5 text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">Maschinelles Lernen auf verschlüsselten Daten</h1>
+      <p class="mt-6 text-lg text-slate-300 leading-relaxed max-w-2xl">Dieses Projekt untersucht, was voll homomorphe Verschlüsselung (FHE) heute für KI-Anwendungen leisten kann. Mit FHE lässt sich auf Daten rechnen, ohne sie zu entschlüsseln. Hier werden die Grundlagen zusammengefasst, Verfahren nachgebaut und gemessen. Ergebnisse und offene Fragen werden laufend dokumentiert.</p>
+      <div class="mt-8 border-l-2 border-cy pl-5 max-w-2xl">
+        <p class="font-mono text-xs tracking-widest text-cy">LEITFRAGE</p>
+        <p class="mt-2 text-white text-lg leading-snug">Unter welchen Bedingungen können KI-Modelle sensible Daten aus Medizin und Finanzwesen verarbeiten, ohne dass der Betreiber sie im Klartext sieht? Was kostet das an Rechenzeit und Genauigkeit?</p>
+      </div>
+      <dl class="mt-8 grid sm:grid-cols-3 gap-x-6 gap-y-4 text-sm max-w-2xl">
+        <div><dt class="font-mono text-xs tracking-widest text-slate-500">VORGEHEN</dt><dd class="mt-1 text-slate-300">Literatur auswerten, Verfahren in OpenFHE nachbauen, eigene Messungen</dd></div>
+        <div><dt class="font-mono text-xs tracking-widest text-slate-500">DATEN</dt><dd class="mt-1 text-slate-300">Veröffentlichte Messwerte und synthetische Testdaten, keine echten Personendaten</dd></div>
+        <div><dt class="font-mono text-xs tracking-widest text-slate-500">OFFENHEIT</dt><dd class="mt-1 text-slate-300">Code und Testdaten frei auf GitHub, Grenzen werden benannt</dd></div>
+      </dl>
+      <div class="mt-10 flex flex-col sm:flex-row gap-3">
+        <a href="#what-is-it" class="px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-cy to-ind hover:opacity-90 transition text-center">Grundlagen lesen</a>
+        <a href="#reality" class="px-6 py-3 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition text-center">Stand und Grenzen</a>
+      </div>
     </div>
-    <div class="mt-14 font-mono text-xs sm:text-sm text-slate-500 flex flex-wrap justify-center gap-x-8 gap-y-2">
-      <span><span class="text-cy">●</span> Daten auch in Nutzung verschlüsselt</span>
-      <span><span class="text-ind">●</span> Schlüssel verlassen nie den Client</span>
-      <span><span class="text-cy">●</span> Gitterbasierte Kryptografie (post-quantum)</span>
-    </div>
+    <aside class="glass p-6 sm:p-7" aria-labelledby="inhalt-h">
+      <h2 id="inhalt-h" class="font-mono text-xs tracking-widest text-slate-500">INHALT DES PROJEKTS</h2>
+      <ol class="mt-4 divide-y divide-line">
+        <li><a href="knowledge.html" class="group flex gap-4 py-4 hover:text-white"><span class="font-mono text-sm text-cy pt-0.5">01</span><span><span class="block font-semibold text-white group-hover:text-cy transition">Wissensbasis</span><span class="block mt-1 text-sm text-slate-400">Konzepte, veröffentlichte Messwerte, Kosten-Explorer und Glossar</span></span></a></li>
+        <li><a href="labor.html" class="group flex gap-4 py-4 hover:text-white"><span class="font-mono text-sm text-cy pt-0.5">02</span><span><span class="block font-semibold text-white group-hover:text-cy transition">Homomorphic Lab</span><span class="block mt-1 text-sm text-slate-400">Experimente mit CKKS zum Nachrechnen, als Download mit Anleitung</span></span></a></li>
+        <li><a href="pruefstand.html" class="group flex gap-4 py-4 hover:text-white"><span class="font-mono text-sm text-cy pt-0.5">03</span><span><span class="block font-semibold text-white group-hover:text-cy transition">Datenschutz-Prüfstand</span><span class="block mt-1 text-sm text-slate-400">Messung: Wie gut erkennen Filter Personendaten in deutschen Finanz- und Gesundheitstexten?</span></span></a></li>
+        <li><a href="blog/" class="group flex gap-4 py-4 hover:text-white"><span class="font-mono text-sm text-cy pt-0.5">04</span><span><span class="block font-semibold text-white group-hover:text-cy transition">Forschungslog</span><span class="block mt-1 text-sm text-slate-400">Notizen zu Methode, Zwischenergebnissen und offenen Fragen</span></span></a></li>
+      </ol>
+    </aside>
   </div>
 </section>
 
@@ -119,7 +132,7 @@ Enc(a) ⊗ Enc(b) = Enc(a × b)</pre>
     </div>
 
     <blockquote class="mt-10 relative rounded-2xl p-8 sm:p-10 border border-cy/30 bg-gradient-to-br from-cy/10 to-ind/10">
-      <p class="text-xl sm:text-2xl font-medium text-white leading-snug">„Die KI sieht Ihre Rohdaten nie und liefert trotzdem ein präzises, verschlüsseltes Ergebnis, das nur Ihr privater Schlüssel öffnen kann.“</p>
+      <p class="text-xl sm:text-2xl font-medium text-white leading-snug">Kurz gesagt: Der Server rechnet auf Chiffretext und sieht weder Eingabe noch Ergebnis im Klartext. Entschlüsseln kann nur, wer den privaten Schlüssel hat. Der Preis dafür sind Rechenzeit, Speicher und je nach Verfahren eine kleine Ungenauigkeit.</p>
     </blockquote>
   </div>
 </section>
