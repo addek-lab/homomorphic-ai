@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verschlüsseltes Routing: Kann eine KI blind entscheiden, was sensibel ist? — Forschungslog</title>
+<meta name="description" content="Experiment M5: Ein verschlüsselter Klassifikator entscheidet zeilenweise, ob ein deutscher Text Personendaten enthält. Die Verschlüsselung ist nicht das Problem, das Modell schon.">
+<!-- og -->
+<link rel="canonical" href="https://addek-lab.github.io/homomorphic-ai/blog/post-routing-m5.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Homomorphic AI">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Verschlüsseltes Routing: Kann eine KI blind entscheiden, was sensibel ist? — Forschungslog">
+<meta property="og:description" content="Experiment M5: Ein verschlüsselter Klassifikator entscheidet zeilenweise, ob ein deutscher Text Personendaten enthält. Die Verschlüsselung ist nicht das Problem, das Modell schon.">
+<meta property="og:url" content="https://addek-lab.github.io/homomorphic-ai/blog/post-routing-m5.html">
+<meta property="og:image" content="https://addek-lab.github.io/homomorphic-ai/media/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta property="og:image:alt" content="Verschlüsseltes Routing — Forschungslog">
+<meta name="twitter:card" content="summary_large_image">
+<!-- /og -->
+<script src="../theme.js"></script>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<script src="../vendor/tailwindcss-3.4.16.js"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog.css">
+<link rel="stylesheet" href="../theme.css">
+<style>
+  .mt{width:100%;border-collapse:collapse;font-size:.85rem;min-width:520px}
+  .mt th{font:500 .72rem 'JetBrains Mono',monospace;letter-spacing:.06em;color:#94a3b8;text-align:left;padding:.5rem .6rem;border-bottom:1px solid #1E293B}
+  .mt td{padding:.55rem .6rem;border-bottom:1px solid #1E293B;color:#cbd5e1;font-variant-numeric:tabular-nums}
+  .mt td.n,.mt th.n{text-align:right}
+  .mt td.n{white-space:nowrap}
+  .mt.kv{min-width:0}
+  .tw{overflow-x:auto;margin:1.2rem 0 1.6rem}
+  html[data-theme="light"] .mt th{color:#475569;border-bottom-color:#e2e8f0}
+  html[data-theme="light"] .mt td{color:#334155;border-bottom-color:#e2e8f0}
+</style>
+</head>
+<body class="antialiased">
+<header class="site-header" data-site-header>
+  <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center gap-3 text-sm" aria-label="Hauptnavigation">
+    <a href=".././" class="flex items-center gap-2 font-mono text-sm font-medium text-white whitespace-nowrap shrink-0"><svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="7" y="14" width="18" height="13" rx="3" stroke="#06B6D4" stroke-width="2"/><path d="M11 14v-3a5 5 0 0 1 10 0v3" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="20" r="1.8" fill="#06B6D4"/><path d="M16 21.5V24" stroke="#06B6D4" stroke-width="1.6" stroke-linecap="round"/></svg><span>homomorphic-ai<span class="text-cy">.com</span></span></a>
+    <ul class="hidden md:flex items-center gap-1 ml-4" role="list"><li class="relative" data-menu><button type="button" class="nav-top" aria-haspopup="true" aria-expanded="false" aria-controls="m-verstehen">Verstehen<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="m-verstehen" class="navpanel" hidden><ul><li><a class="navitem" href=".././"><span class="t">Einführung</span><span class="d">Was ist Homomorphic AI? Die Idee in fünf Minuten.</span></a></li><li><a class="navitem" href="../knowledge.html"><span class="t">Wissensbasis</span><span class="d">Konzepte, Messwerte, Kosten-Explorer und Glossar.</span></a></li><li><a class="navitem" href="../#use-cases"><span class="t">Anwendungen</span><span class="d">Wo verschlüsselte KI helfen kann, von Medizin bis Finanzen.</span></a></li></ul></div></li><li class="relative" data-menu><button type="button" class="nav-top" aria-haspopup="true" aria-expanded="false" aria-controls="m-ausprobieren">Ausprobieren<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="m-ausprobieren" class="navpanel" hidden><ul><li><a class="navitem" href="../pruefstand.html"><span class="t">Datenschutz-Prüfstand</span><span class="d">Wie gut schützen Filter deutsche Finanz- und Gesundheitsdaten? Live-Demo.</span></a></li><li><a class="navitem" href="../labor.html"><span class="t">Homomorphic Lab</span><span class="d">Experimente und Messreihe mit OpenFHE zum Nachrechnen. Download mit Video.</span></a></li><li><a class="navitem" href="../morphbuddy.html"><span class="t">MorphBuddy (Konzeptstudie)</span><span class="d">Nebenprojekt: Entwurf eines Taschengeräts für Schlüssel und Verschlüsselung.</span></a></li></ul></div></li><li><a class="nav-top" href="../blog/" aria-current="page">Forschungslog</a></li></ul>
+    <div class="ml-auto flex items-center gap-3 shrink-0">
+      <a href="../pruefstand.html" class="hidden lg:inline-block whitespace-nowrap text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition">Prüfstand testen</a>
+      <button type="button" class="theme-btn" data-theme-toggle aria-label="Zum hellen Modus wechseln"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button type="button" id="menuBtn" class="theme-btn md:hidden" aria-label="Men&uuml; &ouml;ffnen" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </nav>
+  <div id="mobileMenu" class="hidden md:hidden mobilepanel">
+    <div class="max-w-6xl mx-auto px-5 py-4 space-y-5"><div><p class="grouphead">VERSTEHEN</p><ul><li><a class="navitem" href=".././"><span class="t">Einführung</span><span class="d">Was ist Homomorphic AI? Die Idee in fünf Minuten.</span></a></li><li><a class="navitem" href="../knowledge.html"><span class="t">Wissensbasis</span><span class="d">Konzepte, Messwerte, Kosten-Explorer und Glossar.</span></a></li><li><a class="navitem" href="../#use-cases"><span class="t">Anwendungen</span><span class="d">Wo verschlüsselte KI helfen kann, von Medizin bis Finanzen.</span></a></li></ul></div><div><p class="grouphead">AUSPROBIEREN</p><ul><li><a class="navitem" href="../pruefstand.html"><span class="t">Datenschutz-Prüfstand</span><span class="d">Wie gut schützen Filter deutsche Finanz- und Gesundheitsdaten? Live-Demo.</span></a></li><li><a class="navitem" href="../labor.html"><span class="t">Homomorphic Lab</span><span class="d">Experimente und Messreihe mit OpenFHE zum Nachrechnen. Download mit Video.</span></a></li><li><a class="navitem" href="../morphbuddy.html"><span class="t">MorphBuddy (Konzeptstudie)</span><span class="d">Nebenprojekt: Entwurf eines Taschengeräts für Schlüssel und Verschlüsselung.</span></a></li></ul></div><div><p class="grouphead">LESEN</p><ul><li><a class="navitem" href="../blog/" aria-current="page"><span class="t">Forschungslog</span><span class="d">Notizen, Messungen und offene Fragen aus der Arbeit am Thema.</span></a></li></ul></div>
+      <a href="../pruefstand.html" class="block text-center whitespace-nowrap text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition" style="padding:.8rem 1rem">Prüfstand testen</a>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-3xl mx-auto px-5 pt-14 pb-24">
+  <p class="font-mono text-xs text-slate-500">23.11.2026 · 8 Min. Lesezeit · #messung #routing #pruefstand</p>
+  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Verschlüsseltes Routing: Kann eine KI blind entscheiden, was sensibel ist?</h1>
+
+  <article class="prose-post mt-6">
+    <p>In der <a href="post-messreihe-lab.html">ersten Messreihe</a> kam heraus: Große Sprachmodelle sind mit FHE heute nicht in Reichweite, kleine lineare Modelle schon. Daraus ergibt sich eine naheliegende Idee, die FHE und den <a href="../pruefstand.html">Datenschutz-Prüfstand</a> verbindet: Ein kleines Modell entscheidet <em>verschlüsselt</em>, welche Teile eines Textes Personendaten enthalten. Nur der Rest geht im Klartext an die große KI.</p>
+    <p>Experiment M5 prüft, ob das funktioniert. Kurz vorweg: Die Verschlüsselung funktioniert einwandfrei. Gescheitert ist etwas anderes.</p>
+
+    <h2>Aufbau</h2>
+    <ul>
+      <li><strong>Daten:</strong> 1.200 synthetische deutsche Dokumente aus dem Prüfstand-Generator (7 Arten, von Arztbrief bis Überweisung), zerlegt in 7.412 Zeilen. Eine Zeile gilt als sensibel, wenn sie mindestens eine markierte Angabe enthält (5.278 Zeilen). Die anderen 2.134 sind unkritisch, darunter bewusste Störgrößen wie Hotline-Nummern, Termine und Artikelnummern.</li>
+      <li><strong>Klassifikator:</strong> logistische Regression auf Zeichenfolgen (2 bis 4 Zeichen, 4.096 Merkmale, Ziffern vereinheitlicht). Die Schwelle wird auf einem Validierungsteil so gelegt, dass mindestens 99 % der sensiblen Zeilen erkannt werden.</li>
+      <li><strong>Vergleich:</strong> der Referenzfilter des Prüfstands (Regeln mit Prüfsummen, ohne Training). Eine Zeile gilt als markiert, wenn er darin etwas findet.</li>
+      <li><strong>Kennzahlen:</strong> <em>Leckrate</em> = Anteil der sensiblen Zeilen, die als unkritisch durchgehen. <em>Fehlalarmrate</em> = Anteil der unkritischen Zeilen, die unnötig zurückgehalten werden.</li>
+      <li><strong>Zwei Prüfungen:</strong> (A) bekannte Formate, aufgeteilt nach Dokumenten, und (B) unbekannte Formate: Jede Dokumentart fehlt einmal komplett im Training und wird dann getestet.</li>
+    </ul>
+
+    <h2>Ergebnis 1: Die Verschlüsselung ändert nichts</h2>
+    <p>300 Zeilen aus Prüfung A, verschlüsselt mit OpenFHE (CKKS) ausgewertet:</p>
+    <div class="tw"><table class="mt kv">
+      <thead><tr><th>Größe</th><th class="n">Wert</th></tr></thead>
+      <tbody>
+        <tr><td>Gleiche Entscheidung wie im Klartext</td><td class="n">300 / 300</td></tr>
+        <tr><td>Größte Abweichung des Rohwerts</td><td class="n">4 · 10⁻¹⁰</td></tr>
+        <tr><td>Zeit pro Zeile, verschlüsselt / Klartext</td><td class="n">44 ms / 0,07 ms</td></tr>
+        <tr><td>Chiffretext pro Zeile</td><td class="n">1,05 MB</td></tr>
+      </tbody>
+    </table></div>
+    <p>Ein Dokument mit 20 Zeilen wäre also in knapp einer Sekunde verschlüsselt geprüft. Das ist langsam, aber für viele Abläufe brauchbar.</p>
+
+    <h2>Ergebnis 2: Bekannte Formate sind trivial</h2>
+    <div class="tw"><table class="mt kv">
+      <thead><tr><th>A: bekannte Formate (2.265 Zeilen)</th><th class="n">Leckrate</th><th class="n">Fehlalarme</th></tr></thead>
+      <tbody>
+        <tr><td>Klassifikator</td><td class="n">0,0 %</td><td class="n">0,0 %</td></tr>
+        <tr><td>Referenzfilter</td><td class="n">7,3 %</td><td class="n">5,7 %</td></tr>
+      </tbody>
+    </table></div>
+    <p>Ein perfektes Ergebnis, das nichts bedeutet: Der Generator nutzt sieben Vorlagen, und der Klassifikator hat sie auswendig gelernt. Wer nur so testet, überschätzt sein Modell gewaltig.</p>
+
+    <h2>Ergebnis 3: Unbekannte Formate zeigen das echte Problem</h2>
+    <div class="tw"><table class="mt kv">
+      <thead><tr><th>B: unbekannte Formate (7.412 Zeilen)</th><th class="n">Leckrate</th><th class="n">Fehlalarme</th></tr></thead>
+      <tbody>
+        <tr><td>Klassifikator</td><td class="n">1,0 %</td><td class="n">93,5 %</td></tr>
+        <tr><td>Referenzfilter</td><td class="n">8,7 %</td><td class="n">5,4 %</td></tr>
+      </tbody>
+    </table></div>
+    <p>Bei einer Dokumentart, die er nie gesehen hat, wird der Klassifikator paranoid: Er hält fast jede Zeile für sensibel. Seine niedrige Leckrate ist deshalb kein Verdienst, denn ein Filter, der alles sperrt, leckt auch nichts. Für das Routing ist er so wertlos: Nur 6,5&nbsp;% der harmlosen Zeilen dürften an die KI weitergehen, beim Regelfilter sind es 94,6&nbsp;%. Zwei typische Fehlalarme, mit dem Rohwert des Modells (über 0 heißt „sensibel“):</p>
+    <ul>
+      <li><code>Kontrolltermin am 21.04.2027.</code> → +6,8. Das Datum sieht für das Modell aus wie ein Geburtsdatum.</li>
+      <li><code>Mit freundlichen Grüßen</code> → +4,0. In anderen Vorlagen stehen in Grußzeilen Namen.</li>
+    </ul>
+    <p>Die Schwelle auf 99 % Erkennung einzustellen, änderte hier nichts: Schon die Standardschwelle erreichte das. Je Dokumentart sieht es so aus:</p>
+    <div class="tw"><table class="mt">
+      <thead><tr><th>ungesehene Art</th><th class="n">Klass. Leck</th><th class="n">Klass. Fehlalarm</th><th class="n">Regeln Leck</th><th class="n">Regeln Fehlalarm</th></tr></thead>
+      <tbody>
+        <tr><td>Arztbrief</td><td class="n">0,0 %</td><td class="n">100 %</td><td class="n">5,0 %</td><td class="n">0,0 %</td></tr>
+        <tr><td>Beschwerde</td><td class="n">0,0 %</td><td class="n">100 %</td><td class="n">9,3 %</td><td class="n">0,0 %</td></tr>
+        <tr><td>Antrag auf Kostenübernahme</td><td class="n">4,5 %</td><td class="n">100 %</td><td class="n">12,5 %</td><td class="n">0,0 %</td></tr>
+        <tr><td>Kontoauszug</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="n">0,0 %</td></tr>
+        <tr><td>Kreditantrag</td><td class="n">0,0 %</td><td class="n">100 %</td><td class="n">0,0 %</td><td class="n">7,1 %</td></tr>
+        <tr><td>Support-Ticket</td><td class="n">3,9 %</td><td class="n">100 %</td><td class="n">12,6 %</td><td class="n">31,5 %</td></tr>
+        <tr><td>Überweisung</td><td class="n">0,5 %</td><td class="n">100 %</td><td class="n">20,1 %</td><td class="n">2,4 %</td></tr>
+      </tbody>
+    </table></div>
+    <p>Die Regeln sind das Gegenteil: Sie lassen harmlose Zeilen fast immer durch, übersehen aber 8,7 % der sensiblen. Verpasst haben sie vor allem Namen ohne Anrede (228 Zeilen), Medikamente, die nicht in ihrer Liste stehen (179), und Diagnosen (52). Der Klassifikator übersah fast nur Medikamente (32) und Namen (21), etwa <code>Verordnet: Sertralin.</code></p>
+
+    <h2>Was ich daraus lerne</h2>
+    <ol>
+      <li><strong>Der Engpass ist das Modell, nicht die Kryptografie.</strong> FHE bewahrt die Entscheidungen eines Modells exakt, auch seine Fehler. Ein verschlüsseltes schlechtes Modell ist ein schlechtes Modell.</li>
+      <li><strong>Gelernte Filter brauchen vielfältige harmlose Texte.</strong> Mit sieben Vorlagen lernt das Modell nicht, was sensibel ist, sondern nur, welche Zeilen es schon kennt. Für einen echten Test braucht es reale, vielfältige Texte, und gerade die sind im Finanz- und Gesundheitsbereich schwer zu bekommen.</li>
+      <li><strong>Regeln verallgemeinern hier besser,</strong> haben aber eine harte Grenze bei freiem Text: Namen ohne Anrede und unbekannte Medikamente.</li>
+      <li><strong>Lohnt sich FHE hier überhaupt?</strong> Ein lineares Modell mit 4.096 Gewichten könnte der Client auch einfach selbst ausführen, ganz ohne Verschlüsselung. FHE ergibt erst Sinn, wenn der Anbieter sein Modell nicht herausgeben will (etwa weil es auf eigenen Daten trainiert ist) oder wenn das Modell zu groß für das Endgerät ist. Diese Frage gehört vor jede FHE-Architektur, nicht danach.</li>
+    </ol>
+
+    <h2>Grenzen</h2>
+    <ul>
+      <li>Synthetische Daten aus sieben Vorlagen. Ergebnisse auf echten Texten können deutlich anders ausfallen, in beide Richtungen.</li>
+      <li>Bewertung pro Zeile. Ob eine Angabe vollständig maskiert wird, misst der Prüfstand separat.</li>
+      <li>Ein Modelltyp (linear), eine Merkmalsart. Ein Durchlauf, ein Rechner.</li>
+    </ul>
+
+    <h2>Selbst nachmessen</h2>
+<pre><code>cd homomorphic-lab
+python experiment_routing.py --pruefstand ../pii-pruefstand</code></pre>
+    <p>Skript und Rohdaten (<code>ergebnisse/m5_routing.json</code>) liegen im <a href="../labor.html">Lab-Download</a>. Der Ordner <code>pii-pruefstand</code> kommt aus dem <a href="https://github.com/addek-lab/pii-pruefstand">Prüfstand-Repository</a>.</p>
+
+    <blockquote>Nächster Schritt: Regeln und Klassifikator kombinieren, sodass das Modell nur die Fälle bewertet, in denen die Regeln unsicher sind, und mit öffentlich verfügbaren echten deutschen Texten als harmlose Beispiele testen.</blockquote>
+
+    <p>Zurück: <a href="post-messreihe-lab.html">die erste Messreihe (M1–M4)</a>.</p>
+  </article>
+</main>
+<footer class="site-footer border-t border-line px-5 py-12">
+  <div class="max-w-6xl mx-auto grid gap-8 sm:grid-cols-2 md:grid-cols-4 text-sm">
+    <div><p class="font-mono text-sm font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></p>
+      <p class="mt-3 text-slate-400 max-w-xs">Unabhängiges Forschungsprojekt zu maschinellem Lernen auf verschlüsselten Daten: Grundlagen, eigene Messungen, offene Fragen.</p></div>
+    <div><p class="font-mono text-xs tracking-widest text-slate-500">VERSTEHEN</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href=".././">Einführung</a></li><li><a class="hover:text-cy" href="../knowledge.html">Wissensbasis</a></li><li><a class="hover:text-cy" href="../#use-cases">Anwendungen</a></li></ul></div><div><p class="font-mono text-xs tracking-widest text-slate-500">AUSPROBIEREN</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href="../pruefstand.html">Datenschutz-Prüfstand</a></li><li><a class="hover:text-cy" href="../labor.html">Homomorphic Lab</a></li><li><a class="hover:text-cy" href="../morphbuddy.html">MorphBuddy (Konzeptstudie)</a></li></ul></div><div><p class="font-mono text-xs tracking-widest text-slate-500">MEHR</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href="../blog/">Forschungslog</a></li><li><a class="hover:text-cy" href="https://github.com/addek-lab">Code auf GitHub</a></li><li><a class="hover:text-cy" href="../impressum.html">Impressum</a></li><li><a class="hover:text-cy" href="../datenschutz.html">Datenschutz</a></li></ul></div>
+  </div>
+  <p class="max-w-6xl mx-auto mt-10 text-xs text-slate-500">© <span id="yr"></span> Homomorphic AI · Bildungsinhalte, keine Rechts- oder Sicherheitsberatung · Alle Beispieldaten sind synthetisch.</p>
+</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
