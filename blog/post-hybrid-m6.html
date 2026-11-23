@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regeln plus Modell: Warum der Hybrid kaum hilft — Forschungslog</title>
+<meta name="description" content="Experiment M6: Echte deutsche Sätze im Training und ein Hybrid aus Regeln und verschlüsseltem Modell. Ergebnis: Was fehlt, ist Sprachverständnis, und genau das ist unter FHE heute zu teuer.">
+<!-- og -->
+<link rel="canonical" href="https://addek-lab.github.io/homomorphic-ai/blog/post-hybrid-m6.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Homomorphic AI">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Regeln plus Modell: Warum der Hybrid kaum hilft — Forschungslog">
+<meta property="og:description" content="Experiment M6: Echte deutsche Sätze im Training und ein Hybrid aus Regeln und verschlüsseltem Modell. Ergebnis: Was fehlt, ist Sprachverständnis, und genau das ist unter FHE heute zu teuer.">
+<meta property="og:url" content="https://addek-lab.github.io/homomorphic-ai/blog/post-hybrid-m6.html">
+<meta property="og:image" content="https://addek-lab.github.io/homomorphic-ai/media/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta property="og:image:alt" content="Regeln plus Modell — Forschungslog">
+<meta name="twitter:card" content="summary_large_image">
+<!-- /og -->
+<script src="../theme.js"></script>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<script src="../vendor/tailwindcss-3.4.16.js"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="blog.css">
+<link rel="stylesheet" href="../theme.css">
+<style>
+  .mt{width:100%;border-collapse:collapse;font-size:.85rem}
+  .mt th{font:500 .72rem 'JetBrains Mono',monospace;letter-spacing:.06em;color:#94a3b8;text-align:left;padding:.5rem .6rem;border-bottom:1px solid #1E293B}
+  .mt td{padding:.55rem .6rem;border-bottom:1px solid #1E293B;color:#cbd5e1;font-variant-numeric:tabular-nums}
+  .mt td.n,.mt th.n{text-align:right}
+  .mt td.n{white-space:nowrap}
+  .mt tr.hl td{color:#22d3ee}
+  .tw{overflow-x:auto;margin:1.2rem 0 1.6rem}
+  html[data-theme="light"] .mt th{color:#475569;border-bottom-color:#e2e8f0}
+  html[data-theme="light"] .mt td{color:#334155;border-bottom-color:#e2e8f0}
+  html[data-theme="light"] .mt tr.hl td{color:#0e7490}
+</style>
+</head>
+<body class="antialiased">
+<header class="site-header" data-site-header>
+  <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center gap-3 text-sm" aria-label="Hauptnavigation">
+    <a href=".././" class="flex items-center gap-2 font-mono text-sm font-medium text-white whitespace-nowrap shrink-0"><svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="7" y="14" width="18" height="13" rx="3" stroke="#06B6D4" stroke-width="2"/><path d="M11 14v-3a5 5 0 0 1 10 0v3" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="20" r="1.8" fill="#06B6D4"/><path d="M16 21.5V24" stroke="#06B6D4" stroke-width="1.6" stroke-linecap="round"/></svg><span>homomorphic-ai<span class="text-cy">.com</span></span></a>
+    <ul class="hidden md:flex items-center gap-1 ml-4" role="list"><li class="relative" data-menu><button type="button" class="nav-top" aria-haspopup="true" aria-expanded="false" aria-controls="m-verstehen">Verstehen<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="m-verstehen" class="navpanel" hidden><ul><li><a class="navitem" href=".././"><span class="t">Einführung</span><span class="d">Was ist Homomorphic AI? Die Idee in fünf Minuten.</span></a></li><li><a class="navitem" href="../knowledge.html"><span class="t">Wissensbasis</span><span class="d">Konzepte, Messwerte, Kosten-Explorer und Glossar.</span></a></li><li><a class="navitem" href="../#use-cases"><span class="t">Anwendungen</span><span class="d">Wo verschlüsselte KI helfen kann, von Medizin bis Finanzen.</span></a></li></ul></div></li><li class="relative" data-menu><button type="button" class="nav-top" aria-haspopup="true" aria-expanded="false" aria-controls="m-ausprobieren">Ausprobieren<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="m-ausprobieren" class="navpanel" hidden><ul><li><a class="navitem" href="../pruefstand.html"><span class="t">Datenschutz-Prüfstand</span><span class="d">Wie gut schützen Filter deutsche Finanz- und Gesundheitsdaten? Live-Demo.</span></a></li><li><a class="navitem" href="../labor.html"><span class="t">Homomorphic Lab</span><span class="d">Experimente und Messreihe mit OpenFHE zum Nachrechnen. Download mit Video.</span></a></li><li><a class="navitem" href="../morphbuddy.html"><span class="t">MorphBuddy (Konzeptstudie)</span><span class="d">Nebenprojekt: Entwurf eines Taschengeräts für Schlüssel und Verschlüsselung.</span></a></li></ul></div></li><li><a class="nav-top" href="../blog/" aria-current="page">Forschungslog</a></li></ul>
+    <div class="ml-auto flex items-center gap-3 shrink-0">
+      <a href="../pruefstand.html" class="hidden lg:inline-block whitespace-nowrap text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition">Prüfstand testen</a>
+      <button type="button" class="theme-btn" data-theme-toggle aria-label="Zum hellen Modus wechseln"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button type="button" id="menuBtn" class="theme-btn md:hidden" aria-label="Men&uuml; &ouml;ffnen" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </nav>
+  <div id="mobileMenu" class="hidden md:hidden mobilepanel">
+    <div class="max-w-6xl mx-auto px-5 py-4 space-y-5"><div><p class="grouphead">VERSTEHEN</p><ul><li><a class="navitem" href=".././"><span class="t">Einführung</span><span class="d">Was ist Homomorphic AI? Die Idee in fünf Minuten.</span></a></li><li><a class="navitem" href="../knowledge.html"><span class="t">Wissensbasis</span><span class="d">Konzepte, Messwerte, Kosten-Explorer und Glossar.</span></a></li><li><a class="navitem" href="../#use-cases"><span class="t">Anwendungen</span><span class="d">Wo verschlüsselte KI helfen kann, von Medizin bis Finanzen.</span></a></li></ul></div><div><p class="grouphead">AUSPROBIEREN</p><ul><li><a class="navitem" href="../pruefstand.html"><span class="t">Datenschutz-Prüfstand</span><span class="d">Wie gut schützen Filter deutsche Finanz- und Gesundheitsdaten? Live-Demo.</span></a></li><li><a class="navitem" href="../labor.html"><span class="t">Homomorphic Lab</span><span class="d">Experimente und Messreihe mit OpenFHE zum Nachrechnen. Download mit Video.</span></a></li><li><a class="navitem" href="../morphbuddy.html"><span class="t">MorphBuddy (Konzeptstudie)</span><span class="d">Nebenprojekt: Entwurf eines Taschengeräts für Schlüssel und Verschlüsselung.</span></a></li></ul></div><div><p class="grouphead">LESEN</p><ul><li><a class="navitem" href="../blog/" aria-current="page"><span class="t">Forschungslog</span><span class="d">Notizen, Messungen und offene Fragen aus der Arbeit am Thema.</span></a></li></ul></div>
+      <a href="../pruefstand.html" class="block text-center whitespace-nowrap text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition" style="padding:.8rem 1rem">Prüfstand testen</a>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-3xl mx-auto px-5 pt-14 pb-24">
+  <p class="font-mono text-xs text-slate-500">23.11.2026 · 7 Min. Lesezeit · #messung #routing #pruefstand</p>
+  <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Regeln plus Modell: Warum der Hybrid kaum hilft</h1>
+
+  <article class="prose-post mt-6">
+    <p>In <a href="post-routing-m5.html">Experiment M5</a> wurde ein gelernter Filter bei unbekannten Dokumentarten paranoid: Er hielt 93,5&nbsp;% der harmlosen Zeilen zurück. Zwei naheliegende Gegenmittel habe ich jetzt geprüft:</p>
+    <ol>
+      <li><strong>Echte harmlose Texte ins Training:</strong> 2.058 deutsche Sätze aus Programm-Übersetzungen (apt, dpkg, debconf) und aus Fachtexten dieser Website.</li>
+      <li><strong>Hybrid:</strong> Die Regeln laufen beim Client im Klartext. Das verschlüsselte Modell gibt nur eine Zweitmeinung ab: Eine Zeile gilt als sensibel, wenn die Regeln <em>oder</em> das Modell anschlagen.</li>
+    </ol>
+
+    <h2>Wie fair getestet wurde</h2>
+    <ul>
+      <li>Wie in M5 fehlt jede der sieben Dokumentarten einmal komplett im Training und wird dann getestet.</li>
+      <li>Die Schwelle des Modells wird <em>nur</em> auf den Trainingsarten gewählt, in einer inneren Kreuzvalidierung, bei der ebenfalls jeweils eine Art fehlt. Ziel: so wenige Lecks wie möglich bei höchstens 10&nbsp;% Fehlalarmen.</li>
+      <li>Die echten Sätze für Training und Test stammen aus <em>verschiedenen</em> Dateien (551 Testsätze), damit das Modell nicht einfach dieselbe Quelle wiedererkennt.</li>
+    </ul>
+
+    <h2>Ergebnis</h2>
+    <div class="tw"><table class="mt">
+      <thead><tr><th>Verfahren</th><th class="n">Lecks</th><th class="n">Fehlalarme Dokumente</th><th class="n">Fehlalarme echte Sätze</th></tr></thead>
+      <tbody>
+        <tr><td>Regeln allein</td><td class="n">8,7 %</td><td class="n">5,4 %</td><td class="n">0,0 %</td></tr>
+        <tr><td>Modell, nur synthetisch trainiert (M5)</td><td class="n">1,0 %</td><td class="n">93,5 %</td><td class="n">90,0 %</td></tr>
+        <tr><td>Modell mit echten Sätzen</td><td class="n">14,7 %</td><td class="n">61,8 %</td><td class="n">1,7 %</td></tr>
+        <tr><td>… Schwelle auf ≤ 10 % Fehlalarme eingestellt</td><td class="n">84,6 %</td><td class="n">21,3 %</td><td class="n">0,1 %</td></tr>
+        <tr class="hl"><td>Hybrid: Regeln oder Modell</td><td class="n">8,5 %</td><td class="n">26,2 %</td><td class="n">0,1 %</td></tr>
+      </tbody>
+    </table></div>
+    <p>Lecks = sensible Zeilen, die durchgehen. Fehlalarme = harmlose Zeilen, die unnötig zurückgehalten werden. Zusammengefasst über alle sieben ungesehenen Dokumentarten (7.412 Zeilen).</p>
+
+    <h2>Was die Zahlen sagen</h2>
+    <p><strong>Erstens: Das Modell aus M5 sperrte nicht nur fremde Dokumente, sondern fast jeden deutschen Satz.</strong> 90&nbsp;% der harmlosen Programm- und Fachtexte hielt es für sensibel. Es hatte nie gelernt, wie normaler Text aussieht.</p>
+    <p><strong>Zweitens: Echte Sätze im Training beheben das, aber nur für diese Art Text.</strong> Programmmeldungen erkennt das Modell danach als harmlos (1,7&nbsp;% Fehlalarme). Harmlose Zeilen in unbekannten <em>Dokumenten</em> sperrt es aber weiter zu 62&nbsp;%, und es übersieht jetzt mehr Sensibles (14,7&nbsp;%). Es hat gelernt, Programmtext von Geschäftstext zu unterscheiden, nicht harmlos von sensibel.</p>
+    <p><strong>Drittens: Die Schwelle überträgt sich nicht.</strong> Auf den Trainingsarten wurde sie auf höchstens 10&nbsp;% Fehlalarme eingestellt. Auf der unbekannten Art waren es dann 26&nbsp;%. Eine Kalibrierung, die auf bekannten Formaten stimmt, war für neue Formate hier wertlos. Das ist ein allgemeines Risiko gelernter Filter, das man vor dem Einsatz prüfen sollte.</p>
+    <p><strong>Viertens: Der Hybrid lohnt sich nicht.</strong> Gegenüber den Regeln allein sinken die Lecks von 8,7 auf 8,5&nbsp;%. Dafür steigen die Fehlalarme von 5,4 auf 26,2&nbsp;%. Das ist ein schlechter Tausch.</p>
+    <p>Die Verschlüsselung selbst war wieder kein Problem: 200 von 200 Hybrid-Entscheidungen waren verschlüsselt identisch, bei 48&nbsp;ms pro Zeile.</p>
+
+    <h2>Was weiter durchrutscht</h2>
+    <p>Fast alle verbleibenden Lecks fallen in drei Gruppen: Namen ohne Anrede (216 Zeilen), Medikamente, die nicht auf der Liste stehen (179), und Diagnosen in freiem Text (52). Typische Zeilen:</p>
+    <ul>
+      <li><code>Dmitri Wagner</code> als Unterschrift unter einer Überweisung</li>
+      <li><code>Hallo, bitte überweise 3.158,75 € an Markus Schneider.</code></li>
+      <li><code>Verordnet: Sertralin.</code></li>
+    </ul>
+    <p>Hier hilft keine Prüfsumme und kein Zeichenmuster. Um „Dmitri Wagner“ als Person und „Sertralin“ als Medikament zu erkennen, braucht ein Filter <strong>Sprach- und Weltwissen</strong>: eine Eigennamenerkennung oder ein Sprachmodell.</p>
+
+    <h2>Was das für die Leitfrage heißt</h2>
+    <p>Hier liegt die eigentliche Erkenntnis aus M5 und M6, und sie ist unbequem:</p>
+    <ol>
+      <li>Die Modelle, die unter FHE heute bezahlbar sind (linear, flach), sind für das Erkennen von Personendaten in freiem Text zu schwach.</li>
+      <li>Die Modelle, die es könnten (Eigennamenerkennung, Sprachmodelle), sind unter FHE heute zu teuer, wie <a href="post-messreihe-lab.html">M4</a> und die Literatur zeigen.</li>
+      <li>Für genau diesen Schritt braucht man FHE aber gar nicht: Der Text gehört dem Nutzer, also kann die Erkennung <strong>lokal auf seinem Gerät</strong> laufen, im Klartext und ohne Vertrauensproblem.</li>
+    </ol>
+    <p>Die Architektur, die sich daraus ergibt: Personendaten lokal erkennen und maskieren, die maskierte Anfrage an die große KI schicken, und FHE dort einsetzen, wo ein <em>fremdes</em> Modell auf <em>eigenen</em> Daten rechnen muss und klein genug ist, etwa bei einer Risikobewertung auf verschlüsselten Messwerten (<a href="post-messreihe-lab.html">M1</a>).</p>
+
+    <h2>Grenzen</h2>
+    <ul>
+      <li>Die Dokumente sind synthetisch und stammen aus sieben Vorlagen. Die echten Sätze sind harmlos, aber fachfremd (Software und Technik), keine echten Bank- oder Arztschreiben.</li>
+      <li>Ein Modelltyp (linear, Zeichenmerkmale). Eine stärkere lokale Eigennamenerkennung habe ich hier nicht getestet. Das Standard-Setup von Presidio im <a href="../pruefstand.html">Prüfstand</a> war für deutsche Texte allerdings schwächer als die Regeln.</li>
+      <li>Ein Durchlauf, ein Rechner.</li>
+      <li>Methodischer Hinweis: Die Kopfzeilen der Übersetzungsdateien enthalten echte Namen und E-Mail-Adressen der Übersetzer. Sie sind aus dem Korpus ausgeschlossen. Ein erster Lauf hatte sie noch als „harmlos“ eingestuft, ein schönes Beispiel dafür, wie leicht Personendaten in vermeintlich neutrale Daten rutschen.</li>
+    </ul>
+
+    <h2>Selbst nachmessen</h2>
+<pre><code>cd homomorphic-lab
+python experiment_hybrid.py --pruefstand ../pii-pruefstand --site .. \
+    --mo-dir /usr/share/locale/de/LC_MESSAGES</code></pre>
+    <p>Die Übersetzungsdateien sind auf Debian- und Ubuntu-Systemen vorhanden. Skript und Rohdaten (<code>ergebnisse/m6_hybrid.json</code>) liegen im <a href="../labor.html">Lab-Download</a>.</p>
+
+    <blockquote>Nächster Schritt: eine lokale Eigennamenerkennung für Deutsch auf den Lecks testen, und die Arbeitsteilung „lokal erkennen, verschlüsselt rechnen“ an einem durchgehenden Beispiel zeigen.</blockquote>
+
+    <p>Zurück: <a href="post-routing-m5.html">Experiment M5</a> · <a href="post-messreihe-lab.html">Messreihe M1–M4</a></p>
+  </article>
+</main>
+<footer class="site-footer border-t border-line px-5 py-12">
+  <div class="max-w-6xl mx-auto grid gap-8 sm:grid-cols-2 md:grid-cols-4 text-sm">
+    <div><p class="font-mono text-sm font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></p>
+      <p class="mt-3 text-slate-400 max-w-xs">Unabhängiges Forschungsprojekt zu maschinellem Lernen auf verschlüsselten Daten: Grundlagen, eigene Messungen, offene Fragen.</p></div>
+    <div><p class="font-mono text-xs tracking-widest text-slate-500">VERSTEHEN</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href=".././">Einführung</a></li><li><a class="hover:text-cy" href="../knowledge.html">Wissensbasis</a></li><li><a class="hover:text-cy" href="../#use-cases">Anwendungen</a></li></ul></div><div><p class="font-mono text-xs tracking-widest text-slate-500">AUSPROBIEREN</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href="../pruefstand.html">Datenschutz-Prüfstand</a></li><li><a class="hover:text-cy" href="../labor.html">Homomorphic Lab</a></li><li><a class="hover:text-cy" href="../morphbuddy.html">MorphBuddy (Konzeptstudie)</a></li></ul></div><div><p class="font-mono text-xs tracking-widest text-slate-500">MEHR</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href="../blog/">Forschungslog</a></li><li><a class="hover:text-cy" href="https://github.com/addek-lab">Code auf GitHub</a></li><li><a class="hover:text-cy" href="../impressum.html">Impressum</a></li><li><a class="hover:text-cy" href="../datenschutz.html">Datenschutz</a></li></ul></div>
+  </div>
+  <p class="max-w-6xl mx-auto mt-10 text-xs text-slate-500">© <span id="yr"></span> Homomorphic AI · Bildungsinhalte, keine Rechts- oder Sicherheitsberatung · Alle Beispieldaten sind synthetisch.</p>
+</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
