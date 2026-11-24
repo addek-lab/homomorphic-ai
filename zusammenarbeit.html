@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zusammenarbeit — Homomorphic AI</title>
+<meta name="description" content="Vorträge, Messungen und Architektur-Austausch zu Datenschutz in KI-Projekten für Finanz- und Gesundheits-IT, auf Grundlage eigener Messungen.">
+<!-- og -->
+<link rel="canonical" href="https://addek-lab.github.io/homomorphic-ai/zusammenarbeit.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Homomorphic AI">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Zusammenarbeit — Homomorphic AI">
+<meta property="og:description" content="Vorträge, Messungen und Architektur-Austausch zu Datenschutz in KI-Projekten für Finanz- und Gesundheits-IT, auf Grundlage eigener Messungen.">
+<meta property="og:url" content="https://addek-lab.github.io/homomorphic-ai/zusammenarbeit.html">
+<meta property="og:image" content="https://addek-lab.github.io/homomorphic-ai/media/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta property="og:image:alt" content="Zusammenarbeit — Homomorphic AI">
+<meta name="twitter:card" content="summary_large_image">
+<!-- /og -->
+<script src="theme.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="vendor/tailwindcss-3.4.16.js"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:'#090D16',line:'#1E293B',cy:'#06B6D4',ind:'#6366F1'},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+<link rel="stylesheet" href="theme.css">
+<style>
+  body{background:#090D16;color:#e2e8f0;font-family:Inter,system-ui,sans-serif}
+  .glass{background:rgba(15,23,42,.55);border:1px solid #1E293B;border-radius:1rem}
+  mark{background:rgba(251,191,36,.25);color:inherit;border-radius:4px;padding:0 4px}
+  :focus-visible{outline:2px solid #06B6D4;outline-offset:2px}
+</style>
+</head>
+<body class="antialiased">
+<header class="site-header" data-site-header>
+  <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center gap-3 text-sm" aria-label="Hauptnavigation">
+    <a href="./" class="flex items-center gap-2 font-mono text-sm font-medium text-white whitespace-nowrap shrink-0"><svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="7" y="14" width="18" height="13" rx="3" stroke="#06B6D4" stroke-width="2"/><path d="M11 14v-3a5 5 0 0 1 10 0v3" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="20" r="1.8" fill="#06B6D4"/><path d="M16 21.5V24" stroke="#06B6D4" stroke-width="1.6" stroke-linecap="round"/></svg><span>homomorphic-ai<span class="text-cy">.com</span></span></a>
+    <ul class="hidden lg:flex items-center gap-1 ml-4" role="list"><li class="relative" data-menu><button type="button" class="nav-top" aria-haspopup="true" aria-expanded="false" aria-controls="m-verstehen">Verstehen<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="m-verstehen" class="navpanel" hidden><ul><li><a class="navitem" href="./"><span class="t">Einführung</span><span class="d">Was ist Homomorphic AI? Die Idee in fünf Minuten.</span></a></li><li><a class="navitem" href="knowledge.html"><span class="t">Wissensbasis</span><span class="d">Konzepte, Messwerte, Kosten-Explorer und Glossar.</span></a></li><li><a class="navitem" href="./#use-cases"><span class="t">Anwendungen</span><span class="d">Wo verschlüsselte KI helfen kann, von Medizin bis Finanzen.</span></a></li></ul></div></li><li class="relative" data-menu><button type="button" class="nav-top" aria-haspopup="true" aria-expanded="false" aria-controls="m-ausprobieren">Ausprobieren<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="m-ausprobieren" class="navpanel" hidden><ul><li><a class="navitem" href="pruefstand.html"><span class="t">Datenschutz-Prüfstand</span><span class="d">Wie gut schützen Filter deutsche Finanz- und Gesundheitsdaten? Live-Demo.</span></a></li><li><a class="navitem" href="labor.html"><span class="t">Homomorphic Lab</span><span class="d">Experimente und Messreihe mit OpenFHE zum Nachrechnen. Download mit Video.</span></a></li><li><a class="navitem" href="morphbuddy.html"><span class="t">MorphBuddy (Konzeptstudie)</span><span class="d">Nebenprojekt: Entwurf eines Taschengeräts für Schlüssel und Verschlüsselung.</span></a></li></ul></div></li><li><a class="nav-top" href="blog/">Forschungslog</a></li><li><a class="nav-top" href="zusammenarbeit.html" aria-current="page">Zusammenarbeit</a></li></ul>
+    <div class="ml-auto flex items-center gap-3 shrink-0">
+      <a href="pruefstand.html" class="hidden xl:inline-block whitespace-nowrap text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition">Prüfstand testen</a>
+      <button type="button" class="theme-btn" data-theme-toggle aria-label="Zum hellen Modus wechseln"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button type="button" id="menuBtn" class="theme-btn lg:hidden" aria-label="Men&uuml; &ouml;ffnen" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </nav>
+  <div id="mobileMenu" class="hidden lg:hidden mobilepanel">
+    <div class="max-w-6xl mx-auto px-5 py-4 space-y-5"><div><p class="grouphead">VERSTEHEN</p><ul><li><a class="navitem" href="./"><span class="t">Einführung</span><span class="d">Was ist Homomorphic AI? Die Idee in fünf Minuten.</span></a></li><li><a class="navitem" href="knowledge.html"><span class="t">Wissensbasis</span><span class="d">Konzepte, Messwerte, Kosten-Explorer und Glossar.</span></a></li><li><a class="navitem" href="./#use-cases"><span class="t">Anwendungen</span><span class="d">Wo verschlüsselte KI helfen kann, von Medizin bis Finanzen.</span></a></li></ul></div><div><p class="grouphead">AUSPROBIEREN</p><ul><li><a class="navitem" href="pruefstand.html"><span class="t">Datenschutz-Prüfstand</span><span class="d">Wie gut schützen Filter deutsche Finanz- und Gesundheitsdaten? Live-Demo.</span></a></li><li><a class="navitem" href="labor.html"><span class="t">Homomorphic Lab</span><span class="d">Experimente und Messreihe mit OpenFHE zum Nachrechnen. Download mit Video.</span></a></li><li><a class="navitem" href="morphbuddy.html"><span class="t">MorphBuddy (Konzeptstudie)</span><span class="d">Nebenprojekt: Entwurf eines Taschengeräts für Schlüssel und Verschlüsselung.</span></a></li></ul></div><div><p class="grouphead">LESEN</p><ul><li><a class="navitem" href="blog/"><span class="t">Forschungslog</span><span class="d">Notizen, Messungen und offene Fragen aus der Arbeit am Thema.</span></a></li></ul></div><div><p class="grouphead">KONTAKT</p><ul><li><a class="navitem" href="zusammenarbeit.html" aria-current="page"><span class="t">Zusammenarbeit</span><span class="d">Vorträge, Filter-Messungen und Architektur-Austausch für Finanz- und Gesundheits-IT.</span></a></li></ul></div>
+      <a href="pruefstand.html" class="block text-center whitespace-nowrap text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-cy to-ind text-white hover:opacity-90 transition" style="padding:.8rem 1rem">Prüfstand testen</a>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-5 pt-16 pb-24">
+  <p class="font-mono text-xs tracking-widest text-slate-500">ZUSAMMENARBEIT</p>
+  <h1 class="mt-4 text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">Datenschutz in KI-Projekten, auf Grundlage von Messungen</h1>
+  <p class="mt-6 max-w-3xl text-lg text-slate-300 leading-relaxed">Viele Teams in Banken, Versicherungen und im Gesundheitswesen stehen vor derselben Frage: Wie lässt sich KI mit sensiblen Daten nutzen, ohne sie preiszugeben? Dieses Projekt hat dazu eigene Messungen gemacht, von verschlüsselter Inferenz bis zum Filtern von Personendaten in deutschen Texten. Daraus ergeben sich vier Formen der Zusammenarbeit.</p>
+
+  <div class="mt-12 grid md:grid-cols-2 gap-6">
+    <article class="glass p-7">
+      <p class="font-mono text-xs tracking-widest text-cy">01 · VORTRAG ODER WORKSHOP</p>
+      <h2 class="mt-2 text-xl font-semibold text-white">Was verschlüsselte KI heute kann und was nicht</h2>
+      <p class="mt-3 text-slate-400 text-sm leading-relaxed">Für Fachteams, Architektinnen und Datenschutzverantwortliche. Grundlagen von FHE ohne Formeln, eigene Messwerte zu Kosten und Genauigkeit und die Frage, wann sich der Aufwand lohnt. Als Vortrag (45 bis 60 Minuten) oder als Workshop mit eigenen Beispielen des Teams.</p>
+      <p class="mt-4 text-xs text-slate-500">Grundlage: <a class="text-cy underline" href="blog/post-messreihe-lab.html">Messreihe M1–M4</a>, <a class="text-cy underline" href="knowledge.html">Wissensbasis</a></p>
+    </article>
+    <article class="glass p-7">
+      <p class="font-mono text-xs tracking-widest text-cy">02 · MESSUNG EINES FILTERS</p>
+      <h2 class="mt-2 text-xl font-semibold text-white">Wie gut schützt euer Filter deutsche Texte?</h2>
+      <p class="mt-3 text-slate-400 text-sm leading-relaxed">Ihr setzt einen Filter ein, der Personendaten vor dem Versand an eine KI entfernen soll? Er wird gegen den Datenschutz-Prüfstand gemessen: synthetische Finanz- und Gesundheitsdokumente, Prüfsummen-Kennungen, Wiedererkennbarkeit. Ihr bekommt einen Bericht mit Schutzquote, Fehlalarmen und konkreten Beispielen, was durchrutscht. Eure echten Daten verlassen dabei nie euer Haus.</p>
+      <p class="mt-4 text-xs text-slate-500">Grundlage: <a class="text-cy underline" href="pruefstand.html">Datenschutz-Prüfstand</a>, <a class="text-cy underline" href="blog/post-kette-m8.html">M8</a></p>
+    </article>
+    <article class="glass p-7">
+      <p class="font-mono text-xs tracking-widest text-cy">03 · ARCHITEKTUR-AUSTAUSCH</p>
+      <h2 class="mt-2 text-xl font-semibold text-white">Welche Schutztechnik passt zu eurem Fall?</h2>
+      <p class="mt-3 text-slate-400 text-sm leading-relaxed">Lokal maskieren, homomorph verschlüsseln, Confidential Computing oder Mehrparteienberechnung: Welche Technik passt, hängt davon ab, wem Daten und Modell gehören, wie groß das Modell ist und wie schnell die Antwort kommen muss. Gemeinsam wird euer Anwendungsfall durchgegangen, mit einer begründeten Einschätzung als Ergebnis.</p>
+      <p class="mt-4 text-xs text-slate-500">Grundlage: <a class="text-cy underline" href="blog/post-routing-m5.html">M5</a> bis <a class="text-cy underline" href="blog/post-kette-m8.html">M8</a></p>
+    </article>
+    <article class="glass p-7">
+      <p class="font-mono text-xs tracking-widest text-cy">04 · FORSCHUNG UND AUSTAUSCH</p>
+      <h2 class="mt-2 text-xl font-semibold text-white">Gemeinsam weitermessen</h2>
+      <p class="mt-3 text-slate-400 text-sm leading-relaxed">Für Hochschulen, Studierende und andere, die am Thema arbeiten: Vergleichsmessungen auf anderer Hardware, neue Testdaten, Abschlussarbeiten oder ein Gegenlesen von Ergebnissen. Rückmeldungen zu Fehlern in den Messungen sind ausdrücklich erwünscht.</p>
+      <p class="mt-4 text-xs text-slate-500">Grundlage: <a class="text-cy underline" href="labor.html">Homomorphic Lab</a>, <a class="text-cy underline" href="https://github.com/addek-lab/pii-pruefstand">Prüfstand auf GitHub</a></p>
+    </article>
+  </div>
+
+  <section class="mt-16 grid lg:grid-cols-2 gap-6">
+    <div class="glass p-7">
+      <h2 class="font-mono text-xs tracking-widest text-emerald-400">WORAUF IHR EUCH VERLASSEN KÖNNT</h2>
+      <ul class="mt-4 space-y-3 text-sm text-slate-300">
+        <li><b class="text-white">Gemessen, nicht behauptet.</b> Aussagen zu Leistung und Schutz stützen sich auf nachvollziehbare Messungen. Skripte und Rohdaten sind offen.</li>
+        <li><b class="text-white">Grenzen werden benannt.</b> Auch, wenn eine Technik für euren Fall nicht passt.</li>
+        <li><b class="text-white">Eure Daten bleiben bei euch.</b> Messungen laufen mit synthetischen Daten oder in eurer Umgebung.</li>
+        <li><b class="text-white">Unabhängig.</b> Keine Bindung an einen Anbieter oder ein Produkt.</li>
+      </ul>
+    </div>
+    <div class="glass p-7">
+      <h2 class="font-mono text-xs tracking-widest text-amber-300">WAS NICHT ANGEBOTEN WIRD</h2>
+      <ul class="mt-4 space-y-3 text-sm text-slate-300">
+        <li><b class="text-white">Keine Rechtsberatung.</b> Die Einordnung zu DSGVO oder Aufsichtsrecht ersetzt nicht die Prüfung durch eure Rechtsabteilung oder Datenschutzbeauftragte.</li>
+        <li><b class="text-white">Keine Zertifizierung oder Gütesiegel.</b> Ergebnisse des Prüfstands sind Messwerte auf synthetischen Daten.</li>
+        <li><b class="text-white">Keine Penetrationstests</b> und kein Betrieb produktiver Systeme.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="text-2xl font-bold text-white">So läuft es ab</h2>
+    <ol class="mt-6 grid md:grid-cols-3 gap-6">
+      <li class="glass p-6"><p class="font-mono text-sm text-cy">1</p><p class="mt-2 font-semibold text-white">Kurze Nachricht</p><p class="mt-2 text-sm text-slate-400">Worum geht es, welche Form passt, gibt es einen Zeitrahmen? Ein paar Sätze reichen. Bitte keine echten Personendaten mitschicken.</p></li>
+      <li class="glass p-6"><p class="font-mono text-sm text-cy">2</p><p class="mt-2 font-semibold text-white">Erstes Gespräch</p><p class="mt-2 text-sm text-slate-400">Rund 30 Minuten, um zu klären, ob und wie eine Zusammenarbeit sinnvoll ist.</p></li>
+      <li class="glass p-6"><p class="font-mono text-sm text-cy">3</p><p class="mt-2 font-semibold text-white">Klarer Umfang</p><p class="mt-2 text-sm text-slate-400">Danach gibt es einen Vorschlag zu Umfang, Ablauf und Ergebnis, bevor irgendetwas beginnt.</p></li>
+    </ol>
+  </section>
+
+  <section id="kontakt" class="mt-16 glass p-8 text-center">
+    <h2 class="text-2xl font-bold text-white">Kontakt</h2>
+    <p class="mt-3 text-slate-400">Am einfachsten per Nachricht auf LinkedIn oder per E-Mail.</p>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="#" class="px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-cy to-ind hover:opacity-90 transition"><mark>[LinkedIn-Profil-Link eintragen]</mark></a>
+      <a href="#" class="px-6 py-3 rounded-lg font-semibold text-slate-200 border border-line hover:border-cy/60 hover:text-white transition"><mark>[E-Mail-Adresse eintragen]</mark></a>
+    </div>
+    <p class="mt-5 text-xs text-slate-500">Weitere Angaben im <a class="text-cy underline" href="impressum.html">Impressum</a>.</p>
+  </section>
+</main>
+
+<footer class="site-footer border-t border-line px-5 py-12">
+  <div class="max-w-6xl mx-auto grid gap-8 sm:grid-cols-2 md:grid-cols-4 text-sm">
+    <div><p class="font-mono text-sm font-medium text-white">homomorphic-ai<span class="text-cy">.com</span></p>
+      <p class="mt-3 text-slate-400 max-w-xs">Unabhängiges Forschungsprojekt zu maschinellem Lernen auf verschlüsselten Daten: Grundlagen, eigene Messungen, offene Fragen.</p></div>
+    <div><p class="font-mono text-xs tracking-widest text-slate-500">VERSTEHEN</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href="./">Einführung</a></li><li><a class="hover:text-cy" href="knowledge.html">Wissensbasis</a></li><li><a class="hover:text-cy" href="./#use-cases">Anwendungen</a></li></ul></div><div><p class="font-mono text-xs tracking-widest text-slate-500">AUSPROBIEREN</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href="pruefstand.html">Datenschutz-Prüfstand</a></li><li><a class="hover:text-cy" href="labor.html">Homomorphic Lab</a></li><li><a class="hover:text-cy" href="morphbuddy.html">MorphBuddy (Konzeptstudie)</a></li></ul></div><div><p class="font-mono text-xs tracking-widest text-slate-500">MEHR</p><ul class="mt-3 space-y-2 text-slate-400"><li><a class="hover:text-cy" href="zusammenarbeit.html">Zusammenarbeit</a></li><li><a class="hover:text-cy" href="blog/">Forschungslog</a></li><li><a class="hover:text-cy" href="https://github.com/addek-lab">Code auf GitHub</a></li><li><a class="hover:text-cy" href="impressum.html">Impressum</a></li><li><a class="hover:text-cy" href="datenschutz.html">Datenschutz</a></li></ul></div>
+  </div>
+  <p class="max-w-6xl mx-auto mt-10 text-xs text-slate-500">© <span id="yr"></span> Homomorphic AI · Bildungsinhalte, keine Rechts- oder Sicherheitsberatung · Alle Beispieldaten sind synthetisch.</p>
+</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
